@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   TrendingUp,
   Star,
@@ -13,215 +13,25 @@ import {
   Code2,
   BookOpen,
   Globe,
-} from "lucide-react";
-import RepositoryCard from "../components/repository/RepositoryCard";
-import Button from "../components/common/Button";
-import Tabs from "../components/common/Tabs";
-import Skeleton from "../components/common/Skeleton";
+} from 'lucide-react';
+import RepositoryCard from '../components/repository/RepositoryCard';
+import Button from '../components/common/Button';
+import Tabs from '../components/common/Tabs';
+import Skeleton from '../components/common/Skeleton';
+import type { TrendingRepository, Developer, Topic } from '../types/explore';
+import { mockTrendingRepos, mockDevelopers, mockTopics } from '../data/explore';
 
-// Types
-interface TrendingRepository {
-  id: number;
-  name: string;
-  fullName: string;
-  description: string | null;
-  language: string | null;
-  stars: number;
-  forks: number;
-  todayStars: number;
-  owner: {
-    login: string;
-    avatar: string;
-  };
-}
-
-interface Developer {
-  id: number;
-  username: string;
-  name: string;
-  avatar: string;
-  bio: string | null;
-  repositories: number;
-  followers: number;
-  popularRepo?: {
-    name: string;
-    description: string;
-    stars: number;
-  };
-}
-
-interface Topic {
-  id: string;
-  name: string;
-  description: string;
-  repositories: number;
-  icon?: string;
-}
-
-// Mock data
-const mockTrendingRepos: TrendingRepository[] = [
-  {
-    id: 1,
-    name: "browser-use",
-    fullName: "browser-use/browser-use",
-    description: "Make websites accessible for AI agents",
-    language: "Python",
-    stars: 24500,
-    forks: 2100,
-    todayStars: 850,
-    owner: {
-      login: "browser-use",
-      avatar: "https://ui-avatars.com/api/?name=Browser+Use",
-    },
-  },
-  {
-    id: 2,
-    name: "cline",
-    fullName: "cline/cline",
-    description: "Autonomous coding agent right in your IDE",
-    language: "TypeScript",
-    stars: 18200,
-    forks: 1500,
-    todayStars: 620,
-    owner: {
-      login: "cline",
-      avatar: "https://ui-avatars.com/api/?name=Cline",
-    },
-  },
-  {
-    id: 3,
-    name: "dify",
-    fullName: "langgenius/dify",
-    description: "Open-source LLM app development platform",
-    language: "Python",
-    stars: 51200,
-    forks: 6800,
-    todayStars: 1200,
-    owner: {
-      login: "langgenius",
-      avatar: "https://ui-avatars.com/api/?name=Langgenius",
-    },
-  },
-  {
-    id: 4,
-    name: "supabase",
-    fullName: "supabase/supabase",
-    description: "The open source Firebase alternative",
-    language: "TypeScript",
-    stars: 72300,
-    forks: 6900,
-    todayStars: 450,
-    owner: {
-      login: "supabase",
-      avatar: "https://ui-avatars.com/api/?name=Supabase",
-    },
-  },
-  {
-    id: 5,
-    name: "cal.com",
-    fullName: "calcom/cal.com",
-    description: "Scheduling infrastructure for everyone",
-    language: "TypeScript",
-    stars: 31500,
-    forks: 4800,
-    todayStars: 230,
-    owner: {
-      login: "calcom",
-      avatar: "https://ui-avatars.com/api/?name=Cal.com",
-    },
-  },
-];
-
-const mockDevelopers: Developer[] = [
-  {
-    id: 1,
-    username: "karpathy",
-    name: "Andrej Karpathy",
-    avatar: "https://ui-avatars.com/api/?name=Andrej+Karpathy",
-    bio: "Working on AI @ OpenAI. Previously Director of AI at Tesla.",
-    repositories: 89,
-    followers: 245000,
-    popularRepo: {
-      name: "llm.c",
-      description: "LLM training in simple, pure C/CUDA",
-      stars: 18500,
-    },
-  },
-  {
-    id: 2,
-    username: "tj",
-    name: "TJ Holowaychuk",
-    avatar: "https://ui-avatars.com/api/?name=TJ+Holowaychuk",
-    bio: "Co-founder @ Apex. Creator of Express, Koa, and many other open source projects.",
-    repositories: 312,
-    followers: 189000,
-    popularRepo: {
-      name: "express",
-      description: "Fast, unopinionated, minimalist web framework for Node.js",
-      stars: 64500,
-    },
-  },
-  {
-    id: 3,
-    username: "yyx990803",
-    name: "Evan You",
-    avatar: "https://ui-avatars.com/api/?name=Evan+You",
-    bio: "Creator of Vue.js, Vite, and VoidZero.",
-    repositories: 156,
-    followers: 178000,
-    popularRepo: {
-      name: "vue",
-      description:
-        "Vue.js is a progressive, incrementally-adoptable JavaScript framework",
-      stars: 208000,
-    },
-  },
-];
-
-const mockTopics: Topic[] = [
-  {
-    id: "1",
-    name: "artificial-intelligence",
-    description: "AI and machine learning projects",
-    repositories: 452000,
-  },
-  {
-    id: "2",
-    name: "react",
-    description: "A JavaScript library for building user interfaces",
-    repositories: 891000,
-  },
-  {
-    id: "3",
-    name: "python",
-    description: "Python is a programming language",
-    repositories: 1250000,
-  },
-  {
-    id: "4",
-    name: "developer-tools",
-    description: "Tools for developers",
-    repositories: 234000,
-  },
-  {
-    id: "5",
-    name: "database",
-    description: "Database systems and tools",
-    repositories: 178000,
-  },
-];
-
-type ExploreTab = "repositories" | "developers" | "topics";
+type ExploreTab = 'repositories' | 'developers' | 'topics';
 
 const Explore: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<ExploreTab>("repositories");
+  const [activeTab, setActiveTab] = useState<ExploreTab>('repositories');
   const [loading, setLoading] = useState(true);
   const [trendingRepos, setTrendingRepos] = useState<TrendingRepository[]>([]);
   const [developers, setDevelopers] = useState<Developer[]>([]);
   const [topics, setTopics] = useState<Topic[]>([]);
-  const [timeRange, setTimeRange] = useState<"today" | "week" | "month">(
-    "today",
+  const [timeRange, setTimeRange] = useState<'today' | 'week' | 'month'>(
+    'today',
   );
 
   useEffect(() => {
@@ -235,18 +45,18 @@ const Explore: React.FC = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       switch (activeTab) {
-        case "repositories":
+        case 'repositories':
           setTrendingRepos(mockTrendingRepos);
           break;
-        case "developers":
+        case 'developers':
           setDevelopers(mockDevelopers);
           break;
-        case "topics":
+        case 'topics':
           setTopics(mockTopics);
           break;
       }
     } catch (error) {
-      console.error("Error fetching explore data:", error);
+      console.error('Error fetching explore data:', error);
     } finally {
       setLoading(false);
     }
@@ -265,9 +75,9 @@ const Explore: React.FC = () => {
   };
 
   const tabs = [
-    { id: "repositories", label: "Repositories", icon: <BookOpen size={16} /> },
-    { id: "developers", label: "Developers", icon: <Users size={16} /> },
-    { id: "topics", label: "Topics", icon: <Globe size={16} /> },
+    { id: 'repositories', label: 'Repositories', icon: <BookOpen size={16} /> },
+    { id: 'developers', label: 'Developers', icon: <Users size={16} /> },
+    { id: 'topics', label: 'Topics', icon: <Globe size={16} /> },
   ];
 
   return (
@@ -290,35 +100,35 @@ const Explore: React.FC = () => {
       />
 
       {/* Time range selector for repositories */}
-      {activeTab === "repositories" && (
+      {activeTab === 'repositories' && (
         <div className="flex items-center gap-2 mb-6">
           <span className="text-sm text-gray-400">Trending:</span>
           <button
-            onClick={() => setTimeRange("today")}
+            onClick={() => setTimeRange('today')}
             className={`px-3 py-1 text-sm rounded-full transition-colors ${
-              timeRange === "today"
-                ? "bg-blue-500 text-white"
-                : "text-gray-400 hover:text-white hover:bg-gray-800"
+              timeRange === 'today'
+                ? 'bg-blue-500 text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800'
             }`}
           >
             Today
           </button>
           <button
-            onClick={() => setTimeRange("week")}
+            onClick={() => setTimeRange('week')}
             className={`px-3 py-1 text-sm rounded-full transition-colors ${
-              timeRange === "week"
-                ? "bg-blue-500 text-white"
-                : "text-gray-400 hover:text-white hover:bg-gray-800"
+              timeRange === 'week'
+                ? 'bg-blue-500 text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800'
             }`}
           >
             This week
           </button>
           <button
-            onClick={() => setTimeRange("month")}
+            onClick={() => setTimeRange('month')}
             className={`px-3 py-1 text-sm rounded-full transition-colors ${
-              timeRange === "month"
-                ? "bg-blue-500 text-white"
-                : "text-gray-400 hover:text-white hover:bg-gray-800"
+              timeRange === 'month'
+                ? 'bg-blue-500 text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800'
             }`}
           >
             This month
@@ -335,7 +145,7 @@ const Explore: React.FC = () => {
         </div>
       ) : (
         <>
-          {activeTab === "repositories" && (
+          {activeTab === 'repositories' && (
             <div className="space-y-4">
               {trendingRepos.map((repo, index) => (
                 <div
@@ -396,7 +206,7 @@ const Explore: React.FC = () => {
             </div>
           )}
 
-          {activeTab === "developers" && (
+          {activeTab === 'developers' && (
             <div className="space-y-4">
               {developers.map((dev, index) => (
                 <div
@@ -461,7 +271,7 @@ const Explore: React.FC = () => {
             </div>
           )}
 
-          {activeTab === "topics" && (
+          {activeTab === 'topics' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {topics.map((topic) => (
                 <div
@@ -487,7 +297,7 @@ const Explore: React.FC = () => {
               <div className="col-span-full mt-4 text-center">
                 <Button
                   variant="secondary"
-                  onClick={() => navigate("/topics")}
+                  onClick={() => navigate('/topics')}
                   icon={<ChevronRight size={16} />}
                   iconPosition="right"
                 >

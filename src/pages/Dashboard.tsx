@@ -1,6 +1,6 @@
-import React from "react";
-import { GitFork, Star, Eye, Clock } from "lucide-react";
-import RepositoryCard from "../components/repository/RepositoryCard";
+import React from 'react';
+import { GitFork, Star, Eye, Clock } from 'lucide-react';
+import RepositoryCard from '../components/repository/RepositoryCard';
 // import ActivityFeed from "../components/activity/ActivityFeed";
 
 const Dashboard: React.FC = () => {
@@ -8,33 +8,33 @@ const Dashboard: React.FC = () => {
   const recentRepositories = [
     {
       id: 1,
-      name: "project-alpha",
-      description: "A modern web application built with React and Node.js",
-      language: "TypeScript",
+      name: 'project-alpha',
+      description: 'A modern web application built with React and Node.js',
+      language: 'TypeScript',
       stars: 128,
       forks: 34,
-      visibility: "public",
-      updatedAt: "2024-01-15T10:30:00Z",
+      visibility: 'public',
+      updatedAt: '2024-01-15T10:30:00Z',
     },
     {
       id: 2,
-      name: "dotfiles",
-      description: "My personal dotfiles configuration",
-      language: "Vim script",
+      name: 'dotfiles',
+      description: 'My personal dotfiles configuration',
+      language: 'Vim script',
       stars: 45,
       forks: 12,
-      visibility: "private",
-      updatedAt: "2024-01-14T08:20:00Z",
+      visibility: 'private',
+      updatedAt: '2024-01-14T08:20:00Z',
     },
     {
       id: 3,
-      name: "awesome-project",
-      description: "An awesome open-source project",
-      language: "Python",
+      name: 'awesome-project',
+      description: 'An awesome open-source project',
+      language: 'Python',
       stars: 256,
       forks: 78,
-      visibility: "public",
-      updatedAt: "2024-01-13T15:45:00Z",
+      visibility: 'public',
+      updatedAt: '2024-01-13T15:45:00Z',
     },
   ];
 

@@ -1,23 +1,4 @@
-import {
-  User,
-  Repository,
-  Issue,
-  PullRequest,
-  Event,
-  Notification,
-  SearchResult,
-  SearchQuery,
-  Content,
-  Gist,
-  Organization,
-  Team,
-  License,
-  Workflow,
-  WorkflowRun,
-  Package,
-  CodeScanningAlert,
-  SecretScanningAlert,
-} from "./index";
+import type { User, SearchQuery } from './index';
 
 // Auth API types
 export interface LoginRequest {
@@ -83,7 +64,7 @@ export interface CreateIssueRequest {
 export interface UpdateIssueRequest {
   title?: string;
   body?: string;
-  state?: "open" | "closed";
+  state?: 'open' | 'closed';
   assignees?: string[];
   labels?: string[];
   milestone?: number | null;
@@ -106,7 +87,7 @@ export interface CreatePullRequestRequest {
 export interface UpdatePullRequestRequest {
   title?: string;
   body?: string;
-  state?: "open" | "closed";
+  state?: 'open' | 'closed';
   base?: string;
   maintainerCanModify?: boolean;
 }
@@ -114,7 +95,7 @@ export interface UpdatePullRequestRequest {
 export interface CreatePullRequestReviewRequest {
   commitId?: string;
   body?: string;
-  event: "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
+  event: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT';
   comments?: ReviewCommentRequest[];
 }
 
@@ -151,26 +132,26 @@ export interface CommitterInfo {
 
 // Search API types
 export interface SearchRepositoriesParams extends SearchQuery {
-  sort?: "stars" | "forks" | "help-wanted-issues" | "updated";
+  sort?: 'stars' | 'forks' | 'help-wanted-issues' | 'updated';
 }
 
 export interface SearchIssuesParams extends SearchQuery {
   sort?:
-    | "comments"
-    | "reactions"
-    | "reactions-+1"
-    | "reactions--1"
-    | "reactions-smile"
-    | "reactions-thinking_face"
-    | "reactions-heart"
-    | "reactions-tada"
-    | "interactions"
-    | "created"
-    | "updated";
+    | 'comments'
+    | 'reactions'
+    | 'reactions-+1'
+    | 'reactions--1'
+    | 'reactions-smile'
+    | 'reactions-thinking_face'
+    | 'reactions-heart'
+    | 'reactions-tada'
+    | 'interactions'
+    | 'created'
+    | 'updated';
 }
 
 export interface SearchCodeParams extends SearchQuery {
-  sort?: "indexed";
+  sort?: 'indexed';
 }
 
 // Webhook API types
@@ -189,7 +170,7 @@ export interface UpdateWebhookRequest {
 
 export interface WebhookConfig {
   url: string;
-  contentType?: "json" | "form";
+  contentType?: 'json' | 'form';
   secret?: string;
   insecureSsl?: boolean;
 }
@@ -241,8 +222,8 @@ export interface CreateOrganizationRequest {
 export interface CreateTeamRequest {
   name: string;
   description?: string;
-  privacy?: "closed" | "secret";
-  permission?: "pull" | "push" | "admin";
+  privacy?: 'closed' | 'secret';
+  permission?: 'pull' | 'push' | 'admin';
   parentTeamId?: number;
 }
 
@@ -270,34 +251,34 @@ export interface PaginatedRequest extends PaginationParams {
 
 // Filter types
 export interface RepositoryFilters extends PaginationParams {
-  type?: "all" | "owner" | "public" | "private" | "member";
-  sort?: "created" | "updated" | "pushed" | "full_name";
-  direction?: "asc" | "desc";
-  visibility?: "all" | "public" | "private";
+  type?: 'all' | 'owner' | 'public' | 'private' | 'member';
+  sort?: 'created' | 'updated' | 'pushed' | 'full_name';
+  direction?: 'asc' | 'desc';
+  visibility?: 'all' | 'public' | 'private';
   affiliation?: string;
 }
 
 export interface IssueFilters extends PaginationParams {
   filter?:
-    | "assigned"
-    | "created"
-    | "mentioned"
-    | "subscribed"
-    | "repos"
-    | "all";
-  state?: "open" | "closed" | "all";
+    | 'assigned'
+    | 'created'
+    | 'mentioned'
+    | 'subscribed'
+    | 'repos'
+    | 'all';
+  state?: 'open' | 'closed' | 'all';
   labels?: string[];
-  sort?: "created" | "updated" | "comments";
-  direction?: "asc" | "desc";
+  sort?: 'created' | 'updated' | 'comments';
+  direction?: 'asc' | 'desc';
   since?: string;
 }
 
 export interface PullRequestFilters extends PaginationParams {
-  state?: "open" | "closed" | "all";
+  state?: 'open' | 'closed' | 'all';
   head?: string;
   base?: string;
-  sort?: "created" | "updated" | "popularity" | "long-running";
-  direction?: "asc" | "desc";
+  sort?: 'created' | 'updated' | 'popularity' | 'long-running';
+  direction?: 'asc' | 'desc';
 }
 
 export interface NotificationFilters extends PaginationParams {

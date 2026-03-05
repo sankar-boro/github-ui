@@ -1,4 +1,4 @@
-import { User, Notification, Repository, Webhook } from "./index";
+import type { User, Notification, Repository, Webhook } from './index';
 
 // Auth Context
 export interface AuthContextType {
@@ -12,8 +12,8 @@ export interface AuthContextType {
 }
 
 // Theme Context
-export type ThemeMode = "light" | "dark" | "system";
-export type ThemeColor = "blue" | "purple" | "green" | "orange" | "red";
+export type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeColor = 'blue' | 'purple' | 'green' | 'orange' | 'red';
 
 export interface ThemeContextType {
   mode: ThemeMode;
@@ -111,9 +111,9 @@ export interface NotificationSettings {
 }
 
 export interface PrivacySettings {
-  profileVisibility: "public" | "private";
-  emailVisibility: "public" | "private" | "hidden";
-  contributionsVisibility: "public" | "private";
+  profileVisibility: 'public' | 'private';
+  emailVisibility: 'public' | 'private' | 'hidden';
+  contributionsVisibility: 'public' | 'private';
   blockedUsers: string[];
 }
 
@@ -144,7 +144,7 @@ export interface Session {
 export interface AppearanceSettings {
   theme: ThemeMode;
   themeColor: ThemeColor;
-  codeTheme: "light" | "dark" | "github-light" | "github-dark";
+  codeTheme: 'light' | 'dark' | 'github-light' | 'github-dark';
   fontSize: number;
   tabSize: number;
   wordWrap: boolean;

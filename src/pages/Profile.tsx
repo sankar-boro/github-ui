@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   MapPin,
   Link as LinkIcon,
@@ -21,139 +21,23 @@ import {
   Github,
   Heart,
   ChevronRight,
-} from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
-import RepositoryCard from "../components/repository/RepositoryCard";
-import Button from "../components/common/Button";
-import Tabs from "../components/common/Tabs";
-import Skeleton from "../components/common/Skeleton";
-import Alert from "../components/common/Alert";
-
-// Types
-interface UserProfile {
-  id: number;
-  username: string;
-  name: string;
-  email: string;
-  avatar: string;
-  bio: string | null;
-  company: string | null;
-  location: string | null;
-  blog: string | null;
-  twitter: string | null;
-  publicRepos: number;
-  publicGists: number;
-  followers: number;
-  following: number;
-  createdAt: string;
-  isVerified: boolean;
-  isSponsor: boolean;
-  status?: {
-    emoji?: string;
-    message: string;
-  };
-}
-
-interface PinnedRepository {
-  id: number;
-  name: string;
-  description: string | null;
-  language: string | null;
-  stars: number;
-  forks: number;
-  private: boolean;
-}
-
-interface Contribution {
-  date: string;
-  count: number;
-  level: 0 | 1 | 2 | 3 | 4;
-}
-
-// Mock data
-const mockProfile: UserProfile = {
-  id: 1,
-  username: "john-doe",
-  name: "John Doe",
-  email: "john@example.com",
-  avatar: "https://ui-avatars.com/api/?name=John+Doe",
-  bio: "Full-stack developer passionate about open source. Creating tools for developers.",
-  company: "@acme-corp",
-  location: "San Francisco, CA",
-  blog: "https://johndoe.dev",
-  twitter: "johndoe",
-  publicRepos: 28,
-  publicGists: 12,
-  followers: 1234,
-  following: 89,
-  createdAt: "2020-01-15T10:30:00Z",
-  isVerified: true,
-  isSponsor: false,
-  status: {
-    emoji: "🚀",
-    message: "Building something awesome",
-  },
-};
-
-const mockPinnedRepos: PinnedRepository[] = [
-  {
-    id: 1,
-    name: "project-alpha",
-    description: "A modern web application with React and Node.js",
-    language: "TypeScript",
-    stars: 128,
-    forks: 34,
-    private: false,
-  },
-  {
-    id: 2,
-    name: "dotfiles",
-    description: "My personal dotfiles configuration",
-    language: "Vim script",
-    stars: 45,
-    forks: 12,
-    private: true,
-  },
-  {
-    id: 3,
-    name: "awesome-project",
-    description: "An awesome open-source project",
-    language: "Python",
-    stars: 256,
-    forks: 78,
-    private: false,
-  },
-  {
-    id: 4,
-    name: "react-components",
-    description: "Reusable React components",
-    language: "TypeScript",
-    stars: 89,
-    forks: 23,
-    private: false,
-  },
-];
-
-const mockRepositories = [
-  {
-    id: 1,
-    name: "project-alpha",
-    fullName: "john-doe/project-alpha",
-    description: "A modern web application built with React and Node.js",
-    language: "TypeScript",
-    stars: 128,
-    forks: 34,
-    watchers: 12,
-    openIssues: 5,
-    updatedAt: "2024-01-15T10:30:00Z",
-    owner: {
-      login: "john-doe",
-      avatar: "https://ui-avatars.com/api/?name=John+Doe",
-    },
-    private: false,
-  },
-  // ... more repositories
-];
+} from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import RepositoryCard from '../components/repository/RepositoryCard';
+import Button from '../components/common/Button';
+import Tabs from '../components/common/Tabs';
+import Skeleton from '../components/common/Skeleton';
+import Alert from '../components/common/Alert';
+import type {
+  Contribution,
+  UserProfile,
+  PinnedRepository,
+} from '../types/profile';
+import {
+  mockProfile,
+  mockPinnedRepos,
+  mockRepositories,
+} from '../data/profile';
 
 // Generate mock contribution data
 const generateContributions = (): Contribution[] => {
@@ -165,7 +49,7 @@ const generateContributions = (): Contribution[] => {
     date.setDate(date.getDate() - i);
 
     contributions.push({
-      date: date.toISOString().split("T")[0],
+      date: date.toISOString().split('T')[0],
       count: Math.floor(Math.random() * 20),
       level: Math.floor(Math.random() * 5) as 0 | 1 | 2 | 3 | 4,
     });
@@ -177,11 +61,11 @@ const generateContributions = (): Contribution[] => {
 const mockContributions = generateContributions();
 
 type ProfileTab =
-  | "overview"
-  | "repositories"
-  | "projects"
-  | "packages"
-  | "stars";
+  | 'overview'
+  | 'repositories'
+  | 'projects'
+  | 'packages'
+  | 'stars';
 
 const Profile: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -194,7 +78,7 @@ const Profile: React.FC = () => {
   const [contributions] = useState<Contribution[]>(mockContributions);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<ProfileTab>("overview");
+  const [activeTab, setActiveTab] = useState<ProfileTab>('overview');
   const [isFollowing, setIsFollowing] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
 
@@ -218,7 +102,7 @@ const Profile: React.FC = () => {
       setPinnedRepos(mockPinnedRepos);
       setRepositories(mockRepositories);
     } catch (err) {
-      setError("Failed to load profile. Please try again.");
+      setError('Failed to load profile. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -235,33 +119,33 @@ const Profile: React.FC = () => {
   };
 
   const handleEditProfile = () => {
-    navigate("/settings/profile");
+    navigate('/settings/profile');
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'long',
+      year: 'numeric',
     });
   };
 
   const getContributionColor = (level: number) => {
     const colors = [
-      "bg-green-900/20",
-      "bg-green-700/40",
-      "bg-green-600/60",
-      "bg-green-500/80",
-      "bg-green-400",
+      'bg-green-900/20',
+      'bg-green-700/40',
+      'bg-green-600/60',
+      'bg-green-500/80',
+      'bg-green-400',
     ];
     return colors[level];
   };
 
   const tabs = [
-    { id: "overview", label: "Overview" },
-    { id: "repositories", label: "Repositories", count: profile?.publicRepos },
-    { id: "projects", label: "Projects" },
-    { id: "packages", label: "Packages", icon: <Package size={16} /> },
-    { id: "stars", label: "Stars" },
+    { id: 'overview', label: 'Overview' },
+    { id: 'repositories', label: 'Repositories', count: profile?.publicRepos },
+    { id: 'projects', label: 'Projects' },
+    { id: 'packages', label: 'Packages', icon: <Package size={16} /> },
+    { id: 'stars', label: 'Stars' },
   ];
 
   if (loading) {
@@ -308,7 +192,7 @@ const Profile: React.FC = () => {
           title="Error loading profile"
           onClose={() => setError(null)}
         >
-          {error || "Profile not found"}
+          {error || 'Profile not found'}
         </Alert>
       </div>
     );
@@ -363,7 +247,7 @@ const Profile: React.FC = () => {
               ) : (
                 <>
                   <Button
-                    variant={isFollowing ? "secondary" : "primary"}
+                    variant={isFollowing ? 'secondary' : 'primary'}
                     onClick={handleFollow}
                     icon={
                       isFollowing ? (
@@ -374,7 +258,7 @@ const Profile: React.FC = () => {
                     }
                     fullWidth
                   >
-                    {isFollowing ? "Following" : "Follow"}
+                    {isFollowing ? 'Following' : 'Follow'}
                   </Button>
                   <Button
                     variant="secondary"
@@ -416,7 +300,7 @@ const Profile: React.FC = () => {
                     rel="noopener noreferrer"
                     className="text-blue-400 hover:underline"
                   >
-                    {profile.blog.replace(/^https?:\/\//, "")}
+                    {profile.blog.replace(/^https?:\/\//, '')}
                   </a>
                 </div>
               )}
@@ -490,7 +374,7 @@ const Profile: React.FC = () => {
           </div>
 
           {/* Content based on active tab */}
-          {activeTab === "overview" && (
+          {activeTab === 'overview' && (
             <>
               {/* Pinned repositories */}
               {pinnedRepos.length > 0 && (
@@ -552,7 +436,7 @@ const Profile: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setActiveTab("repositories")}
+                    onClick={() => setActiveTab('repositories')}
                     icon={<ChevronRight size={16} />}
                     iconPosition="right"
                   >
@@ -568,7 +452,7 @@ const Profile: React.FC = () => {
             </>
           )}
 
-          {activeTab === "repositories" && (
+          {activeTab === 'repositories' && (
             <div className="space-y-3">
               {repositories.map((repo) => (
                 <RepositoryCard key={repo.id} repository={repo} />
@@ -576,7 +460,7 @@ const Profile: React.FC = () => {
             </div>
           )}
 
-          {activeTab === "projects" && (
+          {activeTab === 'projects' && (
             <div className="text-center py-12 bg-github-darker border border-github-border rounded-lg">
               <Package size={48} className="mx-auto text-gray-400 mb-4" />
               <h3 className="text-lg font-semibold mb-2">No projects yet</h3>
@@ -586,7 +470,7 @@ const Profile: React.FC = () => {
             </div>
           )}
 
-          {activeTab === "packages" && (
+          {activeTab === 'packages' && (
             <div className="text-center py-12 bg-github-darker border border-github-border rounded-lg">
               <Package size={48} className="mx-auto text-gray-400 mb-4" />
               <h3 className="text-lg font-semibold mb-2">
@@ -598,7 +482,7 @@ const Profile: React.FC = () => {
             </div>
           )}
 
-          {activeTab === "stars" && (
+          {activeTab === 'stars' && (
             <div className="text-center py-12 bg-github-darker border border-github-border rounded-lg">
               <Star size={48} className="mx-auto text-gray-400 mb-4" />
               <h3 className="text-lg font-semibold mb-2">

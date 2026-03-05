@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import {
+import type { ReactNode } from 'react';
+import type {
   User,
   Repository,
   Issue,
@@ -17,8 +17,8 @@ import {
   Review,
   SearchResult,
   CodeSearchResult,
-} from "./index";
-import { CreatePullRequestReviewRequest } from "./api";
+} from './index';
+import type { CreatePullRequestReviewRequest } from './api';
 
 // Layout component props
 export interface LayoutProps {
@@ -67,7 +67,7 @@ export interface CodeViewerProps {
   showLineNumbers?: boolean;
   wrapLines?: boolean;
   fontSize?: number;
-  theme?: "dark" | "light";
+  theme?: 'dark' | 'light';
 }
 
 export interface BranchSelectorProps {
@@ -155,14 +155,14 @@ export interface PullRequestDetailProps {
   files?: CommitFile[];
   reviews?: Review[];
   onAddReview?: (review: CreatePullRequestReviewRequest) => void;
-  onMergePR?: (method: "merge" | "squash" | "rebase") => void;
+  onMergePR?: (method: 'merge' | 'squash' | 'rebase') => void;
   onClosePR?: () => void;
   onReopenPR?: () => void;
 }
 
 export interface PullRequestDiffProps {
   files: CommitFile[];
-  view?: "unified" | "split";
+  view?: 'unified' | 'split';
   onComment?: (file: string, line: number, comment: string) => void;
 }
 
@@ -241,7 +241,7 @@ export interface SearchBarProps {
 }
 
 export interface SearchSuggestion {
-  type: "repository" | "user" | "issue" | "code";
+  type: 'repository' | 'user' | 'issue' | 'code';
   text: string;
   description?: string;
   url: string;
@@ -254,22 +254,22 @@ export interface SearchResultsProps {
   code?: SearchResult<CodeSearchResult>;
   issues?: SearchResult<Issue>;
   loading?: boolean;
-  activeTab?: "repositories" | "users" | "code" | "issues";
+  activeTab?: 'repositories' | 'users' | 'code' | 'issues';
   onTabChange?: (tab: string) => void;
 }
 
 // Common component props
 export interface ButtonProps {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "danger" | "ghost";
-  size?: "sm" | "md" | "lg";
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   loading?: boolean;
   disabled?: boolean;
   onClick?: () => void;
-  type?: "button" | "submit" | "reset";
+  type?: 'button' | 'submit' | 'reset';
   icon?: ReactNode;
-  iconPosition?: "left" | "right";
+  iconPosition?: 'left' | 'right';
 }
 
 export interface InputProps {
@@ -292,7 +292,7 @@ export interface ModalProps {
   onClose: () => void;
   title?: string;
   children: ReactNode;
-  size?: "sm" | "md" | "lg" | "xl" | "full";
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   showCloseButton?: boolean;
   closeOnClickOutside?: boolean;
 }
@@ -318,22 +318,22 @@ export interface BreadcrumbProps {
 export interface TooltipProps {
   content: string;
   children: ReactNode;
-  position?: "top" | "bottom" | "left" | "right";
+  position?: 'top' | 'bottom' | 'left' | 'right';
   delay?: number;
 }
 
 export interface AvatarProps {
   src?: string;
   alt: string;
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
-  shape?: "circle" | "square";
-  status?: "online" | "offline" | "busy" | "away";
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  shape?: 'circle' | 'square';
+  status?: 'online' | 'offline' | 'busy' | 'away';
 }
 
 export interface BadgeProps {
   children: ReactNode;
-  variant?: "default" | "success" | "warning" | "danger" | "info";
-  size?: "sm" | "md";
+  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info';
+  size?: 'sm' | 'md';
   rounded?: boolean;
   icon?: ReactNode;
 }
@@ -341,7 +341,7 @@ export interface BadgeProps {
 export interface DropdownProps {
   trigger: ReactNode;
   children: ReactNode;
-  placement?: "bottom-left" | "bottom-right" | "top-left" | "top-right";
+  placement?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
   onOpen?: () => void;
   onClose?: () => void;
 }
@@ -355,7 +355,7 @@ export interface DropdownItemProps {
 }
 
 export interface SkeletonProps {
-  variant?: "text" | "circle" | "rectangle";
+  variant?: 'text' | 'circle' | 'rectangle';
   width?: string | number;
   height?: string | number;
   count?: number;
@@ -364,7 +364,7 @@ export interface SkeletonProps {
 
 export interface AlertProps {
   children: ReactNode;
-  variant?: "info" | "success" | "warning" | "error";
+  variant?: 'info' | 'success' | 'warning' | 'error';
   title?: string;
   onClose?: () => void;
   showIcon?: boolean;
@@ -374,7 +374,7 @@ export interface ProgressBarProps {
   value: number;
   max?: number;
   showPercentage?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
   color?: string;
   backgroundColor?: string;
   striped?: boolean;
@@ -386,7 +386,7 @@ export interface CodeBlockProps {
   language?: string;
   showLineNumbers?: boolean;
   highlightLines?: number[];
-  theme?: "dark" | "light";
+  theme?: 'dark' | 'light';
   wrapLines?: boolean;
   fontSize?: number;
   onCopy?: () => void;
@@ -401,7 +401,7 @@ export interface MarkdownViewerProps {
 
 export interface DateDisplayProps {
   date: string | Date;
-  format?: "relative" | "short" | "long" | "datetime";
+  format?: 'relative' | 'short' | 'long' | 'datetime';
   tooltip?: boolean;
 }
 

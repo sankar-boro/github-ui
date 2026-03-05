@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Search,
   BookOpen,
@@ -13,291 +13,25 @@ import {
   Lock,
   Globe,
   AlertCircle,
-} from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
-import RepositoryCard from "../components/repository/RepositoryCard";
-import Button from "../components/common/Button";
-import Input from "../components/common/Input";
-import Select from "../components/common/Select";
-import Tabs from "../components/common/Tabs";
-import Pagination from "../components/common/Pagination";
-import Skeleton from "../components/common/Skeleton";
-import Alert from "../components/common/Alert";
-
-// Types
-interface Repository {
-  id: number;
-  name: string;
-  fullName: string;
-  description: string | null;
-  private: boolean;
-  fork: boolean;
-  language: string | null;
-  stars: number;
-  forks: number;
-  watchers: number;
-  openIssues: number;
-  updatedAt: string;
-  createdAt: string;
-  pushedAt: string;
-  owner: {
-    login: string;
-    avatar: string;
-  };
-  permissions?: {
-    admin: boolean;
-    push: boolean;
-    pull: boolean;
-  };
-}
-
-type RepositoryType = "all" | "owner" | "public" | "private" | "member";
-type RepositorySort = "created" | "updated" | "pushed" | "full_name" | "pushed";
-type SortDirection = "asc" | "desc";
-
-interface FilterState {
-  type: RepositoryType;
-  sort: RepositorySort;
-  direction: SortDirection;
-  language?: string;
-  showArchived: boolean;
-  showForks: boolean;
-  showTemplates: boolean;
-}
-
-interface LanguageOption {
-  value: string;
-  label: string;
-  count: number;
-  color: string;
-}
-
-// Mock data for repositories
-const mockRepositories: Repository[] = [
-  {
-    id: 1,
-    name: "project-alpha",
-    fullName: "john-doe/project-alpha",
-    description:
-      "A modern web application built with React and Node.js. Features include real-time updates, authentication, and a beautiful UI.",
-    private: false,
-    fork: false,
-    language: "TypeScript",
-    stars: 128,
-    forks: 34,
-    watchers: 12,
-    openIssues: 5,
-    updatedAt: "2024-01-15T10:30:00Z",
-    createdAt: "2023-06-10T08:00:00Z",
-    pushedAt: "2024-01-15T10:30:00Z",
-    owner: {
-      login: "john-doe",
-      avatar: "https://ui-avatars.com/api/?name=John+Doe",
-    },
-    permissions: {
-      admin: true,
-      push: true,
-      pull: true,
-    },
-  },
-  {
-    id: 2,
-    name: "dotfiles",
-    fullName: "john-doe/dotfiles",
-    description:
-      "My personal dotfiles configuration for zsh, vim, tmux, and more.",
-    private: true,
-    fork: false,
-    language: "Vim script",
-    stars: 45,
-    forks: 12,
-    watchers: 5,
-    openIssues: 2,
-    updatedAt: "2024-01-14T08:20:00Z",
-    createdAt: "2023-08-22T14:30:00Z",
-    pushedAt: "2024-01-14T08:20:00Z",
-    owner: {
-      login: "john-doe",
-      avatar: "https://ui-avatars.com/api/?name=John+Doe",
-    },
-    permissions: {
-      admin: true,
-      push: true,
-      pull: true,
-    },
-  },
-  {
-    id: 3,
-    name: "awesome-project",
-    fullName: "john-doe/awesome-project",
-    description:
-      "An awesome open-source project that does amazing things with machine learning.",
-    private: false,
-    fork: true,
-    language: "Python",
-    stars: 256,
-    forks: 78,
-    watchers: 34,
-    openIssues: 12,
-    updatedAt: "2024-01-13T15:45:00Z",
-    createdAt: "2023-04-05T11:20:00Z",
-    pushedAt: "2024-01-13T15:45:00Z",
-    owner: {
-      login: "john-doe",
-      avatar: "https://ui-avatars.com/api/?name=John+Doe",
-    },
-    permissions: {
-      admin: false,
-      push: true,
-      pull: true,
-    },
-  },
-  {
-    id: 4,
-    name: "react-component-library",
-    fullName: "john-doe/react-component-library",
-    description:
-      "A collection of reusable React components with TypeScript and Tailwind CSS.",
-    private: false,
-    fork: false,
-    language: "TypeScript",
-    stars: 89,
-    forks: 23,
-    watchers: 8,
-    openIssues: 3,
-    updatedAt: "2024-01-12T09:15:00Z",
-    createdAt: "2023-09-18T16:45:00Z",
-    pushedAt: "2024-01-12T09:15:00Z",
-    owner: {
-      login: "john-doe",
-      avatar: "https://ui-avatars.com/api/?name=John+Doe",
-    },
-    permissions: {
-      admin: true,
-      push: true,
-      pull: true,
-    },
-  },
-  {
-    id: 5,
-    name: "legacy-codebase",
-    fullName: "john-doe/legacy-codebase",
-    description:
-      "Old PHP project that needs migration. Archived for reference only.",
-    private: true,
-    fork: false,
-    language: "PHP",
-    stars: 12,
-    forks: 3,
-    watchers: 2,
-    openIssues: 8,
-    updatedAt: "2023-12-01T11:00:00Z",
-    createdAt: "2022-11-30T13:20:00Z",
-    pushedAt: "2023-12-01T11:00:00Z",
-    owner: {
-      login: "john-doe",
-      avatar: "https://ui-avatars.com/api/?name=John+Doe",
-    },
-    permissions: {
-      admin: true,
-      push: true,
-      pull: true,
-    },
-    // archived: true,
-  },
-  {
-    id: 6,
-    name: "api-gateway",
-    fullName: "org-name/api-gateway",
-    description: "High-performance API gateway built with Go.",
-    private: true,
-    fork: false,
-    language: "Go",
-    stars: 67,
-    forks: 15,
-    watchers: 9,
-    openIssues: 4,
-    updatedAt: "2024-01-10T14:20:00Z",
-    createdAt: "2023-07-12T09:30:00Z",
-    pushedAt: "2024-01-10T14:20:00Z",
-    owner: {
-      login: "org-name",
-      avatar: "https://ui-avatars.com/api/?name=Organization",
-    },
-    permissions: {
-      admin: false,
-      push: true,
-      pull: true,
-    },
-  },
-  {
-    id: 7,
-    name: "docs-site",
-    fullName: "john-doe/docs-site",
-    description: "Documentation website built with Docusaurus.",
-    private: false,
-    fork: false,
-    language: "JavaScript",
-    stars: 34,
-    forks: 8,
-    watchers: 4,
-    openIssues: 1,
-    updatedAt: "2024-01-08T16:30:00Z",
-    createdAt: "2023-10-05T10:15:00Z",
-    pushedAt: "2024-01-08T16:30:00Z",
-    owner: {
-      login: "john-doe",
-      avatar: "https://ui-avatars.com/api/?name=John+Doe",
-    },
-    permissions: {
-      admin: true,
-      push: true,
-      pull: true,
-    },
-  },
-  {
-    id: 8,
-    name: "devops-scripts",
-    fullName: "john-doe/devops-scripts",
-    description: "Collection of useful DevOps scripts and configurations.",
-    private: false,
-    fork: false,
-    language: "Shell",
-    stars: 56,
-    forks: 19,
-    watchers: 7,
-    openIssues: 0,
-    updatedAt: "2024-01-05T12:45:00Z",
-    createdAt: "2023-05-20T08:30:00Z",
-    pushedAt: "2024-01-05T12:45:00Z",
-    owner: {
-      login: "john-doe",
-      avatar: "https://ui-avatars.com/api/?name=John+Doe",
-    },
-    permissions: {
-      admin: true,
-      push: true,
-      pull: true,
-    },
-  },
-];
-
-// Mock language options with counts
-const languageOptions: LanguageOption[] = [
-  { value: "typescript", label: "TypeScript", count: 28, color: "bg-blue-500" },
-  {
-    value: "javascript",
-    label: "JavaScript",
-    count: 15,
-    color: "bg-yellow-500",
-  },
-  { value: "python", label: "Python", count: 12, color: "bg-green-500" },
-  { value: "go", label: "Go", count: 8, color: "bg-cyan-500" },
-  { value: "rust", label: "Rust", count: 5, color: "bg-orange-600" },
-  { value: "php", label: "PHP", count: 4, color: "bg-purple-500" },
-  { value: "shell", label: "Shell", count: 6, color: "bg-gray-500" },
-  { value: "vim-script", label: "Vim script", count: 2, color: "bg-green-700" },
-];
+} from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import RepositoryCard from '../components/repository/RepositoryCard';
+import Button from '../components/common/Button';
+import Input from '../components/common/Input';
+import Select from '../components/common/Select';
+import Tabs from '../components/common/Tabs';
+import Pagination from '../components/common/Pagination';
+import Skeleton from '../components/common/Skeleton';
+import Alert from '../components/common/Alert';
+import type {
+  Repository,
+  RepositorySort,
+  RepositoryType,
+  LanguageOption,
+  FilterState,
+  SortDirection,
+} from '../types/repositories';
+import { mockRepositories, languageOptions } from '../data/repositories';
 
 const RepositoriesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -310,16 +44,16 @@ const RepositoriesPage: React.FC = () => {
   >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
   // Filter state
   const [filters, setFilters] = useState<FilterState>({
-    type: "all",
-    sort: "updated",
-    direction: "desc",
+    type: 'all',
+    sort: 'updated',
+    direction: 'desc',
     language: undefined,
     showArchived: false,
     showForks: true,
@@ -363,8 +97,8 @@ const RepositoriesPage: React.FC = () => {
       // Calculate stats
       calculateStats(mockRepositories);
     } catch (err) {
-      setError("Failed to load repositories. Please try again.");
-      console.error("Error fetching repositories:", err);
+      setError('Failed to load repositories. Please try again.');
+      console.error('Error fetching repositories:', err);
     } finally {
       setLoading(false);
     }
@@ -395,16 +129,16 @@ const RepositoriesPage: React.FC = () => {
 
     // Apply type filter
     switch (filters.type) {
-      case "owner":
+      case 'owner':
         filtered = filtered.filter((r) => r.owner.login === user?.username);
         break;
-      case "public":
+      case 'public':
         filtered = filtered.filter((r) => !r.private);
         break;
-      case "private":
+      case 'private':
         filtered = filtered.filter((r) => r.private);
         break;
-      case "member":
+      case 'member':
         filtered = filtered.filter((r) => r.permissions?.push);
         break;
       // 'all' - no filter
@@ -419,7 +153,7 @@ const RepositoriesPage: React.FC = () => {
 
     // Apply archived filter
     if (!filters.showArchived) {
-      filtered = filtered.filter((r) => !("archived" in r && r.archived));
+      filtered = filtered.filter((r) => !('archived' in r && r.archived));
     }
 
     // Apply forks filter
@@ -443,24 +177,24 @@ const RepositoriesPage: React.FC = () => {
       let comparison = 0;
 
       switch (filters.sort) {
-        case "created":
+        case 'created':
           comparison =
             new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
           break;
-        case "updated":
+        case 'updated':
           comparison =
             new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime();
           break;
-        case "pushed":
+        case 'pushed':
           comparison =
             new Date(a.pushedAt).getTime() - new Date(b.pushedAt).getTime();
           break;
-        case "full_name":
+        case 'full_name':
           comparison = a.fullName.localeCompare(b.fullName);
           break;
       }
 
-      return filters.direction === "asc" ? comparison : -comparison;
+      return filters.direction === 'asc' ? comparison : -comparison;
     });
 
     setFilteredRepositories(filtered);
@@ -480,11 +214,11 @@ const RepositoriesPage: React.FC = () => {
   };
 
   const handleCreateRepository = () => {
-    navigate("/new/repository");
+    navigate('/new/repository');
   };
 
   const handleImportRepository = () => {
-    navigate("/new/import");
+    navigate('/new/import');
   };
 
   const handleRepositoryClick = (repo: Repository) => {
@@ -493,15 +227,15 @@ const RepositoriesPage: React.FC = () => {
 
   const clearFilters = () => {
     setFilters({
-      type: "all",
-      sort: "updated",
-      direction: "desc",
+      type: 'all',
+      sort: 'updated',
+      direction: 'desc',
       language: undefined,
       showArchived: false,
       showForks: true,
       showTemplates: false,
     });
-    setSearchQuery("");
+    setSearchQuery('');
   };
 
   // Pagination
@@ -512,27 +246,27 @@ const RepositoriesPage: React.FC = () => {
   );
 
   const typeOptions = [
-    { value: "all", label: "All" },
-    { value: "owner", label: "Owner" },
-    { value: "public", label: "Public" },
-    { value: "private", label: "Private" },
-    { value: "member", label: "Member" },
+    { value: 'all', label: 'All' },
+    { value: 'owner', label: 'Owner' },
+    { value: 'public', label: 'Public' },
+    { value: 'private', label: 'Private' },
+    { value: 'member', label: 'Member' },
   ];
 
   const sortOptions = [
-    { value: "updated", label: "Last updated" },
-    { value: "created", label: "Created" },
-    { value: "pushed", label: "Last pushed" },
-    { value: "full_name", label: "Name" },
+    { value: 'updated', label: 'Last updated' },
+    { value: 'created', label: 'Created' },
+    { value: 'pushed', label: 'Last pushed' },
+    { value: 'full_name', label: 'Name' },
   ];
 
   const directionOptions = [
-    { value: "desc", label: "Descending" },
-    { value: "asc", label: "Ascending" },
+    { value: 'desc', label: 'Descending' },
+    { value: 'asc', label: 'Ascending' },
   ];
 
   const languageSelectOptions = [
-    { value: "", label: "All languages" },
+    { value: '', label: 'All languages' },
     ...languageOptions.map((lang) => ({
       value: lang.value,
       label: `${lang.label} (${lang.count})`,
@@ -575,7 +309,7 @@ const RepositoriesPage: React.FC = () => {
             Repositories
           </h1>
           <p className="text-gray-400 text-sm mt-1">
-            {stats.total} total · {stats.public} public · {stats.private}{" "}
+            {stats.total} total · {stats.public} public · {stats.private}{' '}
             private
           </p>
         </div>
@@ -615,7 +349,7 @@ const RepositoriesPage: React.FC = () => {
             variant="secondary"
             onClick={() => setShowFilters(!showFilters)}
             icon={<Filter size={16} />}
-            className={showFilters ? "bg-gray-800" : ""}
+            className={showFilters ? 'bg-gray-800' : ''}
           >
             Filters
           </Button>
@@ -655,7 +389,7 @@ const RepositoriesPage: React.FC = () => {
                 label="Type"
                 value={filters.type}
                 onChange={(value) =>
-                  handleFilterChange("type", value as RepositoryType)
+                  handleFilterChange('type', value as RepositoryType)
                 }
                 options={typeOptions}
               />
@@ -664,7 +398,7 @@ const RepositoriesPage: React.FC = () => {
                 label="Sort by"
                 value={filters.sort}
                 onChange={(value) =>
-                  handleFilterChange("sort", value as RepositorySort)
+                  handleFilterChange('sort', value as RepositorySort)
                 }
                 options={sortOptions}
               />
@@ -673,16 +407,16 @@ const RepositoriesPage: React.FC = () => {
                 label="Direction"
                 value={filters.direction}
                 onChange={(value) =>
-                  handleFilterChange("direction", value as SortDirection)
+                  handleFilterChange('direction', value as SortDirection)
                 }
                 options={directionOptions}
               />
 
               <Select
                 label="Language"
-                value={filters.language || ""}
+                value={filters.language || ''}
                 onChange={(value) =>
-                  handleFilterChange("language", value || undefined)
+                  handleFilterChange('language', value || undefined)
                 }
                 options={languageSelectOptions}
               />
@@ -697,7 +431,7 @@ const RepositoriesPage: React.FC = () => {
                       type="checkbox"
                       checked={filters.showArchived}
                       onChange={(e) =>
-                        handleFilterChange("showArchived", e.target.checked)
+                        handleFilterChange('showArchived', e.target.checked)
                       }
                       className="rounded border-github-border bg-gray-900"
                     />
@@ -708,7 +442,7 @@ const RepositoriesPage: React.FC = () => {
                       type="checkbox"
                       checked={filters.showForks}
                       onChange={(e) =>
-                        handleFilterChange("showForks", e.target.checked)
+                        handleFilterChange('showForks', e.target.checked)
                       }
                       className="rounded border-github-border bg-gray-900"
                     />
@@ -725,11 +459,11 @@ const RepositoriesPage: React.FC = () => {
       <div className="mb-6">
         <div className="flex flex-wrap gap-2">
           <button
-            onClick={() => handleFilterChange("language", undefined)}
+            onClick={() => handleFilterChange('language', undefined)}
             className={`px-3 py-1 text-sm rounded-full border transition-colors ${
               !filters.language
-                ? "bg-blue-500 border-blue-500 text-white"
-                : "border-github-border hover:bg-gray-800"
+                ? 'bg-blue-500 border-blue-500 text-white'
+                : 'border-github-border hover:bg-gray-800'
             }`}
           >
             All
@@ -737,11 +471,11 @@ const RepositoriesPage: React.FC = () => {
           {languageOptions.slice(0, 5).map((lang) => (
             <button
               key={lang.value}
-              onClick={() => handleFilterChange("language", lang.value)}
+              onClick={() => handleFilterChange('language', lang.value)}
               className={`flex items-center gap-1 px-3 py-1 text-sm rounded-full border transition-colors ${
                 filters.language === lang.value
-                  ? "bg-blue-500 border-blue-500 text-white"
-                  : "border-github-border hover:bg-gray-800"
+                  ? 'bg-blue-500 border-blue-500 text-white'
+                  : 'border-github-border hover:bg-gray-800'
               }`}
             >
               <span className={`w-2 h-2 rounded-full ${lang.color}`}></span>
@@ -778,8 +512,8 @@ const RepositoriesPage: React.FC = () => {
           <h3 className="text-lg font-semibold mb-2">No repositories found</h3>
           <p className="text-gray-400 mb-4">
             {searchQuery || filters.language
-              ? "Try adjusting your search or filters"
-              : "Get started by creating a new repository"}
+              ? 'Try adjusting your search or filters'
+              : 'Get started by creating a new repository'}
           </p>
           {!searchQuery && !filters.language && (
             <Button variant="primary" onClick={handleCreateRepository}>
@@ -814,8 +548,8 @@ const RepositoriesPage: React.FC = () => {
 
           {/* Results count */}
           <div className="mt-4 text-sm text-gray-400 text-center">
-            Showing {(currentPage - 1) * itemsPerPage + 1} -{" "}
-            {Math.min(currentPage * itemsPerPage, filteredRepositories.length)}{" "}
+            Showing {(currentPage - 1) * itemsPerPage + 1} -{' '}
+            {Math.min(currentPage * itemsPerPage, filteredRepositories.length)}{' '}
             of {filteredRepositories.length} repositories
           </div>
         </>

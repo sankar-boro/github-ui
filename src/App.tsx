@@ -1,15 +1,5 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
-import {
-  QueryClientProvider,
-  useQueryClient,
-  QueryClient,
-} from '@tanstack/react-query';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import Layout from './components/layout/Layout';
 import Dashboard from './pages/Dashboard';
 import Repository from './pages/Repository';

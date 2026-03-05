@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   User,
   Mail,
@@ -27,153 +27,40 @@ import {
   Palette,
   Code2,
   ChevronRight,
-} from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
-import Button from "../components/common/Button";
-import Input from "../components/common/Input";
-import Select from "../components/common/Select";
-import Tabs from "../components/common/Tabs";
-import Alert from "../components/common/Alert";
-import Skeleton from "../components/common/Skeleton";
-
-// Types
-interface ProfileSettings {
-  name: string;
-  bio: string;
-  company: string;
-  location: string;
-  email: string;
-  blog: string;
-  twitter: string;
-  pronouns: string;
-}
-
-interface NotificationSettings {
-  email: {
-    mentions: boolean;
-    comments: boolean;
-    pullRequests: boolean;
-    releases: boolean;
-    security: boolean;
-  };
-  web: {
-    mentions: boolean;
-    comments: boolean;
-    pullRequests: boolean;
-    releases: boolean;
-    security: boolean;
-  };
-  desktop: boolean;
-  mobile: boolean;
-}
-
-interface SecuritySettings {
-  twoFactorEnabled: boolean;
-  passwordLastChanged: string;
-  sessions: Session[];
-  sshKeys: SSHKey[];
-}
-
-interface Session {
-  id: string;
-  browser: string;
-  os: string;
-  ip: string;
-  location: string;
-  lastActive: string;
-  current: boolean;
-}
-
-interface SSHKey {
-  id: string;
-  title: string;
-  fingerprint: string;
-  addedAt: string;
-  lastUsed: string;
-}
-
-interface AppearanceSettings {
-  theme: "light" | "dark" | "system";
-  themeColor: "blue" | "purple" | "green" | "orange" | "red";
-  codeTheme: "light" | "dark" | "github-light" | "github-dark";
-  fontSize: number;
-  tabSize: number;
-  wordWrap: boolean;
-  lineNumbers: boolean;
-}
-
-// Mock data
-const mockProfileSettings: ProfileSettings = {
-  name: "John Doe",
-  bio: "Full-stack developer passionate about open source. Creating tools for developers.",
-  company: "Acme Corp",
-  location: "San Francisco, CA",
-  email: "john@example.com",
-  blog: "https://johndoe.dev",
-  twitter: "johndoe",
-  pronouns: "he/him",
-};
-
-const mockSessions: Session[] = [
-  {
-    id: "1",
-    browser: "Chrome 120.0",
-    os: "macOS 14.0",
-    ip: "192.168.1.100",
-    location: "San Francisco, CA",
-    lastActive: "2024-01-15T10:30:00Z",
-    current: true,
-  },
-  {
-    id: "2",
-    browser: "Firefox 121.0",
-    os: "Windows 11",
-    ip: "203.0.113.45",
-    location: "New York, NY",
-    lastActive: "2024-01-14T08:20:00Z",
-    current: false,
-  },
-  {
-    id: "3",
-    browser: "Safari 17.0",
-    os: "iOS 17.0",
-    ip: "198.51.100.67",
-    location: "London, UK",
-    lastActive: "2024-01-13T15:45:00Z",
-    current: false,
-  },
-];
-
-const mockSSHKeys: SSHKey[] = [
-  {
-    id: "1",
-    title: "MacBook Pro",
-    fingerprint: "SHA256:abc123def456",
-    addedAt: "2023-12-01T10:30:00Z",
-    lastUsed: "2024-01-15T09:20:00Z",
-  },
-  {
-    id: "2",
-    title: "Work Desktop",
-    fingerprint: "SHA256:xyz789uvw123",
-    addedAt: "2023-11-15T14:45:00Z",
-    lastUsed: "2024-01-14T16:30:00Z",
-  },
-];
+} from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import Button from '../components/common/Button';
+import Input from '../components/common/Input';
+import Select from '../components/common/Select';
+import Tabs from '../components/common/Tabs';
+import Alert from '../components/common/Alert';
+import Skeleton from '../components/common/Skeleton';
+import type {
+  ProfileSettings,
+  Session,
+  SSHKey,
+  NotificationSettings,
+  AppearanceSettings,
+} from '../types/settings';
+import {
+  mockProfileSettings,
+  mockSessions,
+  mockSSHKeys,
+} from '../data/settings';
 
 type SettingsTab =
-  | "profile"
-  | "account"
-  | "notifications"
-  | "security"
-  | "appearance"
-  | "billing";
+  | 'profile'
+  | 'account'
+  | 'notifications'
+  | 'security'
+  | 'appearance'
+  | 'billing';
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<SettingsTab>("profile");
+  const [activeTab, setActiveTab] = useState<SettingsTab>('profile');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -202,9 +89,9 @@ const Settings: React.FC = () => {
   const [sessions, setSessions] = useState<Session[]>(mockSessions);
   const [sshKeys, setSSHKeys] = useState<SSHKey[]>(mockSSHKeys);
   const [appearance, setAppearance] = useState<AppearanceSettings>({
-    theme: "dark",
-    themeColor: "blue",
-    codeTheme: "github-dark",
+    theme: 'dark',
+    themeColor: 'blue',
+    codeTheme: 'github-dark',
     fontSize: 14,
     tabSize: 2,
     wordWrap: true,
@@ -213,9 +100,9 @@ const Settings: React.FC = () => {
 
   // Password change form
   const [passwordForm, setPasswordForm] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   });
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -240,7 +127,7 @@ const Settings: React.FC = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       // Data would be fetched here
     } catch (err) {
-      setError("Failed to load settings");
+      setError('Failed to load settings');
     } finally {
       setLoading(false);
     }
@@ -254,9 +141,9 @@ const Settings: React.FC = () => {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      setSuccess("Profile updated successfully");
+      setSuccess('Profile updated successfully');
     } catch (err) {
-      setError("Failed to update profile");
+      setError('Failed to update profile');
     } finally {
       setSaving(false);
     }
@@ -276,7 +163,7 @@ const Settings: React.FC = () => {
       // Simulate upload
       setTimeout(() => {
         setUploadingAvatar(false);
-        setSuccess("Avatar updated successfully");
+        setSuccess('Avatar updated successfully');
       }, 2000);
     }
   };
@@ -290,7 +177,7 @@ const Settings: React.FC = () => {
     e.preventDefault();
 
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      setError("New passwords do not match");
+      setError('New passwords do not match');
       return;
     }
 
@@ -299,14 +186,14 @@ const Settings: React.FC = () => {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      setSuccess("Password changed successfully");
+      setSuccess('Password changed successfully');
       setPasswordForm({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
       });
     } catch (err) {
-      setError("Failed to change password");
+      setError('Failed to change password');
     } finally {
       setSaving(false);
     }
@@ -316,54 +203,54 @@ const Settings: React.FC = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       setSessions(sessions.filter((s) => s.id !== sessionId));
-      setSuccess("Session revoked successfully");
+      setSuccess('Session revoked successfully');
     } catch (err) {
-      setError("Failed to revoke session");
+      setError('Failed to revoke session');
     }
   };
 
   const handleRevokeAllSessions = async () => {
-    if (!confirm("This will sign out all other devices. Continue?")) return;
+    if (!confirm('This will sign out all other devices. Continue?')) return;
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setSessions(sessions.filter((s) => s.current));
-      setSuccess("All other sessions revoked");
+      setSuccess('All other sessions revoked');
     } catch (err) {
-      setError("Failed to revoke sessions");
+      setError('Failed to revoke sessions');
     }
   };
 
   const handleRemoveSSHKey = async (keyId: string) => {
-    if (!confirm("Are you sure you want to remove this SSH key?")) return;
+    if (!confirm('Are you sure you want to remove this SSH key?')) return;
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       setSSHKeys(sshKeys.filter((k) => k.id !== keyId));
-      setSuccess("SSH key removed successfully");
+      setSuccess('SSH key removed successfully');
     } catch (err) {
-      setError("Failed to remove SSH key");
+      setError('Failed to remove SSH key');
     }
   };
 
   const handleDeleteAccount = () => {
-    if (!confirm("This action is permanent and cannot be undone. Continue?"))
+    if (!confirm('This action is permanent and cannot be undone. Continue?'))
       return;
     // Navigate to account deletion flow
   };
 
   const handleLogout = async () => {
     await logout();
-    navigate("/");
+    navigate('/');
   };
 
   const tabs = [
-    { id: "profile", label: "Profile" },
-    { id: "account", label: "Account" },
-    { id: "notifications", label: "Notifications" },
-    { id: "security", label: "Security" },
-    { id: "appearance", label: "Appearance" },
-    { id: "billing", label: "Billing" },
+    { id: 'profile', label: 'Profile' },
+    { id: 'account', label: 'Account' },
+    { id: 'notifications', label: 'Notifications' },
+    { id: 'security', label: 'Security' },
+    { id: 'appearance', label: 'Appearance' },
+    { id: 'billing', label: 'Billing' },
   ];
 
   if (loading) {
@@ -389,8 +276,8 @@ const Settings: React.FC = () => {
                 onClick={() => setActiveTab(tab.id as SettingsTab)}
                 className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
                   activeTab === tab.id
-                    ? "bg-gray-800 text-white"
-                    : "text-gray-400 hover:text-white hover:bg-gray-800"
+                    ? 'bg-gray-800 text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
                 }`}
               >
                 {tab.label}
@@ -431,7 +318,7 @@ const Settings: React.FC = () => {
           )}
 
           {/* Profile Settings */}
-          {activeTab === "profile" && (
+          {activeTab === 'profile' && (
             <div className="space-y-6">
               <div>
                 <h2 className="text-lg font-semibold mb-4">Profile</h2>
@@ -461,7 +348,7 @@ const Settings: React.FC = () => {
                         variant="secondary"
                         size="sm"
                         onClick={() =>
-                          document.getElementById("avatar-upload")?.click()
+                          document.getElementById('avatar-upload')?.click()
                         }
                         icon={<Camera size={16} />}
                       >
@@ -594,7 +481,7 @@ const Settings: React.FC = () => {
           )}
 
           {/* Account Settings */}
-          {activeTab === "account" && (
+          {activeTab === 'account' && (
             <div className="space-y-8">
               <div>
                 <h2 className="text-lg font-semibold mb-4">
@@ -620,7 +507,7 @@ const Settings: React.FC = () => {
                 <form onSubmit={handlePasswordChange} className="space-y-4">
                   <Input
                     label="Current password"
-                    type={showCurrentPassword ? "text" : "password"}
+                    type={showCurrentPassword ? 'text' : 'password'}
                     value={passwordForm.currentPassword}
                     onChange={(e) =>
                       setPasswordForm({
@@ -643,7 +530,7 @@ const Settings: React.FC = () => {
 
                   <Input
                     label="New password"
-                    type={showNewPassword ? "text" : "password"}
+                    type={showNewPassword ? 'text' : 'password'}
                     value={passwordForm.newPassword}
                     onChange={(e) =>
                       setPasswordForm({
@@ -662,7 +549,7 @@ const Settings: React.FC = () => {
 
                   <Input
                     label="Confirm new password"
-                    type={showConfirmPassword ? "text" : "password"}
+                    type={showConfirmPassword ? 'text' : 'password'}
                     value={passwordForm.confirmPassword}
                     onChange={(e) =>
                       setPasswordForm({
@@ -718,7 +605,7 @@ const Settings: React.FC = () => {
           )}
 
           {/* Notification Settings */}
-          {activeTab === "notifications" && (
+          {activeTab === 'notifications' && (
             <div className="space-y-6">
               <div>
                 <h2 className="text-lg font-semibold mb-4">
@@ -743,7 +630,7 @@ const Settings: React.FC = () => {
                         className="rounded border-github-border bg-gray-900"
                       />
                       <span className="text-sm capitalize">
-                        {key.replace(/([A-Z])/g, " $1").trim()}
+                        {key.replace(/([A-Z])/g, ' $1').trim()}
                       </span>
                     </label>
                   ))}
@@ -773,7 +660,7 @@ const Settings: React.FC = () => {
                         className="rounded border-github-border bg-gray-900"
                       />
                       <span className="text-sm capitalize">
-                        {key.replace(/([A-Z])/g, " $1").trim()}
+                        {key.replace(/([A-Z])/g, ' $1').trim()}
                       </span>
                     </label>
                   ))}
@@ -832,7 +719,7 @@ const Settings: React.FC = () => {
           )}
 
           {/* Security Settings */}
-          {activeTab === "security" && (
+          {activeTab === 'security' && (
             <div className="space-y-8">
               <div>
                 <h2 className="text-lg font-semibold mb-4">
@@ -850,10 +737,10 @@ const Settings: React.FC = () => {
                       </p>
                     </div>
                     <Button
-                      variant={twoFactorEnabled ? "secondary" : "primary"}
+                      variant={twoFactorEnabled ? 'secondary' : 'primary'}
                       onClick={() => setTwoFactorEnabled(!twoFactorEnabled)}
                     >
-                      {twoFactorEnabled ? "Disable" : "Enable"}
+                      {twoFactorEnabled ? 'Disable' : 'Enable'}
                     </Button>
                   </div>
                 </div>
@@ -893,7 +780,7 @@ const Settings: React.FC = () => {
                             {session.os} · {session.ip} · {session.location}
                           </p>
                           <p className="text-xs text-gray-500 mt-1">
-                            Last active:{" "}
+                            Last active:{' '}
                             {new Date(session.lastActive).toLocaleString()}
                           </p>
                         </div>
@@ -934,8 +821,8 @@ const Settings: React.FC = () => {
                             {key.fingerprint}
                           </p>
                           <p className="text-xs text-gray-500 mt-1">
-                            Added: {new Date(key.addedAt).toLocaleDateString()}{" "}
-                            · Last used:{" "}
+                            Added: {new Date(key.addedAt).toLocaleDateString()}{' '}
+                            · Last used:{' '}
                             {new Date(key.lastUsed).toLocaleDateString()}
                           </p>
                         </div>
@@ -956,7 +843,7 @@ const Settings: React.FC = () => {
           )}
 
           {/* Appearance Settings */}
-          {activeTab === "appearance" && (
+          {activeTab === 'appearance' && (
             <div className="space-y-6">
               <div>
                 <h2 className="text-lg font-semibold mb-4">Theme</h2>
@@ -964,12 +851,12 @@ const Settings: React.FC = () => {
                 <div className="grid grid-cols-3 gap-4">
                   <button
                     onClick={() =>
-                      setAppearance({ ...appearance, theme: "light" })
+                      setAppearance({ ...appearance, theme: 'light' })
                     }
                     className={`p-4 border rounded-lg text-center transition-colors ${
-                      appearance.theme === "light"
-                        ? "border-blue-500 bg-blue-500/10"
-                        : "border-github-border hover:bg-gray-800"
+                      appearance.theme === 'light'
+                        ? 'border-blue-500 bg-blue-500/10'
+                        : 'border-github-border hover:bg-gray-800'
                     }`}
                   >
                     <Sun size={24} className="mx-auto mb-2" />
@@ -978,12 +865,12 @@ const Settings: React.FC = () => {
 
                   <button
                     onClick={() =>
-                      setAppearance({ ...appearance, theme: "dark" })
+                      setAppearance({ ...appearance, theme: 'dark' })
                     }
                     className={`p-4 border rounded-lg text-center transition-colors ${
-                      appearance.theme === "dark"
-                        ? "border-blue-500 bg-blue-500/10"
-                        : "border-github-border hover:bg-gray-800"
+                      appearance.theme === 'dark'
+                        ? 'border-blue-500 bg-blue-500/10'
+                        : 'border-github-border hover:bg-gray-800'
                     }`}
                   >
                     <Moon size={24} className="mx-auto mb-2" />
@@ -992,12 +879,12 @@ const Settings: React.FC = () => {
 
                   <button
                     onClick={() =>
-                      setAppearance({ ...appearance, theme: "system" })
+                      setAppearance({ ...appearance, theme: 'system' })
                     }
                     className={`p-4 border rounded-lg text-center transition-colors ${
-                      appearance.theme === "system"
-                        ? "border-blue-500 bg-blue-500/10"
-                        : "border-github-border hover:bg-gray-800"
+                      appearance.theme === 'system'
+                        ? 'border-blue-500 bg-blue-500/10'
+                        : 'border-github-border hover:bg-gray-800'
                     }`}
                   >
                     <Monitor size={24} className="mx-auto mb-2" />
@@ -1010,7 +897,7 @@ const Settings: React.FC = () => {
                 <h2 className="text-lg font-semibold mb-4">Theme color</h2>
 
                 <div className="flex gap-2">
-                  {(["blue", "purple", "green", "orange", "red"] as const).map(
+                  {(['blue', 'purple', 'green', 'orange', 'red'] as const).map(
                     (color) => (
                       <button
                         key={color}
@@ -1019,30 +906,30 @@ const Settings: React.FC = () => {
                         }
                         className={`w-8 h-8 rounded-full transition-all ${
                           appearance.themeColor === color
-                            ? "ring-2 ring-offset-2 ring-offset-github-dark"
-                            : ""
+                            ? 'ring-2 ring-offset-2 ring-offset-github-dark'
+                            : ''
                         }`}
                         style={{
                           backgroundColor:
-                            color === "blue"
-                              ? "#3b82f6"
-                              : color === "purple"
-                                ? "#a855f7"
-                                : color === "green"
-                                  ? "#22c55e"
-                                  : color === "orange"
-                                    ? "#f97316"
-                                    : "#ef4444",
+                            color === 'blue'
+                              ? '#3b82f6'
+                              : color === 'purple'
+                                ? '#a855f7'
+                                : color === 'green'
+                                  ? '#22c55e'
+                                  : color === 'orange'
+                                    ? '#f97316'
+                                    : '#ef4444',
                           ringColor:
-                            color === "blue"
-                              ? "#3b82f6"
-                              : color === "purple"
-                                ? "#a855f7"
-                                : color === "green"
-                                  ? "#22c55e"
-                                  : color === "orange"
-                                    ? "#f97316"
-                                    : "#ef4444",
+                            color === 'blue'
+                              ? '#3b82f6'
+                              : color === 'purple'
+                                ? '#a855f7'
+                                : color === 'green'
+                                  ? '#22c55e'
+                                  : color === 'orange'
+                                    ? '#f97316'
+                                    : '#ef4444',
                         }}
                       />
                     ),
@@ -1061,10 +948,10 @@ const Settings: React.FC = () => {
                       setAppearance({ ...appearance, codeTheme: value as any })
                     }
                     options={[
-                      { value: "github-light", label: "GitHub Light" },
-                      { value: "github-dark", label: "GitHub Dark" },
-                      { value: "light", label: "Light" },
-                      { value: "dark", label: "Dark" },
+                      { value: 'github-light', label: 'GitHub Light' },
+                      { value: 'github-dark', label: 'GitHub Dark' },
+                      { value: 'light', label: 'Light' },
+                      { value: 'dark', label: 'Dark' },
                     ]}
                     fullWidth
                   />
@@ -1149,7 +1036,7 @@ const Settings: React.FC = () => {
           )}
 
           {/* Billing Settings */}
-          {activeTab === "billing" && (
+          {activeTab === 'billing' && (
             <div className="space-y-6">
               <div className="bg-github-darker border border-github-border rounded-md p-6 text-center">
                 <h2 className="text-lg font-semibold mb-2">
