@@ -8,16 +8,18 @@ import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Auth from './pages/Auth';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 const queryClient = new QueryClient();
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+
+function RouteComponent() {
+  const auth = useAuth();
+
+  if (auth.isAuthenticated) {
+    return (
+      <>
         <Router>
           <Routes>
-            <Route path="/auth" element={<Auth />} />
             <Route path="/" element={<Layout />}>
               <Route index element={<Dashboard />} />
               <Route path="repositories" element={<Repositories />} />
@@ -28,6 +30,30 @@ function App() {
             </Route>
           </Routes>
         </Router>
+      </>
+    );
+  }
+
+  if (!auth.isAuthenticated) {
+    return (
+      <>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Auth />} />
+          </Routes>
+        </Router>
+      </>
+    );
+  }
+
+  return null;
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouteComponent />
       </AuthProvider>
     </QueryClientProvider>
   );

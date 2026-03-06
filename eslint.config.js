@@ -1,14 +1,35 @@
-import tseslint from 'typescript-eslint';
+import { fixupConfigRules } from '@eslint/compat';
+import js from '@eslint/js';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactJsx from 'eslint-plugin-react/configs/jsx-runtime.js';
+import react from 'eslint-plugin-react/configs/recommended.js';
+import globals from 'globals';
+import ts from 'typescript-eslint';
 
 export default [
-  {
-    files: ['**/*.ts', '**/*.tsx'],
-    languageOptions: {
-      parser: tseslint.parser,
-      parserOptions: {
-        project: './tsconfig.json',
-        tsconfigRootDir: import.meta.dirname,
+  { languageOptions: { globals: globals.browser } },
+  js.configs.recommended,
+  ...ts.configs.recommended,
+  ...fixupConfigRules([
+    {
+      ...react,
+      settings: {
+        react: { version: 'detect' },
       },
     },
+    reactJsx,
+  ]),
+  {
+    plugins: {
+      'react-hooks': reactHooks,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'react/prop-types': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'import/no-unresolved': ['error', { ignore: ['\\.css$'] }],
+    },
   },
+  { ignores: ['dist/'] },
 ];

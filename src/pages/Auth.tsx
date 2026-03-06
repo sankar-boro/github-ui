@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Github,
   Mail,
@@ -10,11 +10,9 @@ import {
   AlertCircle,
   CheckCircle,
   ArrowRight,
-} from "lucide-react";
-import { useAuth } from "../contexts/AuthContext";
-import Button from "../components/common/Button";
-import Input from "../components/common/Input";
-import Alert from "../components/common/Alert";
+} from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { Button, Input, Alert } from '../components/common';
 
 interface AuthFormData {
   username: string;
@@ -31,16 +29,24 @@ interface FormErrors {
   general?: string;
 }
 
+enum UI {
+  LOGIN,
+  SIGNUP,
+  GITHUB_LOGIN,
+}
+
 const Auth: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [isLogin, setIsLogin] = useState(true);
+  // const [isLogin, setIsLogin] = useState(false);
+  const [ui, setUi] = useState(UI.LOGIN);
+
   const [formData, setFormData] = useState<AuthFormData>({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: 'sankar.boro@yahoo.com',
+    email: 'sankar.boro@yahoo.com',
+    password: 'sankar_boro',
+    confirmPassword: 'sankar_boro',
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
@@ -51,31 +57,31 @@ const Auth: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!isLogin) {
+    if (ui === UI.SIGNUP) {
       if (!formData.username) {
-        newErrors.username = "Username is required";
+        newErrors.username = 'Username is required';
       } else if (formData.username.length < 3) {
-        newErrors.username = "Username must be at least 3 characters";
+        newErrors.username = 'Username must be at least 3 characters';
       } else if (!/^[a-zA-Z0-9-]+$/.test(formData.username)) {
         newErrors.username =
-          "Username can only contain letters, numbers, and hyphens";
+          'Username can only contain letters, numbers, and hyphens';
       }
 
       if (!formData.email) {
-        newErrors.email = "Email is required";
+        newErrors.email = 'Email is required';
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = "Email is invalid";
+        newErrors.email = 'Email is invalid';
       }
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required";
+      newErrors.password = 'Password is required';
     } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
+      newErrors.password = 'Password must be at least 8 characters';
     }
 
-    if (!isLogin && formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
+    if (ui === UI.SIGNUP && formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
     }
 
     setErrors(newErrors);
@@ -95,7 +101,7 @@ const Auth: React.FC = () => {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      if (isLogin) {
+      if (ui === UI.LOGIN) {
         // Login
         // const response = await authApi.login({
         //   username: formData.username,
@@ -103,31 +109,33 @@ const Auth: React.FC = () => {
         // });
 
         // Mock successful login
-        login("fake-jwt-token", {
-          id: 1,
-          username: formData.username || "john-doe",
-          email: formData.email || "john@example.com",
-          name: "John Doe",
-          avatar: `https://ui-avatars.com/api/?name=${formData.username || "John+Doe"}`,
-        });
+        // login('fake-jwt-token', {
+        //   id: 1,
+        //   username: formData.username || 'john-doe',
+        //   email: formData.email || 'john@example.com',
+        //   name: 'John Doe',
+        //   avatar: `https://ui-avatars.com/api/?name=${formData.username || 'John+Doe'}`,
+        // });
 
-        navigate("/");
+        login(formData.username, formData.password);
+
+        navigate('/');
       } else {
         // Register
         // const response = await authApi.register(formData);
 
         setSuccessMessage(
-          "Account created successfully! Please check your email to verify your account.",
+          'Account created successfully! Please check your email to verify your account.',
         );
 
         // Switch to login after successful registration
         setTimeout(() => {
-          setIsLogin(true);
+          setUi(UI.LOGIN);
           setFormData({
-            username: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
           });
           setSuccessMessage(null);
         }, 3000);
@@ -135,7 +143,7 @@ const Auth: React.FC = () => {
     } catch (err: any) {
       setErrors({
         general:
-          err.response?.data?.message || "An error occurred. Please try again.",
+          err.response?.data?.message || 'An error occurred. Please try again.',
       });
     } finally {
       setLoading(false);
@@ -152,20 +160,21 @@ const Auth: React.FC = () => {
   };
 
   const toggleMode = () => {
-    setIsLogin(!isLogin);
+    // setIsLogin(!isLogin);
+    setUi(ui === UI.LOGIN ? UI.SIGNUP : UI.LOGIN);
     setErrors({});
     setSuccessMessage(null);
     setFormData({
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     });
   };
 
   const handleGithubLogin = () => {
     // Redirect to GitHub OAuth
-    window.location.href = "/api/auth/github";
+    window.location.href = '/api/auth/github';
   };
 
   return (
@@ -175,15 +184,19 @@ const Auth: React.FC = () => {
         <div className="text-center">
           <Github size={48} className="mx-auto text-white" />
           <h2 className="mt-6 text-3xl font-bold text-white">
-            {isLogin ? "Sign in to GitHub Clone" : "Create your account"}
+            {ui === UI.LOGIN
+              ? 'Sign in to GitHub Clone'
+              : 'Create your account'}
           </h2>
           <p className="mt-2 text-sm text-gray-400">
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
+            {ui === UI.LOGIN
+              ? "Don't have an account? "
+              : 'Already have an account? '}
             <button
               onClick={toggleMode}
               className="text-blue-400 hover:underline font-medium"
             >
-              {isLogin ? "Sign up" : "Sign in"}
+              {ui === UI.LOGIN ? 'Sign up' : 'Sign in'}
             </button>
           </p>
         </div>
@@ -215,37 +228,37 @@ const Auth: React.FC = () => {
         {/* Auth form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            {!isLogin && (
-              <>
-                <Input
-                  name="username"
-                  type="text"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="Username"
-                  leftIcon={<User size={16} />}
-                  error={errors.username}
-                  fullWidth
-                  autoComplete="username"
-                />
+            {(ui === UI.LOGIN || ui === UI.SIGNUP) && (
+              <Input
+                name="username"
+                type="text"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Username"
+                leftIcon={<User size={16} />}
+                error={errors.username}
+                fullWidth
+                autoComplete="username"
+              />
+            )}
 
-                <Input
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email address"
-                  leftIcon={<Mail size={16} />}
-                  error={errors.email}
-                  fullWidth
-                  autoComplete="email"
-                />
-              </>
+            {ui === UI.SIGNUP && (
+              <Input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email address"
+                leftIcon={<Mail size={16} />}
+                error={errors.email}
+                fullWidth
+                autoComplete="email"
+              />
             )}
 
             <Input
               name="password"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               value={formData.password}
               onChange={handleChange}
               placeholder="Password"
@@ -256,13 +269,15 @@ const Auth: React.FC = () => {
               onRightIconClick={() => setShowPassword(!showPassword)}
               error={errors.password}
               fullWidth
-              autoComplete={isLogin ? "current-password" : "new-password"}
+              autoComplete={
+                ui === UI.LOGIN ? 'current-password' : 'new-password'
+              }
             />
 
-            {!isLogin && (
+            {ui === UI.SIGNUP && (
               <Input
                 name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
+                type={showConfirmPassword ? 'text' : 'password'}
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm password"
@@ -280,11 +295,11 @@ const Auth: React.FC = () => {
             )}
           </div>
 
-          {isLogin && (
+          {ui === UI.LOGIN && (
             <div className="flex items-center justify-end">
               <button
                 type="button"
-                onClick={() => navigate("/forgot-password")}
+                onClick={() => navigate('/forgot-password')}
                 className="text-sm text-blue-400 hover:underline"
               >
                 Forgot password?
@@ -302,7 +317,7 @@ const Auth: React.FC = () => {
               icon={<ArrowRight size={16} />}
               iconPosition="right"
             >
-              {isLogin ? "Sign in" : "Create account"}
+              {ui === UI.LOGIN ? 'Sign in' : 'Create account'}
             </Button>
           </div>
 
@@ -331,13 +346,13 @@ const Auth: React.FC = () => {
           </Button>
 
           {/* Terms */}
-          {!isLogin && (
+          {ui === UI.SIGNUP && (
             <p className="text-xs text-center text-gray-400">
-              By creating an account, you agree to our{" "}
+              By creating an account, you agree to our{' '}
               <a href="/terms" className="text-blue-400 hover:underline">
                 Terms of Service
-              </a>{" "}
-              and{" "}
+              </a>{' '}
+              and{' '}
               <a href="/privacy" className="text-blue-400 hover:underline">
                 Privacy Policy
               </a>
@@ -346,7 +361,7 @@ const Auth: React.FC = () => {
         </form>
 
         {/* Password requirements (for signup) */}
-        {!isLogin && (
+        {ui === UI.SIGNUP && (
           <div className="bg-github-darker border border-github-border rounded-md p-4 mt-4">
             <h3 className="text-sm font-medium mb-2">Password requirements:</h3>
             <ul className="space-y-1 text-xs text-gray-400">
