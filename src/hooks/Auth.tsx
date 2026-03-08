@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { User } from '../types';
 import {
   LOGIN_URL,
@@ -48,26 +48,28 @@ export const isTokenExpired = (token: string | null): boolean => {
   return decoded.exp < currentTime;
 };
 
-export const useInitAuthUser = (
-  refreshUserToken: () => Promise<{
-    user: User | null;
-    isAuthenticated: boolean;
-  }>,
-): [
+export const useInitAuthUser = (): [
   User | null,
   boolean,
   string | null,
   React.Dispatch<React.SetStateAction<User | null>>,
   React.Dispatch<React.SetStateAction<boolean>>,
   React.Dispatch<React.SetStateAction<string | null>>,
+  () => Promise<{
+    user: User | null;
+    isAuthenticated: boolean;
+  }>,
 ] => {
+  const started = useRef(false);
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const refreshUserToken = useRefreshToken();
 
   // Initialize auth state
   useEffect(() => {
     const initializeAuth = async () => {
+      console.log('init auth');
       setIsLoading(true);
       setError(null);
 
@@ -82,9 +84,11 @@ export const useInitAuthUser = (
 
       // Check if token is expired
       if (isTokenExpired(token)) {
+        console.log('Token expired.');
         // Try to refresh the token
         const refreshed = await refreshUserToken();
         if (!refreshed) {
+          console.log('Token not refreshed');
           // If refresh fails, clear everything
           // localStorage.removeItem('token');
           // localStorage.removeItem('refreshToken');
@@ -92,6 +96,7 @@ export const useInitAuthUser = (
           setIsLoading(false);
           return;
         } else {
+          console.log('Token refreshed');
           setUser(refreshed.user);
           setIsLoading(false);
           return;
@@ -103,7 +108,7 @@ export const useInitAuthUser = (
         const response = await fetch(VALIDATE_TOKEN_URL, {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${token}`,
           },
           credentials: 'include',
         });
@@ -111,6 +116,7 @@ export const useInitAuthUser = (
         if (response.ok) {
           const userData = storedUser && JSON.parse(storedUser);
           setUser(userData);
+          setIsLoading(false);
         } else {
           // Token invalid, clear storage
           // localStorage.removeItem('token');
@@ -120,20 +126,29 @@ export const useInitAuthUser = (
       } catch (error) {
         console.error('Auth validation failed:', error);
         // Don't clear on network error, keep existing state
-        const userData = storedUser && JSON.parse(storedUser);
-        setUser(userData);
+        // const userData = storedUser && JSON.parse(storedUser);
+        // setUser(userData);
       }
-
-      setIsLoading(false);
     };
 
-    initializeAuth();
-  }, [refreshUserToken]);
+    if (started.current === false) {
+      started.current = true;
+      initializeAuth();
+    }
+  }, []);
 
-  return [user, isLoading, error, setUser, setIsLoading, setError];
+  return [
+    user,
+    isLoading,
+    error,
+    setUser,
+    setIsLoading,
+    setError,
+    refreshUserToken,
+  ];
 };
-export const useRefreshToken = () =>
-  useCallback(async (): Promise<{
+export const useRefreshToken = () => {
+  return useCallback(async (): Promise<{
     user: User | null;
     isAuthenticated: boolean;
   }> => {
@@ -154,7 +169,7 @@ export const useRefreshToken = () =>
       }
 
       const data = await response.json();
-
+      console.log('-=sd-f=s', data);
       localStorage.setItem('token', data.data.token);
       localStorage.setItem('user', JSON.stringify(data.data.user));
 
@@ -163,7 +178,7 @@ export const useRefreshToken = () =>
       // }
 
       return {
-        user: data.data,
+        user: data.data.user,
         isAuthenticated: true,
       };
     } catch (error) {
@@ -175,6 +190,7 @@ export const useRefreshToken = () =>
       };
     }
   }, []);
+};
 
 export const useLogin = (
   setUser: React.Dispatch<React.SetStateAction<User | null>>,

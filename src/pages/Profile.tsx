@@ -80,7 +80,9 @@ const Profile: React.FC = () => {
   }, [user, username]);
 
   useEffect(() => {
-    fetchProfileData();
+    if (username && (username !== undefined || username !== 'undefined')) {
+      fetchProfileData();
+    }
   }, [username]);
 
   const fetchProfileData = async () => {
@@ -90,7 +92,7 @@ const Profile: React.FC = () => {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      const response = await fetch(USERS_PROFILE_URL + '/' + user?.username, {
+      const response = await fetch(USERS_PROFILE_URL + '/' + username, {
         method: 'GET',
         credentials: 'include',
       });
@@ -116,7 +118,7 @@ const Profile: React.FC = () => {
   };
 
   const handleEditProfile = () => {
-    navigate('/settings/profile');
+    navigate('/settings');
   };
 
   const formatDate = (dateString: string) => {

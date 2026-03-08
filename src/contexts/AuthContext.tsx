@@ -31,9 +31,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // Refresh the access token
-  const refreshUserToken = useRefreshToken();
-  const [user, isLoading, error, setUser, setIsLoading, setError] =
-    useInitAuthUser(refreshUserToken);
+  const [
+    user,
+    isLoading,
+    error,
+    setUser,
+    setIsLoading,
+    setError,
+    refreshUserToken,
+  ] = useInitAuthUser();
 
   // Login function
   const login = useLogin(setUser, setError, setIsLoading);
@@ -49,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Helper function to get auth header
 
-  if (isLoading) return null;
+  // if (isLoading) return null;
 
   return (
     <AuthContext.Provider
