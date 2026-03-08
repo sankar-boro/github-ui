@@ -9,6 +9,7 @@ export interface LoginRequest {
 export interface LoginResponse {
   token: string;
   user: User;
+  refreshToken?: string;
 }
 
 export interface RegisterRequest {

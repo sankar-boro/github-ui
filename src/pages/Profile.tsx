@@ -4,20 +4,15 @@ import {
   MapPin,
   Link as LinkIcon,
   Twitter,
-  Mail,
   Calendar,
-  Users,
   Star,
   GitFork,
   BookOpen,
   Package,
-  Settings,
   Edit3,
   UserPlus,
   UserCheck,
-  MoreHorizontal,
   Building,
-  Briefcase,
   Github,
   Heart,
   ChevronRight,
@@ -33,12 +28,9 @@ import type {
   UserProfile,
   PinnedRepository,
 } from '../types/profile';
-import {
-  mockProfile,
-  mockPinnedRepos,
-  mockRepositories,
-} from '../data/profile';
+import { mockProfile, mockPinnedRepos } from '../data/profile';
 import { USERS_PROFILE_URL } from '../config';
+import { useUserRepositories } from '../hooks/Profile';
 
 // Generate mock contribution data
 const generateContributions = (): Contribution[] => {
@@ -75,7 +67,7 @@ const Profile: React.FC = () => {
 
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [pinnedRepos, setPinnedRepos] = useState<PinnedRepository[]>([]);
-  const [repositories, setRepositories] = useState<any[]>([]);
+  const [repositories] = useUserRepositories(user);
   const [contributions] = useState<Contribution[]>(mockContributions);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -106,7 +98,6 @@ const Profile: React.FC = () => {
       const userProfile = jsonResponse.data.user;
       setProfile({ ...userProfile, status: mockProfile.status });
       setPinnedRepos(mockPinnedRepos);
-      setRepositories(mockRepositories);
     } catch (err) {
       setError('Failed to load profile. Please try again.');
     } finally {

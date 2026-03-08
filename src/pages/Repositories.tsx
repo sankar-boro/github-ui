@@ -32,13 +32,14 @@ import type {
   SortDirection,
 } from '../types/repositories';
 import { mockRepositories, languageOptions } from '../data/repositories';
+import { useUserRepositories } from '../hooks/Profile';
 
 const RepositoriesPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
   // State
-  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [repositories, setRepositories] = useUserRepositories(user);
   const [filteredRepositories, setFilteredRepositories] = useState<
     Repository[]
   >([]);
@@ -92,8 +93,6 @@ const RepositoriesPage: React.FC = () => {
       // const response = await repositoriesApi.getAll();
       // setRepositories(response.data);
 
-      setRepositories(mockRepositories);
-
       // Calculate stats
       calculateStats(mockRepositories);
     } catch (err) {
@@ -125,7 +124,7 @@ const RepositoriesPage: React.FC = () => {
   };
 
   const applyFilters = () => {
-    let filtered = [...repositories];
+    let filtered = repositories ? repositories : [];
 
     // Apply type filter
     switch (filters.type) {

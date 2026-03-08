@@ -1,3 +1,36 @@
+// interface AuthContextType {
+//   user: User | null;
+//   isLoading: boolean;
+//   error: string | null;
+//   login: (email: string, password: string) => Promise<void>;
+//   logout: () => Promise<void>;
+//   register: (userData: RegisterData) => Promise<void>;
+//   updateUser: (userData: Partial<User>) => Promise<void>;
+//   refreshUserToken: () => Promise<{
+//     user: User | null;
+//     isAuthenticated: boolean;
+//   }>;
+//   isAuthenticated: boolean;
+// }
+
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+  [key: string]: any;
+}
+
+// interface LoginResponse {
+//   token: string;
+//   refreshToken?: string;
+//   user: User;
+// }
+
+// interface TokenPayload {
+//   exp: number;
+//   [key: string]: any;
+// }
+
 // Base user type for authenticated user (minimal info from JWT/session)
 export interface AuthUser {
   id: number;

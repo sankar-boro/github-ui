@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { GitFork, Star, Clock } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { GitFork, Star, Clock } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
 
 interface Repository {
   id: number;
@@ -11,7 +11,7 @@ interface Repository {
   stars: number;
   forks: number;
   // visibility: "public" | "private";
-  visibility: string;
+  private: boolean;
   updatedAt: string;
 }
 
@@ -21,12 +21,12 @@ interface RepositoryCardProps {
 
 const RepositoryCard: React.FC<RepositoryCardProps> = ({ repository }) => {
   const languageColors: Record<string, string> = {
-    TypeScript: "bg-blue-500",
-    JavaScript: "bg-yellow-500",
-    Python: "bg-green-500",
-    "Vim script": "bg-green-700",
-    Rust: "bg-orange-600",
-    Go: "bg-cyan-500",
+    TypeScript: 'bg-blue-500',
+    JavaScript: 'bg-yellow-500',
+    Python: 'bg-green-500',
+    'Vim script': 'bg-green-700',
+    Rust: 'bg-orange-600',
+    Go: 'bg-cyan-500',
   };
 
   return (
@@ -41,7 +41,7 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repository }) => {
               {repository.name}
             </Link>
             <span className="px-2 py-0.5 text-xs border border-github-border rounded-full">
-              {repository.visibility}
+              {repository.private ? 'private' : 'public'}
             </span>
           </div>
 
@@ -51,7 +51,7 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repository }) => {
             {repository.language && (
               <span className="flex items-center space-x-1">
                 <span
-                  className={`w-3 h-3 rounded-full ${languageColors[repository.language] || "bg-gray-500"}`}
+                  className={`w-3 h-3 rounded-full ${languageColors[repository.language] || 'bg-gray-500'}`}
                 ></span>
                 <span>{repository.language}</span>
               </span>
@@ -70,7 +70,7 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repository }) => {
             <span className="flex items-center space-x-1">
               <Clock size={14} />
               <span>
-                Updated {formatDistanceToNow(new Date(repository.updatedAt))}{" "}
+                Updated {formatDistanceToNow(new Date(repository.updatedAt))}{' '}
                 ago
               </span>
             </span>

@@ -8,3 +8,5 @@ export const REFRESH_TOKEN_URL = API_URL + '/refreshToken';
 export const VALIDATE_TOKEN_URL = API_URL + '/validateToken';
 //
 export const USERS_PROFILE_URL = API_URL;
+//
+export const REPOS_URL = API_URL + '/repos';
