@@ -38,6 +38,7 @@ import {
   mockPinnedRepos,
   mockRepositories,
 } from '../data/profile';
+import { USERS_PROFILE_URL } from '../config';
 
 // Generate mock contribution data
 const generateContributions = (): Contribution[] => {
@@ -97,8 +98,13 @@ const Profile: React.FC = () => {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setProfile(mockProfile);
+      const response = await fetch(USERS_PROFILE_URL + '/' + user?.username, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const jsonResponse = await response.json();
+      const userProfile = jsonResponse.data.user;
+      setProfile({ ...userProfile, status: mockProfile.status });
       setPinnedRepos(mockPinnedRepos);
       setRepositories(mockRepositories);
     } catch (err) {
@@ -205,13 +211,13 @@ const Profile: React.FC = () => {
         <div className="col-span-12 lg:col-span-3">
           <div className="sticky top-20">
             <img
-              src={profile.avatar}
-              alt={profile.name}
+              src={profile.avatar_url}
+              alt={profile.full_name}
               className="w-full rounded-full border border-github-border mb-4"
             />
 
             <div className="mb-4">
-              <h1 className="text-2xl font-semibold">{profile.name}</h1>
+              <h1 className="text-2xl font-semibold">{profile.full_name}</h1>
               <p className="text-gray-400 text-lg">@{profile.username}</p>
 
               {profile.isVerified && (

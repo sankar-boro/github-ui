@@ -114,7 +114,7 @@ const Auth: React.FC = () => {
         //   username: formData.username || 'john-doe',
         //   email: formData.email || 'john@example.com',
         //   name: 'John Doe',
-        //   avatar: `https://ui-avatars.com/api/?name=${formData.username || 'John+Doe'}`,
+        //   avatar_url: `https://ui-avatars.com/api/?name=${formData.username || 'John+Doe'}`,
         // });
 
         login(formData.username, formData.password);

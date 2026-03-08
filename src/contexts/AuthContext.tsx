@@ -1,60 +1,3 @@
-// import React, { createContext, useContext, useState, useEffect } from 'react';
-// import type { User } from '../types';
-
-// interface AuthContextType {
-//   user: User | null;
-//   isLoading: boolean;
-//   login: (token: string, user: User) => void;
-//   logout: () => void;
-// }
-
-// const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-//   children,
-// }) => {
-//   const [user, setUser] = useState<User | null>(null);
-//   const [isLoading, setIsLoading] = useState(true);
-
-//   useEffect(() => {
-//     // Check for stored auth data
-//     const token = localStorage.getItem('token');
-//     const storedUser = localStorage.getItem('user');
-
-//     if (token && storedUser) {
-//       setUser(JSON.parse(storedUser));
-//     }
-
-//     setIsLoading(false);
-//   }, []);
-
-//   const login = (token: string, user: User) => {
-//     localStorage.setItem('token', token);
-//     localStorage.setItem('user', JSON.stringify(user));
-//     setUser(user);
-//   };
-
-//   const logout = () => {
-//     localStorage.removeItem('token');
-//     localStorage.removeItem('user');
-//     setUser(null);
-//   };
-
-//   return (
-//     <AuthContext.Provider value={{ user, isLoading, login, logout }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-// export const useAuth = () => {
-//   const context = useContext(AuthContext);
-//   if (context === undefined) {
-//     throw new Error('useAuth must be used within an AuthProvider');
-//   }
-//   return context;
-// };
-
 import React, {
   createContext,
   useContext,
@@ -63,6 +6,14 @@ import React, {
   useCallback,
 } from 'react';
 import type { User } from '../types';
+import {
+  REFRESH_TOKEN_URL,
+  VALIDATE_TOKEN_URL,
+  LOGIN_URL,
+  LOGOUT_URL,
+  REGISTER_URL,
+  USERS_PROFILE_URL,
+} from '../config';
 
 interface AuthContextType {
   user: User | null;
@@ -98,9 +49,6 @@ interface TokenPayload {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-// API base URL - adjust based on your environment
-const API_BASE_URL = process.env.APP_API_URL || 'http://localhost:5000/api';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -145,7 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // const refreshToken = localStorage.getItem('refreshToken');
       // if (!refreshToken) return false;
 
-      const response = await fetch(`${API_BASE_URL}/refreshToken`, {
+      const response = await fetch(REFRESH_TOKEN_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -214,7 +162,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       // Validate token with backend
       try {
-        const response = await fetch(`${API_BASE_URL}/validateToken`, {
+        const response = await fetch(VALIDATE_TOKEN_URL, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -250,7 +198,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const response = await fetch(LOGIN_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -293,7 +241,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
+      const response = await fetch(REGISTER_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -338,7 +286,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (token) {
         // Notify backend about logout (optional)
-        await fetch(`${API_BASE_URL}/logout`, {
+        await fetch(LOGOUT_URL, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -368,7 +316,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`${API_BASE_URL}/users/profile`, {
+      const response = await fetch(USERS_PROFILE_URL, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,

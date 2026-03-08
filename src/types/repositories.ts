@@ -16,7 +16,7 @@ export interface Repository {
   pushedAt: string;
   owner: {
     login: string;
-    avatar: string;
+    avatar_url: string;
   };
   permissions?: {
     admin: boolean;

@@ -4,9 +4,9 @@ import type { UserProfile, PinnedRepository } from '../types/profile';
 export const mockProfile: UserProfile = {
   id: 1,
   username: 'john-doe',
-  name: 'John Doe',
+  full_name: 'John Doe',
   email: 'john@example.com',
-  avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+  avatar_url: 'https://ui-avatars.com/api/?name=Sankar+Boro',
   bio: 'Full-stack developer passionate about open source. Creating tools for developers.',
   company: '@acme-corp',
   location: 'San Francisco, CA',
@@ -78,7 +78,7 @@ export const mockRepositories = [
     updatedAt: '2024-01-15T10:30:00Z',
     owner: {
       login: 'john-doe',
-      avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+      avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
     },
     private: false,
   },

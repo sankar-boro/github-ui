@@ -10,7 +10,7 @@ export interface TrendingRepository {
   todayStars: number;
   owner: {
     login: string;
-    avatar: string;
+    avatar_url: string;
   };
 }
 
@@ -18,7 +18,7 @@ export interface Developer {
   id: number;
   username: string;
   name: string;
-  avatar: string;
+  avatar_url: string;
   bio: string | null;
   repositories: number;
   followers: number;

@@ -1,0 +1,10 @@
+export const API_URL = process.env.API_URL || 'http://localhost:2000';
+//
+export const LOGIN_URL = API_URL + '/login';
+export const REGISTER_URL = API_URL + '/register';
+export const LOGOUT_URL = API_URL + '/logout';
+//
+export const REFRESH_TOKEN_URL = API_URL + '/refreshToken';
+export const VALIDATE_TOKEN_URL = API_URL + '/validateToken';
+//
+export const USERS_PROFILE_URL = API_URL;

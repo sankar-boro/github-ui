@@ -3,7 +3,7 @@ export interface AuthUser {
   id: number;
   username: string;
   email: string;
-  name?: string | null;
+  full_name: string | null;
   avatar?: string | null;
   // Only essential fields needed for the UI immediately after login
   role?: 'user' | 'admin' | 'moderator';

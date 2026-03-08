@@ -2,9 +2,9 @@
 export interface UserProfile {
   id: number;
   username: string;
-  name: string;
+  full_name: string;
   email: string;
-  avatar: string;
+  avatar_url: string;
   bio: string | null;
   company: string | null;
   location: string | null;

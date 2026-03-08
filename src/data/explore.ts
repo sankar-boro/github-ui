@@ -13,7 +13,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
     todayStars: 850,
     owner: {
       login: 'browser-use',
-      avatar: 'https://ui-avatars.com/api/?name=Browser+Use',
+      avatar_url: 'https://ui-avatars.com/api/?name=Browser+Use',
     },
   },
   {
@@ -27,7 +27,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
     todayStars: 620,
     owner: {
       login: 'cline',
-      avatar: 'https://ui-avatars.com/api/?name=Cline',
+      avatar_url: 'https://ui-avatars.com/api/?name=Cline',
     },
   },
   {
@@ -41,7 +41,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
     todayStars: 1200,
     owner: {
       login: 'langgenius',
-      avatar: 'https://ui-avatars.com/api/?name=Langgenius',
+      avatar_url: 'https://ui-avatars.com/api/?name=Langgenius',
     },
   },
   {
@@ -55,7 +55,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
     todayStars: 450,
     owner: {
       login: 'supabase',
-      avatar: 'https://ui-avatars.com/api/?name=Supabase',
+      avatar_url: 'https://ui-avatars.com/api/?name=Supabase',
     },
   },
   {
@@ -69,7 +69,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
     todayStars: 230,
     owner: {
       login: 'calcom',
-      avatar: 'https://ui-avatars.com/api/?name=Cal.com',
+      avatar_url: 'https://ui-avatars.com/api/?name=Cal.com',
     },
   },
 ];
@@ -79,7 +79,7 @@ export const mockDevelopers: Developer[] = [
     id: 1,
     username: 'karpathy',
     name: 'Andrej Karpathy',
-    avatar: 'https://ui-avatars.com/api/?name=Andrej+Karpathy',
+    avatar_url: 'https://ui-avatars.com/api/?name=Andrej+Karpathy',
     bio: 'Working on AI @ OpenAI. Previously Director of AI at Tesla.',
     repositories: 89,
     followers: 245000,
@@ -93,7 +93,7 @@ export const mockDevelopers: Developer[] = [
     id: 2,
     username: 'tj',
     name: 'TJ Holowaychuk',
-    avatar: 'https://ui-avatars.com/api/?name=TJ+Holowaychuk',
+    avatar_url: 'https://ui-avatars.com/api/?name=TJ+Holowaychuk',
     bio: 'Co-founder @ Apex. Creator of Express, Koa, and many other open source projects.',
     repositories: 312,
     followers: 189000,
@@ -107,7 +107,7 @@ export const mockDevelopers: Developer[] = [
     id: 3,
     username: 'yyx990803',
     name: 'Evan You',
-    avatar: 'https://ui-avatars.com/api/?name=Evan+You',
+    avatar_url: 'https://ui-avatars.com/api/?name=Evan+You',
     bio: 'Creator of Vue.js, Vite, and VoidZero.',
     repositories: 156,
     followers: 178000,

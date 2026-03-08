@@ -3,7 +3,7 @@ export interface User {
   id: number;
   username: string;
   email: string;
-  name?: string;
+  full_name?: string;
   avatar?: string;
   bio?: string;
   company?: string;
@@ -184,13 +184,13 @@ export interface CommitFile {
   sha: string;
   filename: string;
   status:
-    | "added"
-    | "modified"
-    | "removed"
-    | "renamed"
-    | "copied"
-    | "changed"
-    | "unchanged";
+    | 'added'
+    | 'modified'
+    | 'removed'
+    | 'renamed'
+    | 'copied'
+    | 'changed'
+    | 'unchanged';
   additions: number;
   deletions: number;
   changes: number;
@@ -210,7 +210,7 @@ export interface Tree {
 export interface TreeItem {
   path: string;
   mode: string;
-  type: "blob" | "tree" | "commit";
+  type: 'blob' | 'tree' | 'commit';
   sha: string;
   size?: number;
   url: string;
@@ -222,7 +222,7 @@ export interface Blob {
   size: number;
   url: string;
   content: string;
-  encoding: "utf-8" | "base64";
+  encoding: 'utf-8' | 'base64';
 }
 
 // Issue related types
@@ -235,7 +235,7 @@ export interface Issue {
   assignees?: User[];
   labels?: Label[];
   milestone?: Milestone;
-  state: "open" | "closed";
+  state: 'open' | 'closed';
   locked: boolean;
   comments: number;
   pullRequest?: PullRequestReference;
@@ -273,7 +273,7 @@ export interface Milestone {
   creator: User;
   openIssues: number;
   closedIssues: number;
-  state: "open" | "closed";
+  state: 'open' | 'closed';
   createdAt: string;
   updatedAt: string;
   dueOn?: string;
@@ -283,8 +283,8 @@ export interface Milestone {
 export interface Reactions {
   url: string;
   totalCount: number;
-  "+1": number;
-  "-1": number;
+  '+1': number;
+  '-1': number;
   laugh: number;
   hooray: number;
   confused: number;
@@ -305,7 +305,7 @@ export interface PullRequest {
   requestedTeams?: Team[];
   labels?: Label[];
   milestone?: Milestone;
-  state: "open" | "closed";
+  state: 'open' | 'closed';
   locked: boolean;
   merged: boolean;
   mergeable?: boolean;
@@ -352,11 +352,11 @@ export interface Review {
   body?: string;
   commitId: string;
   state:
-    | "APPROVED"
-    | "CHANGES_REQUESTED"
-    | "COMMENTED"
-    | "DISMISSED"
-    | "PENDING";
+    | 'APPROVED'
+    | 'CHANGES_REQUESTED'
+    | 'COMMENTED'
+    | 'DISMISSED'
+    | 'PENDING';
   submittedAt: string;
   htmlUrl: string;
   pullRequestUrl: string;
@@ -395,7 +395,7 @@ export interface Organization {
   following: number;
   createdAt: string;
   updatedAt: string;
-  type: "Organization";
+  type: 'Organization';
   isVerified?: boolean;
   members?: User[];
   teams?: Team[];
@@ -407,8 +407,8 @@ export interface Team {
   name: string;
   slug: string;
   description?: string;
-  privacy: "closed" | "secret";
-  permission: "pull" | "push" | "admin";
+  privacy: 'closed' | 'secret';
+  permission: 'pull' | 'push' | 'admin';
   membersCount: number;
   reposCount: number;
   organization: Organization;
@@ -442,22 +442,22 @@ export interface Event {
 }
 
 export type EventType =
-  | "CommitCommentEvent"
-  | "CreateEvent"
-  | "DeleteEvent"
-  | "ForkEvent"
-  | "GollumEvent"
-  | "IssueCommentEvent"
-  | "IssuesEvent"
-  | "MemberEvent"
-  | "PublicEvent"
-  | "PullRequestEvent"
-  | "PullRequestReviewEvent"
-  | "PullRequestReviewCommentEvent"
-  | "PushEvent"
-  | "ReleaseEvent"
-  | "SponsorshipEvent"
-  | "WatchEvent";
+  | 'CommitCommentEvent'
+  | 'CreateEvent'
+  | 'DeleteEvent'
+  | 'ForkEvent'
+  | 'GollumEvent'
+  | 'IssueCommentEvent'
+  | 'IssuesEvent'
+  | 'MemberEvent'
+  | 'PublicEvent'
+  | 'PullRequestEvent'
+  | 'PullRequestReviewEvent'
+  | 'PullRequestReviewCommentEvent'
+  | 'PushEvent'
+  | 'ReleaseEvent'
+  | 'SponsorshipEvent'
+  | 'WatchEvent';
 
 export interface PushEventPayload {
   pushId: number;
@@ -471,31 +471,31 @@ export interface PushEventPayload {
 
 export interface PullRequestEventPayload {
   action:
-    | "opened"
-    | "closed"
-    | "reopened"
-    | "synchronize"
-    | "edited"
-    | "assigned"
-    | "unassigned"
-    | "review_requested"
-    | "review_request_removed"
-    | "labeled"
-    | "unlabeled";
+    | 'opened'
+    | 'closed'
+    | 'reopened'
+    | 'synchronize'
+    | 'edited'
+    | 'assigned'
+    | 'unassigned'
+    | 'review_requested'
+    | 'review_request_removed'
+    | 'labeled'
+    | 'unlabeled';
   number: number;
   pullRequest: PullRequest;
 }
 
 export interface IssuesEventPayload {
   action:
-    | "opened"
-    | "closed"
-    | "reopened"
-    | "edited"
-    | "assigned"
-    | "unassigned"
-    | "labeled"
-    | "unlabeled";
+    | 'opened'
+    | 'closed'
+    | 'reopened'
+    | 'edited'
+    | 'assigned'
+    | 'unassigned'
+    | 'labeled'
+    | 'unlabeled';
   issue: Issue;
 }
 
@@ -516,12 +516,12 @@ export interface NotificationSubject {
   url: string;
   latestCommentUrl?: string;
   type:
-    | "Issue"
-    | "PullRequest"
-    | "Commit"
-    | "Release"
-    | "RepositoryInvitation"
-    | "RepositoryVulnerabilityAlert";
+    | 'Issue'
+    | 'PullRequest'
+    | 'Commit'
+    | 'Release'
+    | 'RepositoryInvitation'
+    | 'RepositoryVulnerabilityAlert';
 }
 
 // Search types
@@ -534,7 +534,7 @@ export interface SearchResult<T> {
 export interface SearchQuery {
   q: string;
   sort?: string;
-  order?: "asc" | "desc";
+  order?: 'asc' | 'desc';
   perPage?: number;
   page?: number;
 }
@@ -571,7 +571,7 @@ export interface Match {
 
 // File and content types
 export interface Content {
-  type: "file" | "dir" | "symlink" | "submodule";
+  type: 'file' | 'dir' | 'symlink' | 'submodule';
   encoding?: string;
   size: number;
   name: string;
@@ -713,7 +713,7 @@ export interface Webhook {
 
 export interface WebhookConfig {
   url: string;
-  contentType: "json" | "form";
+  contentType: 'json' | 'form';
   secret?: string;
   insecureSsl?: boolean;
 }
@@ -786,7 +786,7 @@ export interface Project {
   name: string;
   body?: string;
   number: number;
-  state: "open" | "closed";
+  state: 'open' | 'closed';
   creator: User;
   createdAt: string;
   updatedAt: string;
@@ -819,11 +819,11 @@ export interface Workflow {
   name: string;
   path: string;
   state:
-    | "active"
-    | "deleted"
-    | "disabled_fork"
-    | "disabled_inactivity"
-    | "disabled_manually";
+    | 'active'
+    | 'deleted'
+    | 'disabled_fork'
+    | 'disabled_inactivity'
+    | 'disabled_manually';
   createdAt: string;
   updatedAt: string;
   url: string;
@@ -839,15 +839,15 @@ export interface WorkflowRun {
   headSha: string;
   runNumber: number;
   event: string;
-  status: "queued" | "in_progress" | "completed";
+  status: 'queued' | 'in_progress' | 'completed';
   conclusion?:
-    | "success"
-    | "failure"
-    | "neutral"
-    | "cancelled"
-    | "skipped"
-    | "timed_out"
-    | "action_required";
+    | 'success'
+    | 'failure'
+    | 'neutral'
+    | 'cancelled'
+    | 'skipped'
+    | 'timed_out'
+    | 'action_required';
   workflowId: number;
   checkSuiteId: number;
   checkSuiteNodeId: string;
@@ -877,7 +877,7 @@ export interface WorkflowJob {
   headSha: string;
   url: string;
   htmlUrl: string;
-  status: "queued" | "in_progress" | "completed";
+  status: 'queued' | 'in_progress' | 'completed';
   conclusion?: string;
   startedAt: string;
   completedAt?: string;
@@ -893,7 +893,7 @@ export interface WorkflowJob {
 
 export interface WorkflowStep {
   name: string;
-  status: "queued" | "in_progress" | "completed";
+  status: 'queued' | 'in_progress' | 'completed';
   conclusion?: string;
   number: number;
   startedAt?: string;
@@ -904,10 +904,10 @@ export interface WorkflowStep {
 export interface Package {
   id: number;
   name: string;
-  packageType: "npm" | "maven" | "rubygems" | "docker" | "nuget" | "container";
+  packageType: 'npm' | 'maven' | 'rubygems' | 'docker' | 'nuget' | 'container';
   owner: User | Organization;
   versionCount: number;
-  visibility: "private" | "public";
+  visibility: 'private' | 'public';
   url: string;
   createdAt: string;
   updatedAt: string;
@@ -943,13 +943,13 @@ export interface DockerMetadata {
 export interface CodeScanningAlert {
   number: number;
   ruleId: string;
-  ruleSeverity: "none" | "note" | "warning" | "error";
+  ruleSeverity: 'none' | 'note' | 'warning' | 'error';
   ruleDescription: string;
   tool: CodeScanningTool;
   createdAt: string;
   updatedAt?: string;
   fixedAt?: string;
-  state: "open" | "fixed" | "dismissed";
+  state: 'open' | 'fixed' | 'dismissed';
   dismissedBy?: User;
   dismissedAt?: string;
   dismissedReason?: string;
@@ -971,7 +971,7 @@ export interface CodeScanningInstance {
   analysisKey: string;
   environment: string;
   category?: string;
-  state: "open" | "fixed" | "dismissed";
+  state: 'open' | 'fixed' | 'dismissed';
   commitSha: string;
   message: {
     text: string;
@@ -995,7 +995,7 @@ export interface SecretScanningAlert {
   url: string;
   htmlUrl: string;
   locationsUrl: string;
-  state: "open" | "resolved";
+  state: 'open' | 'resolved';
   resolution?: string;
   resolvedAt?: string;
   resolvedBy?: User;

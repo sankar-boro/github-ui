@@ -20,7 +20,7 @@ export const mockRepositories: Repository[] = [
     pushedAt: '2024-01-15T10:30:00Z',
     owner: {
       login: 'john-doe',
-      avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+      avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
     },
     permissions: {
       admin: true,
@@ -46,7 +46,7 @@ export const mockRepositories: Repository[] = [
     pushedAt: '2024-01-14T08:20:00Z',
     owner: {
       login: 'john-doe',
-      avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+      avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
     },
     permissions: {
       admin: true,
@@ -72,7 +72,7 @@ export const mockRepositories: Repository[] = [
     pushedAt: '2024-01-13T15:45:00Z',
     owner: {
       login: 'john-doe',
-      avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+      avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
     },
     permissions: {
       admin: false,
@@ -98,7 +98,7 @@ export const mockRepositories: Repository[] = [
     pushedAt: '2024-01-12T09:15:00Z',
     owner: {
       login: 'john-doe',
-      avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+      avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
     },
     permissions: {
       admin: true,
@@ -124,7 +124,7 @@ export const mockRepositories: Repository[] = [
     pushedAt: '2023-12-01T11:00:00Z',
     owner: {
       login: 'john-doe',
-      avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+      avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
     },
     permissions: {
       admin: true,
@@ -150,7 +150,7 @@ export const mockRepositories: Repository[] = [
     pushedAt: '2024-01-10T14:20:00Z',
     owner: {
       login: 'org-name',
-      avatar: 'https://ui-avatars.com/api/?name=Organization',
+      avatar_url: 'https://ui-avatars.com/api/?name=Organization',
     },
     permissions: {
       admin: false,
@@ -175,7 +175,7 @@ export const mockRepositories: Repository[] = [
     pushedAt: '2024-01-08T16:30:00Z',
     owner: {
       login: 'john-doe',
-      avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+      avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
     },
     permissions: {
       admin: true,
@@ -200,7 +200,7 @@ export const mockRepositories: Repository[] = [
     pushedAt: '2024-01-05T12:45:00Z',
     owner: {
       login: 'john-doe',
-      avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+      avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
     },
     permissions: {
       admin: true,
