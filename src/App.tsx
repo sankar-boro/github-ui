@@ -21,7 +21,7 @@ function RouteComponent() {
         <Router>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index element={<Dashboard />} />
+              <Route index element={<Dashboard auth={auth} />} />
               <Route path="repositories" element={<Repositories />} />
               <Route path="explore" element={<Explore />} />
               <Route path=":username" element={<Profile />} />

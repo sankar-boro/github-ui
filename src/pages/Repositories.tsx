@@ -526,7 +526,7 @@ const RepositoriesPage: React.FC = () => {
             {paginatedRepositories.map((repo) => (
               <div
                 key={repo.id}
-                onClick={() => handleRepositoryClick(repo)}
+                // onClick={() => handleRepositoryClick(repo)}
                 className="cursor-pointer"
               >
                 <RepositoryCard repository={repo} />

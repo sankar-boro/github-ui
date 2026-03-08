@@ -6,8 +6,9 @@ import { formatDistanceToNow } from 'date-fns';
 interface Repository {
   id: number;
   name: string;
-  description: string;
-  language: string;
+  full_name: string;
+  description?: string;
+  language?: string;
   stars: number;
   forks: number;
   // visibility: "public" | "private";
@@ -35,10 +36,10 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repository }) => {
         <div className="flex-1">
           <div className="flex items-center space-x-2">
             <Link
-              to={`/${repository.name}`}
+              to={`/${repository.full_name}/${repository.name}`}
               className="text-lg font-semibold text-blue-400 hover:underline"
             >
-              {repository.name}
+              {repository.full_name}/{repository.name}
             </Link>
             <span className="px-2 py-0.5 text-xs border border-github-border rounded-full">
               {repository.private ? 'private' : 'public'}

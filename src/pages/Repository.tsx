@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Star,
   GitFork,
@@ -15,42 +15,43 @@ import {
   ChevronDown,
   // Issue,
   // PullRequest,
-} from "lucide-react";
-import FileExplorer from "../components/repository/FileExplorer";
-import Readme from "../components/repository/Readme";
-import { formatDistanceToNow } from "date-fns";
+} from 'lucide-react';
+import FileExplorer from '../components/repository/FileExplorer';
+import Readme from '../components/repository/Readme';
+import { formatDistanceToNow } from 'date-fns';
 
 const Repository: React.FC = () => {
   const { username, repo } = useParams<{ username: string; repo: string }>();
+
   const [activeTab, setActiveTab] = useState<
-    "code" | "issues" | "pulls" | "actions"
-  >("code");
+    'code' | 'issues' | 'pulls' | 'actions'
+  >('code');
 
   // Mock repository data
   const repository = {
     name: repo,
     owner: username,
     description:
-      "A modern web application with amazing features and capabilities",
+      'A modern web application with amazing features and capabilities',
     stars: 1234,
     forks: 456,
     watchers: 89,
-    language: "TypeScript",
-    license: "MIT",
-    updatedAt: "2024-01-15T10:30:00Z",
-    branches: ["main", "develop", "feature/ui"],
-    defaultBranch: "main",
+    language: 'TypeScript',
+    license: 'MIT',
+    updatedAt: '2024-01-15T10:30:00Z',
+    branches: ['main', 'develop', 'feature/ui'],
+    defaultBranch: 'main',
   };
 
   const tabs = [
-    { id: "code", label: "Code", icon: Code2 },
-    { id: "issues", label: "Issues", icon: Code2, count: 23 },
-    { id: "pulls", label: "Pull requests", icon: Code2, count: 7 },
-    { id: "actions", label: "Actions", icon: Clock },
-    { id: "projects", label: "Projects" },
-    { id: "wiki", label: "Wiki" },
-    { id: "security", label: "Security" },
-    { id: "insights", label: "Insights" },
+    { id: 'code', label: 'Code', icon: Code2 },
+    { id: 'issues', label: 'Issues', icon: Code2, count: 23 },
+    { id: 'pulls', label: 'Pull requests', icon: Code2, count: 7 },
+    { id: 'actions', label: 'Actions', icon: Clock },
+    { id: 'projects', label: 'Projects' },
+    { id: 'wiki', label: 'Wiki' },
+    { id: 'security', label: 'Security' },
+    { id: 'insights', label: 'Insights' },
   ];
 
   return (
@@ -131,8 +132,8 @@ const Repository: React.FC = () => {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center space-x-2 px-4 py-2 text-sm border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? "border-orange-500 text-white"
-                  : "border-transparent text-gray-400 hover:text-gray-300"
+                  ? 'border-orange-500 text-white'
+                  : 'border-transparent text-gray-400 hover:text-gray-300'
               }`}
             >
               {tab.icon && <tab.icon size={16} />}
@@ -148,7 +149,7 @@ const Repository: React.FC = () => {
       </div>
 
       {/* Main content */}
-      {activeTab === "code" && (
+      {activeTab === 'code' && (
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 lg:col-span-8">
             <div className="bg-github-darker border border-github-border rounded-md">

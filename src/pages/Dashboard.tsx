@@ -1,43 +1,17 @@
 import React from 'react';
 import { GitFork, Star, Eye, Clock } from 'lucide-react';
 import RepositoryCard from '../components/repository/RepositoryCard';
+import { useRecentRepositories } from '../hooks/Dashboard';
+import type { AuthContextType } from '../types/auth';
+import type { JSX } from 'react/jsx-runtime';
 // import ActivityFeed from "../components/activity/ActivityFeed";
 
-const Dashboard: React.FC = () => {
-  // Mock data - replace with actual API calls
-  const recentRepositories = [
-    {
-      id: 1,
-      name: 'project-alpha',
-      description: 'A modern web application built with React and Node.js',
-      language: 'TypeScript',
-      stars: 128,
-      forks: 34,
-      visibility: 'public',
-      updatedAt: '2024-01-15T10:30:00Z',
-    },
-    {
-      id: 2,
-      name: 'dotfiles',
-      description: 'My personal dotfiles configuration',
-      language: 'Vim script',
-      stars: 45,
-      forks: 12,
-      visibility: 'private',
-      updatedAt: '2024-01-14T08:20:00Z',
-    },
-    {
-      id: 3,
-      name: 'awesome-project',
-      description: 'An awesome open-source project',
-      language: 'Python',
-      stars: 256,
-      forks: 78,
-      visibility: 'public',
-      updatedAt: '2024-01-13T15:45:00Z',
-    },
-  ];
-
+const Dashboard: ({ auth }: { auth: AuthContextType }) => JSX.Element = ({
+  auth,
+}: {
+  auth: AuthContextType;
+}) => {
+  const [recentRepositories] = useRecentRepositories(auth.user || null);
   return (
     <div className="max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
