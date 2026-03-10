@@ -9,6 +9,7 @@ export interface User {
   company?: string;
   location?: string;
   blog?: string;
+  website?: string;
   twitter?: string;
   publicRepos: number;
   publicGists: number;

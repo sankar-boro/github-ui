@@ -1,52 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  User,
+  // User,
+  // Lock,
+  // Bell,
+  // Shield,
+  // Key,
+  // LogOut,
+  // AlertTriangle,
+  // CheckCircle,
+  // Github,
+  // Globe,
+  // Palette,
+  // Code2,
+  // ChevronRight,
   Mail,
-  Lock,
-  Bell,
-  Shield,
-  Key,
-  LogOut,
   Eye,
   EyeOff,
   Camera,
   Save,
   Trash2,
-  AlertTriangle,
-  CheckCircle,
-  Github,
   Twitter,
   Link as LinkIcon,
   MapPin,
   Building,
-  Globe,
   Moon,
   Sun,
   Monitor,
-  Palette,
-  Code2,
-  ChevronRight,
 } from 'lucide-react';
+// import Tabs from '../components/common/Tabs';
 import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import Select from '../components/common/Select';
-import Tabs from '../components/common/Tabs';
 import Alert from '../components/common/Alert';
 import Skeleton from '../components/common/Skeleton';
 import type {
-  ProfileSettings,
+  // ProfileSettings,
   Session,
   SSHKey,
   NotificationSettings,
   AppearanceSettings,
 } from '../types/settings';
 import {
-  mockProfileSettings,
+  // mockProfileSettings,
   mockSessions,
   mockSSHKeys,
 } from '../data/settings';
+import type { User as AuthUser } from '../types';
+import { USERS_PROFILE_URL } from '../config';
 
 type SettingsTab =
   | 'profile'
@@ -67,7 +69,7 @@ const Settings: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Form states
-  const [profile, setProfile] = useState<ProfileSettings>(mockProfileSettings);
+  const [profile, setProfile] = useState<AuthUser | null>(null);
   const [notifications, setNotifications] = useState<NotificationSettings>({
     email: {
       mentions: true,
@@ -114,7 +116,7 @@ const Settings: React.FC = () => {
 
   // Two-factor authentication
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
-  const [showTwoFactorSetup, setShowTwoFactorSetup] = useState(false);
+  // const [showTwoFactorSetup, setShowTwoFactorSetup] = useState(false);
 
   useEffect(() => {
     fetchSettings();
@@ -125,6 +127,13 @@ const Settings: React.FC = () => {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await fetch(USERS_PROFILE_URL + '/' + user?.username, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const jsonResponse = await response.json();
+      const userProfile = jsonResponse.data.user;
+      setProfile(userProfile);
       // Data would be fetched here
     } catch (err) {
       setError('Failed to load settings');
@@ -330,7 +339,7 @@ const Settings: React.FC = () => {
                       src={
                         avatarPreview ||
                         user?.avatar ||
-                        `https://ui-avatars.com/api/?name=${profile.name}`
+                        `https://ui-avatars.com/api/?name=${profile?.full_name}`
                       }
                       alt="Profile"
                       className="w-24 h-24 rounded-full border border-github-border"
@@ -380,10 +389,10 @@ const Settings: React.FC = () => {
                 <div className="space-y-4">
                   <Input
                     label="Name"
-                    value={profile.name}
-                    onChange={(e) =>
-                      setProfile({ ...profile, name: e.target.value })
-                    }
+                    value={profile?.full_name}
+                    // onChange={(e) =>
+                    //   setProfile({ ...profile, name: e.target.value })
+                    // }
                     fullWidth
                   />
 
@@ -392,10 +401,10 @@ const Settings: React.FC = () => {
                       Bio
                     </label>
                     <textarea
-                      value={profile.bio}
-                      onChange={(e) =>
-                        setProfile({ ...profile, bio: e.target.value })
-                      }
+                      value={profile?.bio}
+                      // onChange={(e) =>
+                      //   setProfile({ ...profile, bio: e.target.value })
+                      // }
                       rows={4}
                       className="w-full bg-gray-900 border border-github-border rounded-md px-3 py-2 text-gray-200 focus:outline-none focus:border-blue-500"
                       placeholder="Tell us about yourself"
@@ -404,20 +413,20 @@ const Settings: React.FC = () => {
 
                   <Input
                     label="Company"
-                    value={profile.company}
-                    onChange={(e) =>
-                      setProfile({ ...profile, company: e.target.value })
-                    }
+                    value={profile?.company}
+                    // onChange={(e) =>
+                    //   setProfile({ ...profile, company: e.target.value })
+                    // }
                     leftIcon={<Building size={16} />}
                     fullWidth
                   />
 
                   <Input
                     label="Location"
-                    value={profile.location}
-                    onChange={(e) =>
-                      setProfile({ ...profile, location: e.target.value })
-                    }
+                    value={profile?.location}
+                    // onChange={(e) =>
+                    //   setProfile({ ...profile, location: e.target.value })
+                    // }
                     leftIcon={<MapPin size={16} />}
                     fullWidth
                   />
@@ -425,20 +434,20 @@ const Settings: React.FC = () => {
                   <Input
                     label="Email"
                     type="email"
-                    value={profile.email}
-                    onChange={(e) =>
-                      setProfile({ ...profile, email: e.target.value })
-                    }
+                    value={profile?.email}
+                    // onChange={(e) =>
+                    //   setProfile({ ...profile, email: e.target.value })
+                    // }
                     leftIcon={<Mail size={16} />}
                     fullWidth
                   />
 
                   <Input
                     label="Website"
-                    value={profile.blog}
-                    onChange={(e) =>
-                      setProfile({ ...profile, blog: e.target.value })
-                    }
+                    value={profile?.website}
+                    // onChange={(e) =>
+                    //   setProfile({ ...profile, blog: e.target.value })
+                    // }
                     leftIcon={<LinkIcon size={16} />}
                     placeholder="https://example.com"
                     fullWidth
@@ -446,24 +455,24 @@ const Settings: React.FC = () => {
 
                   <Input
                     label="Twitter"
-                    value={profile.twitter}
-                    onChange={(e) =>
-                      setProfile({ ...profile, twitter: e.target.value })
-                    }
+                    value={profile?.twitter}
+                    // onChange={(e) =>
+                    //   setProfile({ ...profile, twitter: e.target.value })
+                    // }
                     leftIcon={<Twitter size={16} />}
                     placeholder="username"
                     fullWidth
                   />
 
-                  <Input
+                  {/* <Input
                     label="Pronouns"
-                    value={profile.pronouns}
-                    onChange={(e) =>
-                      setProfile({ ...profile, pronouns: e.target.value })
-                    }
+                    value={profile?.pronouns}
+                    // onChange={(e) =>
+                    //   setProfile({ ...profile, pronouns: e.target.value })
+                    // }
                     placeholder="e.g., he/him, she/her, they/them"
                     fullWidth
-                  />
+                  /> */}
                 </div>
               </div>
 

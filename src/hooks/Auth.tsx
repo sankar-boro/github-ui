@@ -84,11 +84,9 @@ export const useInitAuthUser = (): [
 
       // Check if token is expired
       if (isTokenExpired(token)) {
-        console.log('Token expired.');
         // Try to refresh the token
         const refreshed = await refreshUserToken();
         if (!refreshed) {
-          console.log('Token not refreshed');
           // If refresh fails, clear everything
           // localStorage.removeItem('token');
           // localStorage.removeItem('refreshToken');
