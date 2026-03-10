@@ -306,6 +306,7 @@ export const useLogout = (
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
+          credentials: 'include',
         }).catch((err) => console.error('Logout API call failed:', err));
       }
     } finally {
