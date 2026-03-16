@@ -19,12 +19,15 @@ import {
 import FileExplorer from '../components/repository/FileExplorer';
 import Readme from '../components/repository/Readme';
 import { formatDistanceToNow } from 'date-fns';
+import IssuesTab from './project/Issues';
+import PullRequestsTab from './project/PullRequests';
+import SettingsTab from './project/Settings';
 
 const Repository: React.FC = () => {
   const { username, repo } = useParams<{ username: string; repo: string }>();
 
   const [activeTab, setActiveTab] = useState<
-    'code' | 'issues' | 'pulls' | 'actions'
+    'code' | 'issues' | 'pulls' | 'actions' | 'settings'
   >('code');
 
   // Mock repository data
@@ -52,6 +55,7 @@ const Repository: React.FC = () => {
     { id: 'wiki', label: 'Wiki' },
     { id: 'security', label: 'Security' },
     { id: 'insights', label: 'Insights' },
+    { id: 'settings', label: 'Settings' },
   ];
 
   return (
@@ -274,6 +278,12 @@ const Repository: React.FC = () => {
           </div>
         </div>
       )}
+
+      {activeTab === 'issues' && <IssuesTab />}
+
+      {activeTab === 'pulls' && <PullRequestsTab />}
+
+      {activeTab === 'settings' && <SettingsTab />}
     </div>
   );
 };

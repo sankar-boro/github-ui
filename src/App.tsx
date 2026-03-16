@@ -4,6 +4,7 @@ import Layout from './components/layout/Layout';
 import Dashboard from './pages/Dashboard';
 import Repository from './pages/Repository';
 import Repositories from './pages/Repositories';
+import CreateNewRepo from './pages/CreateNewRepo';
 import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
@@ -23,6 +24,8 @@ function RouteComponent() {
             <Route path="/" element={<Layout />}>
               <Route index element={<Dashboard auth={auth} />} />
               <Route path="repositories" element={<Repositories />} />
+              <Route path="new/repository" element={<CreateNewRepo />} />
+
               <Route path="explore" element={<Explore />} />
               <Route path=":username" element={<Profile />} />
               <Route path=":username/:repo" element={<Repository />} />

@@ -10,3 +10,4 @@ export const VALIDATE_TOKEN_URL = API_URL + '/validateToken';
 export const USERS_PROFILE_URL = API_URL;
 //
 export const REPOS_URL = API_URL + '/repos';
+export const CREATE_REPO = API_URL + '/repos/createRepo';
