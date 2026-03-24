@@ -1,29 +1,4 @@
-import type { UserProfile, PinnedRepository } from '../types/profile';
-
-// Mock data
-export const mockProfile: UserProfile = {
-  id: 1,
-  username: 'john-doe',
-  full_name: 'John Doe',
-  email: 'john@example.com',
-  avatar_url: 'https://ui-avatars.com/api/?name=Sankar+Boro',
-  bio: 'Full-stack developer passionate about open source. Creating tools for developers.',
-  company: '@acme-corp',
-  location: 'San Francisco, CA',
-  blog: 'https://johndoe.dev',
-  twitter: 'johndoe',
-  publicRepos: 28,
-  publicGists: 12,
-  followers: 1234,
-  following: 89,
-  createdAt: '2020-01-15T10:30:00Z',
-  isVerified: true,
-  isSponsor: false,
-  status: {
-    emoji: '🚀',
-    message: 'Building something awesome',
-  },
-};
+import type { PinnedRepository } from '../types/profile';
 
 export const mockPinnedRepos: PinnedRepository[] = [
   {

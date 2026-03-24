@@ -42,11 +42,7 @@ import type {
   NotificationSettings,
   AppearanceSettings,
 } from '../types/settings';
-import {
-  // mockProfileSettings,
-  mockSessions,
-  mockSSHKeys,
-} from '../data/settings';
+import { mockSessions, mockSSHKeys } from '../data/settings';
 import type { User as AuthUser } from '../types';
 import { USERS_PROFILE_URL } from '../config';
 

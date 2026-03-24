@@ -28,7 +28,7 @@ import type {
   UserProfile,
   PinnedRepository,
 } from '../types/profile';
-import { mockProfile, mockPinnedRepos } from '../data/profile';
+import { mockPinnedRepos } from '../data/profile';
 import { USERS_PROFILE_URL } from '../config';
 import { useUserRepositories } from '../hooks/Profile';
 
@@ -98,7 +98,13 @@ const Profile: React.FC = () => {
       });
       const jsonResponse = await response.json();
       const userProfile = jsonResponse.data.user;
-      setProfile({ ...userProfile, status: mockProfile.status });
+      setProfile({
+        ...userProfile,
+        status: {
+          emoji: '🚀',
+          message: 'Building something awesome',
+        },
+      });
       setPinnedRepos(mockPinnedRepos);
     } catch (err) {
       setError('Failed to load profile. Please try again.');

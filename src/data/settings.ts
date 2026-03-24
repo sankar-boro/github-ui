@@ -1,16 +1,4 @@
-import type { ProfileSettings, Session, SSHKey } from '../types/settings';
-
-// Mock data
-export const mockProfileSettings: ProfileSettings = {
-  name: 'John Doe',
-  bio: 'Full-stack developer passionate about open source. Creating tools for developers.',
-  company: 'Acme Corp',
-  location: 'San Francisco, CA',
-  email: 'john@example.com',
-  blog: 'https://johndoe.dev',
-  twitter: 'johndoe',
-  pronouns: 'he/him',
-};
+import type { Session, SSHKey } from '../types/settings';
 
 export const mockSessions: Session[] = [
   {

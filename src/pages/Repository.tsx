@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Star,
@@ -18,20 +18,21 @@ import {
 } from 'lucide-react';
 import FileExplorer from '../components/repository/FileExplorer';
 import Readme from '../components/repository/Readme';
+import NewRepo from '../components/repository/NewRepo';
+
 import { formatDistanceToNow } from 'date-fns';
 import IssuesTab from './project/Issues';
 import PullRequestsTab from './project/PullRequests';
-import SettingsTab from './project/Settings';
+import SettingsPage from './project/SettingsPage';
+import { GET_REPO, REPOS_URL } from '../config';
 
 const Repository: React.FC = () => {
   const { username, repo } = useParams<{ username: string; repo: string }>();
 
   const [activeTab, setActiveTab] = useState<
-    'code' | 'issues' | 'pulls' | 'actions' | 'settings'
-  >('code');
-
-  // Mock repository data
-  const repository = {
+    'code' | 'issues' | 'pulls' | 'actions' | 'settings' | 'newRepo'
+  >('newRepo');
+  const [repository, setRepository] = useState({
     name: repo,
     owner: username,
     description:
@@ -44,7 +45,23 @@ const Repository: React.FC = () => {
     updatedAt: '2024-01-15T10:30:00Z',
     branches: ['main', 'develop', 'feature/ui'],
     defaultBranch: 'main',
-  };
+  });
+
+  // Mock repository data
+  // const repository = {
+  //   name: repo,
+  //   owner: username,
+  //   description:
+  //     'A modern web application with amazing features and capabilities',
+  //   stars: 1234,
+  //   forks: 456,
+  //   watchers: 89,
+  //   language: 'TypeScript',
+  //   license: 'MIT',
+  //   updatedAt: '2024-01-15T10:30:00Z',
+  //   branches: ['main', 'develop', 'feature/ui'],
+  //   defaultBranch: 'main',
+  // };
 
   const tabs = [
     { id: 'code', label: 'Code', icon: Code2 },
@@ -57,6 +74,18 @@ const Repository: React.FC = () => {
     { id: 'insights', label: 'Insights' },
     { id: 'settings', label: 'Settings' },
   ];
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(GET_REPO + '/' + username + '/' + repo, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const jsonResponse = await response.json();
+      const repository = jsonResponse.data.repository;
+      setRepository(repository);
+    })();
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -121,7 +150,7 @@ const Repository: React.FC = () => {
           <span className="flex items-center space-x-1">
             <Clock size={14} />
             <span>
-              Updated {formatDistanceToNow(new Date(repository.updatedAt))} ago
+              {/* Updated {formatDistanceToNow(new Date(repository.updatedAt))} ago */}
             </span>
           </span>
         </div>
@@ -153,6 +182,7 @@ const Repository: React.FC = () => {
       </div>
 
       {/* Main content */}
+      {activeTab === 'newRepo' && <NewRepo username={username} repo={repo} />}
       {activeTab === 'code' && (
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 lg:col-span-8">
@@ -283,7 +313,7 @@ const Repository: React.FC = () => {
 
       {activeTab === 'pulls' && <PullRequestsTab />}
 
-      {activeTab === 'settings' && <SettingsTab />}
+      {activeTab === 'settings' && <SettingsPage />}
     </div>
   );
 };
