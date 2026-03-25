@@ -1,44 +1,25 @@
-import React from "react";
-import { BookOpen, Edit3, History } from "lucide-react";
-import ReactMarkdown from "react-markdown";
+import React, { useEffect, useState } from 'react';
+import { BookOpen, Edit3, History } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import { REPOS_URL } from '../../config';
 
-const Readme: React.FC = () => {
-  const markdown = `# Project Name
-
-A brief description of what this project does and who it's for.
-
-## Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-
-## Installation
-
-\`\`\`bash
-npm install my-project
-cd my-project
-npm start
-\`\`\`
-
-## Usage
-
-\`\`\`javascript
-import { Component } from 'my-project';
-
-function App() {
-  return <Component />
-}
-\`\`\`
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-`;
+const Readme = ({ username, repo }: { username: string; repo: string }) => {
+  const [markdown, setMarkdown] = useState('');
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        REPOS_URL + '/' + username + '/' + repo + '/' + 'readme',
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
+      const jsonResponse = await response.json();
+      console.log(jsonResponse);
+      const md = jsonResponse.data;
+      setMarkdown(md);
+    })();
+  }, []);
 
   return (
     <div className="bg-github-darker border border-github-border rounded-md">

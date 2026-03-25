@@ -31,7 +31,7 @@ const Repository: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<
     'code' | 'issues' | 'pulls' | 'actions' | 'settings' | 'newRepo'
-  >('newRepo');
+  >('code');
   const [repository, setRepository] = useState({
     name: repo,
     owner: username,
@@ -214,12 +214,12 @@ const Repository: React.FC = () => {
               </div>
 
               {/* File explorer */}
-              <FileExplorer />
+              <FileExplorer username={username} repo={repo} />
             </div>
 
             {/* Readme */}
             <div className="mt-4">
-              <Readme />
+              <Readme username={username} repo={repo} />
             </div>
           </div>
 

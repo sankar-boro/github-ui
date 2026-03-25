@@ -48,36 +48,243 @@
   }
 }
 
-/* Markdown styles */
+/* =========================
+   Markdown (Prose) System
+   ========================= */
+
 .prose {
-  @apply text-gray-200;
+  @apply text-gray-300 leading-relaxed max-w-none;
 }
 
-.prose h1,
-.prose h2,
-.prose h3,
+/* =========================
+   Headings
+   ========================= */
+
+.prose :is(h1, h2, h3, h4) {
+  @apply text-white font-semibold tracking-tight scroll-mt-20;
+}
+
+.prose h1 {
+  @apply text-3xl mt-8 mb-4 border-b border-github-border pb-2;
+}
+
+.prose h2 {
+  @apply text-2xl mt-7 mb-3 border-b border-github-border pb-1;
+}
+
+.prose h3 {
+  @apply text-xl mt-6 mb-2;
+}
+
 .prose h4 {
-  @apply text-white;
+  @apply text-lg mt-5 mb-2 text-gray-200;
 }
 
-.prose code {
-  @apply bg-gray-800 text-gray-200 px-1 py-0.5 rounded;
+/* =========================
+   Text & Paragraphs
+   ========================= */
+
+.prose p {
+  @apply mb-4;
 }
 
-.prose pre {
-  @apply bg-gray-800 border border-github-border;
+.prose strong {
+  @apply text-white font-semibold;
 }
+
+.prose em {
+  @apply italic text-gray-300;
+}
+
+.prose del {
+  @apply line-through opacity-70;
+}
+
+/* =========================
+   Links
+   ========================= */
 
 .prose a {
-  @apply text-blue-400 no-underline hover:underline;
+  @apply text-blue-400 no-underline transition-colors duration-150;
 }
+
+.prose a:hover {
+  @apply underline text-blue-300;
+}
+
+.prose a:focus {
+  @apply outline-none ring-2 ring-blue-500 rounded-sm;
+}
+
+/* =========================
+   Code
+   ========================= */
+
+/* Inline */
+.prose code {
+  @apply bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+/* Block */
+.prose pre {
+  @apply bg-gray-900 border border-github-border rounded-xl p-4 overflow-x-auto my-4;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 text-sm leading-relaxed;
+}
+
+/* Optional: line highlight feel */
+.prose pre:hover {
+  @apply border-gray-600;
+}
+
+/* =========================
+   Blockquotes
+   ========================= */
 
 .prose blockquote {
-  @apply border-l-4 border-github-border text-gray-400;
+  @apply border-l-4 border-github-border pl-4 italic text-gray-400 my-4;
 }
 
+.prose blockquote p {
+  @apply mb-2;
+}
+
+/* =========================
+   Lists
+   ========================= */
+
+.prose ul {
+  @apply list-disc pl-6 mb-4 space-y-1;
+}
+
+.prose ol {
+  @apply list-decimal pl-6 mb-4 space-y-1;
+}
+
+.prose li {
+  @apply leading-relaxed;
+}
+
+.prose li > p {
+  @apply mb-1;
+}
+
+/* Nested lists */
+.prose li ul,
+.prose li ol {
+  @apply mt-1;
+}
+
+/* =========================
+   Horizontal Rule
+   ========================= */
+
 .prose hr {
-  @apply border-github-border;
+  @apply border-github-border my-8;
+}
+
+/* =========================
+   Tables
+   ========================= */
+
+.prose table {
+  @apply w-full border-collapse text-sm my-6 overflow-hidden rounded-lg;
+}
+
+.prose thead {
+  @apply bg-gray-800;
+}
+
+.prose th {
+  @apply border border-github-border px-3 py-2 text-left font-medium text-gray-200;
+}
+
+.prose td {
+  @apply border border-github-border px-3 py-2;
+}
+
+.prose tr:nth-child(even) {
+  @apply bg-gray-900/40;
+}
+
+/* =========================
+   Images
+   ========================= */
+
+.prose img {
+  @apply rounded-lg border border-github-border my-4;
+}
+
+/* =========================
+   Keyboard / kbd
+   ========================= */
+
+.prose kbd {
+  @apply bg-gray-800 border border-github-border rounded px-1.5 py-0.5 text-xs font-mono;
+}
+
+/* =========================
+   Details / Summary (Collapsible)
+   ========================= */
+
+.prose details {
+  @apply border border-github-border rounded-lg p-3 my-4 bg-gray-900/50;
+}
+
+.prose summary {
+  @apply cursor-pointer font-medium text-gray-200;
+}
+
+/* =========================
+   Task Lists (GitHub-style)
+   ========================= */
+
+.prose input[type='checkbox'] {
+  @apply mr-2 accent-blue-500;
+}
+
+/* =========================
+   Selection Styling
+   ========================= */
+
+.prose ::selection {
+  @apply bg-blue-600 text-white;
+}
+
+/* =========================
+   Scrollbar (optional)
+   ========================= */
+
+.prose pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prose pre::-webkit-scrollbar-thumb {
+  @apply bg-gray-700 rounded;
+}
+
+/* =========================
+   Footnotes (if used)
+   ========================= */
+
+.prose sup {
+  @apply text-xs text-blue-400;
+}
+
+/* =========================
+   Anchor links for headings (optional)
+   ========================= */
+
+.prose h1:hover .anchor,
+.prose h2:hover .anchor,
+.prose h3:hover .anchor {
+  @apply opacity-100;
+}
+
+.prose .anchor {
+  @apply ml-2 text-gray-500 opacity-0 transition;
 }
 
 @keyframes slideDown {
