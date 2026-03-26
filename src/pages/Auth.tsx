@@ -10,6 +10,7 @@ import {
   AlertCircle,
   CheckCircle,
   ArrowRight,
+  Code2,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button, Input, Alert } from '../components/common';
@@ -167,7 +168,7 @@ const Auth: React.FC = () => {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <Github size={48} className="mx-auto text-white" />
+          <Code2 size={48} className="mx-auto text-white" />
           <h2 className="mt-6 text-3xl font-bold text-white">
             {ui === UI.LOGIN ? 'Sign in to Loony Hub' : 'Create your account'}
           </h2>

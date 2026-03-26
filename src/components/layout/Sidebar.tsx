@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   Home,
   GitFork,
@@ -8,24 +8,24 @@ import {
   BookOpen,
   Activity,
   Settings,
-} from "lucide-react";
-import { useAuth } from "../../contexts/AuthContext";
+} from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Sidebar: React.FC = () => {
   const { user } = useAuth();
 
   const navigation = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "Repositories", href: "/repositories", icon: BookOpen },
-    { name: "Explore", href: "/explore", icon: GitFork },
-    { name: "Stars", href: "/stars", icon: Star },
-    { name: "Followers", href: "/followers", icon: Users },
-    { name: "Activity", href: "/activity", icon: Activity },
-    { name: "Settings", href: "/settings", icon: Settings },
+    { name: 'Home', href: '/', icon: Home },
+    { name: 'Repositories', href: '/repositories', icon: BookOpen },
+    { name: 'Explore', href: '/explore', icon: GitFork },
+    { name: 'Stars', href: '/stars', icon: Star },
+    { name: 'Followers', href: '/followers', icon: Users },
+    { name: 'Activity', href: '/activity', icon: Activity },
+    { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
   return (
-    <aside className="w-64 bg-github-darker border-r border-github-border hidden md:block">
+    <aside className="w-64 bg-github-navbar border-r border-github-border hidden md:block">
       <div className="p-4">
         {user && (
           <div className="mb-6">
@@ -54,8 +54,8 @@ const Sidebar: React.FC = () => {
               className={({ isActive }) =>
                 `flex items-center space-x-3 px-3 py-2 rounded-md text-sm ${
                   isActive
-                    ? "bg-gray-800 text-white"
-                    : "text-gray-400 hover:text-white hover:bg-gray-800"
+                    ? 'bg-gray-800 text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800'
                 }`
               }
             >
@@ -66,7 +66,7 @@ const Sidebar: React.FC = () => {
         </nav>
 
         <div className="mt-6">
-          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+          <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-2">
             Recent Repositories
           </h4>
           <RecentRepositories />
@@ -79,9 +79,9 @@ const Sidebar: React.FC = () => {
 const RecentRepositories: React.FC = () => {
   // This would come from your API
   const recentRepos = [
-    { name: "project-alpha", visibility: "public" },
-    { name: "dotfiles", visibility: "private" },
-    { name: "awesome-project", visibility: "public" },
+    { name: 'project-alpha', visibility: 'public' },
+    { name: 'dotfiles', visibility: 'private' },
+    { name: 'awesome-project', visibility: 'public' },
   ];
 
   return (

@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { File, Folder, ChevronRight, ChevronDown } from 'lucide-react';
-import { REPOS_URL } from '../../config';
 
 interface FileNode {
   name: string;
@@ -8,83 +7,10 @@ interface FileNode {
   children?: FileNode[];
 }
 
-const FileExplorer = ({ username, repo, setReadmeHashId }: any) => {
+const FileExplorer = ({ mockFileStructure }: any) => {
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
     new Set(['src']),
   );
-
-  const [mockFileStructure, setMockFileStructure] = useState<FileNode[]>([]);
-
-  useEffect(() => {
-    setMockFileStructure([
-      {
-        name: 'src',
-        type: 'directory',
-        children: [
-          {
-            name: 'components',
-            type: 'directory',
-            children: [
-              { name: 'Header.tsx', type: 'file' },
-              { name: 'Sidebar.tsx', type: 'file' },
-              { name: 'RepositoryCard.tsx', type: 'file' },
-            ],
-          },
-          {
-            name: 'pages',
-            type: 'directory',
-            children: [
-              { name: 'Dashboard.tsx', type: 'file' },
-              { name: 'Repository.tsx', type: 'file' },
-            ],
-          },
-          { name: 'App.tsx', type: 'file' },
-          { name: 'main.tsx', type: 'file' },
-        ],
-      },
-      {
-        name: 'public',
-        type: 'directory',
-        children: [
-          { name: 'index.html', type: 'file' },
-          { name: 'favicon.ico', type: 'file' },
-        ],
-      },
-      { name: 'package.json', type: 'file' },
-      { name: 'README.md', type: 'file' },
-      { name: 'tsconfig.json', type: 'file' },
-    ]);
-
-    (async () => {
-      const response = await fetch(
-        REPOS_URL + '/' + username + '/' + repo + '/' + 'repoTree',
-        {
-          method: 'GET',
-          credentials: 'include',
-        },
-      );
-      const jsonResponse = await response.json();
-      let readme_hash_id = null;
-      for (const r of jsonResponse.data.entries) {
-        if (r.name === 'README.md' || r.name === 'Readme.md') {
-          readme_hash_id = r.sha;
-        }
-      }
-      setReadmeHashId(readme_hash_id);
-
-      setMockFileStructure(
-        jsonResponse.data.entries.sort((a: any, b: any) => {
-          // directories first
-          if (a.type !== b.type) {
-            return a.type === 'directory' ? -1 : 1;
-          }
-
-          // then alphabetical by name
-          return a.name.localeCompare(b.name);
-        }),
-      );
-    })();
-  }, []);
 
   const toggleFolder = (path: string) => {
     setExpandedFolders((prev) => {
@@ -136,7 +62,7 @@ const FileExplorer = ({ username, repo, setReadmeHashId }: any) => {
 
   return (
     <div className="p-2">
-      {mockFileStructure.map((node) => renderNode(node))}
+      {mockFileStructure.map((node: any) => renderNode(node))}
     </div>
   );
 };

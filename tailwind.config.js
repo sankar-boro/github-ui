@@ -5,6 +5,7 @@ export default {
         github: {
           dark: '#1B1B1F',
           darker: '#202127',
+          navbar: '#0d1117',
           border: '#30363d',
           primary: '#238636',
           primaryHover: '#2ea043',

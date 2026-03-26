@@ -26,11 +26,17 @@ import PullRequestsTab from './project/PullRequests';
 import SettingsPage from './project/SettingsPage';
 import { GET_REPO, REPOS_URL } from '../config';
 
+interface FileNode {
+  name: string;
+  type: 'file' | 'folder' | 'directory';
+  children?: FileNode[];
+}
+
 const Repository: React.FC = () => {
   const { username, repo } = useParams<{ username: string; repo: string }>();
 
   const [activeTab, setActiveTab] = useState<
-    'code' | 'issues' | 'pulls' | 'actions' | 'settings' | 'newRepo'
+    'code' | 'issues' | 'pulls' | 'actions' | 'settings' | 'newRepo' | 'loading'
   >('code');
   const [repository, setRepository] = useState({
     name: repo,
@@ -46,6 +52,7 @@ const Repository: React.FC = () => {
     branches: ['main', 'develop', 'feature/ui'],
     defaultBranch: 'main',
   });
+  const [mockFileStructure, setMockFileStructure] = useState<FileNode[]>([]);
   const [readmeHashId, setReadmeHashId] = useState(null);
 
   const tabs = [
@@ -69,6 +76,44 @@ const Repository: React.FC = () => {
       const jsonResponse = await response.json();
       const repository = jsonResponse.data.repository;
       setRepository(repository);
+    })();
+
+    (async () => {
+      const response = await fetch(
+        REPOS_URL + '/' + username + '/' + repo + '/' + 'repoTree',
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
+      const jsonResponse = await response.json();
+      let readme_hash_id = null;
+      for (const r of jsonResponse.data) {
+        if (r.name === 'README.md' || r.name === 'Readme.md') {
+          readme_hash_id = r.sha;
+        }
+      }
+      setReadmeHashId(readme_hash_id);
+
+      setMockFileStructure(
+        jsonResponse.data.sort((a: any, b: any) => {
+          // directories first
+          if (a.type !== b.type) {
+            return a.type === 'directory' ? -1 : 1;
+          }
+
+          // then alphabetical by name
+          return a.name.localeCompare(b.name);
+        }),
+      );
+
+      if (jsonResponse.view === 'entries') {
+        setActiveTab('code');
+      }
+
+      if (jsonResponse.view === 'init') {
+        setActiveTab('newRepo');
+      }
     })();
   }, []);
 
@@ -167,6 +212,7 @@ const Repository: React.FC = () => {
       </div>
 
       {/* Main content */}
+      {activeTab === 'loading' && <>Loading...</>}
       {activeTab === 'newRepo' && <NewRepo username={username} repo={repo} />}
       {activeTab === 'code' && (
         <div className="grid grid-cols-12 gap-4">
@@ -199,11 +245,7 @@ const Repository: React.FC = () => {
               </div>
 
               {/* File explorer */}
-              <FileExplorer
-                username={username}
-                repo={repo}
-                setReadmeHashId={setReadmeHashId}
-              />
+              <FileExplorer mockFileStructure={mockFileStructure} />
             </div>
 
             {/* Readme */}

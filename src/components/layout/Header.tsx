@@ -133,7 +133,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-[#0d1117] border-b border-[#30363d] px-4 py-2 sticky top-0 z-50">
+    <header className="bg-github-navbar border-b border-[#30363d] px-4 py-2 sticky top-0 z-50">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Left Section */}
         <div className="flex items-center gap-4">
