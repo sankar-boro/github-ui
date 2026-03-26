@@ -118,7 +118,7 @@ const FileExplorer = ({ username, repo, setReadmeHashId }: any) => {
             </span>
           )}
           {node.type === 'directory' ? (
-            <Folder size={16} className="text-blue-400" />
+            <Folder size={16} className="text-white" />
           ) : (
             <File size={16} className="text-gray-400" />
           )}

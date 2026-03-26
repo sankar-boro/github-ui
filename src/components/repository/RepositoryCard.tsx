@@ -37,7 +37,7 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repository }) => {
           <div className="flex items-center space-x-2">
             <Link
               to={`/${repository.full_name}/${repository.name}`}
-              className="text-lg font-semibold text-blue-400 hover:underline"
+              className="text-lg font-semibold text-white hover:underline"
             >
               {repository.full_name}/{repository.name}
             </Link>

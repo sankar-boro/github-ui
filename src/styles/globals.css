@@ -2,8 +2,8 @@
 
 /* Theme tokens (Tailwind v4 way) */
 @theme {
-  --color-github-dark: #0d1117;
-  --color-github-darker: #010409;
+  --color-github-dark: #1b1b1f;
+  --color-github-darker: #202127;
   --color-github-border: #30363d;
   --color-github-primary: #238636;
   --color-github-primaryHover: #2ea043;
@@ -105,7 +105,7 @@
    ========================= */
 
 .prose a {
-  @apply text-blue-400 no-underline transition-colors duration-150;
+  @apply text-white no-underline transition-colors duration-150;
 }
 
 .prose a:hover {
@@ -270,7 +270,7 @@
    ========================= */
 
 .prose sup {
-  @apply text-xs text-blue-400;
+  @apply text-xs text-white;
 }
 
 /* =========================

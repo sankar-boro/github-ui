@@ -220,7 +220,7 @@ const Profile: React.FC = () => {
               <p className="text-gray-400 text-lg">@{profile.username}</p>
 
               {profile.isVerified && (
-                <span className="inline-flex items-center gap-1 text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full mt-1">
+                <span className="inline-flex items-center gap-1 text-xs bg-blue-500/20 text-white px-2 py-1 rounded-full mt-1">
                   <Github size={12} />
                   Verified
                 </span>
@@ -303,7 +303,7 @@ const Profile: React.FC = () => {
                     href={profile.blog}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:underline"
+                    className="text-white hover:underline"
                   >
                     {profile.blog.replace(/^https?:\/\//, '')}
                   </a>
@@ -317,7 +317,7 @@ const Profile: React.FC = () => {
                     href={`https://twitter.com/${profile.twitter}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:underline"
+                    className="text-white hover:underline"
                   >
                     @{profile.twitter}
                   </a>
@@ -396,7 +396,7 @@ const Profile: React.FC = () => {
                       >
                         <div className="flex items-center gap-2 mb-2">
                           <BookOpen size={16} className="text-gray-400" />
-                          <h4 className="font-semibold text-blue-400 hover:underline">
+                          <h4 className="font-semibold text-white hover:underline">
                             {repo.name}
                           </h4>
                           {repo.private && (

@@ -148,7 +148,7 @@ const EmptyRepoSkeleton = ({
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative bg-github-darker border border-github-border rounded-xl p-6 hover:border-blue-500/50 transition-all duration-300">
               <div className="p-2 bg-blue-500/10 rounded-lg mb-4 inline-block">
-                <Terminal className="h-5 w-5 text-blue-400" />
+                <Terminal className="h-5 w-5 text-white" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">
                 Import from CLI

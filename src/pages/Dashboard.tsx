@@ -1,10 +1,8 @@
-import React from 'react';
-import { GitFork, Star, Eye, Clock } from 'lucide-react';
+import { Star } from 'lucide-react';
 import RepositoryCard from '../components/repository/RepositoryCard';
 import { useRecentRepositories } from '../hooks/Dashboard';
 import type { AuthContextType } from '../types/auth';
 import type { JSX } from 'react/jsx-runtime';
-// import ActivityFeed from "../components/activity/ActivityFeed";
 
 const Dashboard: ({ auth }: { auth: AuthContextType }) => JSX.Element = ({
   auth,
@@ -18,7 +16,7 @@ const Dashboard: ({ auth }: { auth: AuthContextType }) => JSX.Element = ({
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold">Recent repositories</h2>
-            <button className="text-sm text-blue-400 hover:underline">
+            <button className="text-sm text-white hover:underline">
               View all
             </button>
           </div>
@@ -56,7 +54,7 @@ const Dashboard: ({ auth }: { auth: AuthContextType }) => JSX.Element = ({
                 <div key={i} className="text-sm">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-blue-400 hover:underline cursor-pointer">
+                      <p className="font-medium text-white hover:underline cursor-pointer">
                         awesome-lib/{i}
                       </p>
                       <p className="text-gray-400 text-xs mt-1">

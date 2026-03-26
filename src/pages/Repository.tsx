@@ -79,11 +79,11 @@ const Repository: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <h1 className="text-xl font-semibold">
-              <span className="text-blue-400 hover:underline cursor-pointer">
+              <span className="text-white hover:underline cursor-pointer">
                 {username}
               </span>
               <span className="mx-1">/</span>
-              <span className="text-blue-400 hover:underline cursor-pointer">
+              <span className="text-white hover:underline cursor-pointer">
                 {repo}
               </span>
             </h1>
@@ -227,7 +227,7 @@ const Repository: React.FC = () => {
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center space-x-2 text-gray-400">
                     <Home size={16} />
-                    <a href="#" className="text-blue-400 hover:underline">
+                    <a href="#" className="text-white hover:underline">
                       example.com
                     </a>
                   </div>

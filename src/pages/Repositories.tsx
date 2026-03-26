@@ -377,7 +377,7 @@ const RepositoriesPage: React.FC = () => {
               <h3 className="font-semibold">Filters</h3>
               <button
                 onClick={clearFilters}
-                className="text-sm text-blue-400 hover:underline"
+                className="text-sm text-white hover:underline"
               >
                 Clear filters
               </button>

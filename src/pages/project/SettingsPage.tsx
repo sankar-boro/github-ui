@@ -250,7 +250,7 @@ const SettingsPage = () => {
                 </div>
               </div>
             </div>
-            <button className="mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            <button className="mt-3 text-sm text-blue-600 dark:text-white hover:underline">
               Edit social preview
             </button>
           </div>

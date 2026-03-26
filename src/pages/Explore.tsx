@@ -169,7 +169,7 @@ const Explore: React.FC = () => {
                             {repo.owner.login}
                           </span>
                           <span className="text-gray-600">/</span>
-                          <h3 className="font-semibold text-blue-400 hover:underline">
+                          <h3 className="font-semibold text-white hover:underline">
                             {repo.name}
                           </h3>
                         </div>
@@ -227,7 +227,7 @@ const Explore: React.FC = () => {
 
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-blue-400 hover:underline">
+                        <h3 className="font-semibold text-white hover:underline">
                           {dev.name}
                         </h3>
                         <span className="text-gray-400">@{dev.username}</span>
@@ -249,7 +249,7 @@ const Explore: React.FC = () => {
                             </span>
                           </div>
                           <div className="mt-1">
-                            <span className="text-blue-400 hover:underline">
+                            <span className="text-white hover:underline">
                               {dev.popularRepo.name}
                             </span>
                             <p className="text-xs text-gray-400">
@@ -279,7 +279,7 @@ const Explore: React.FC = () => {
                   onClick={() => handleTopicClick(topic.name)}
                   className="bg-github-darker border border-github-border rounded-md p-4 hover:border-gray-500 transition-colors cursor-pointer"
                 >
-                  <h3 className="font-semibold text-blue-400 hover:underline mb-1">
+                  <h3 className="font-semibold text-white hover:underline mb-1">
                     {topic.name}
                   </h3>
                   <p className="text-sm text-gray-400 mb-2">

@@ -102,21 +102,6 @@ const Auth: React.FC = () => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       if (ui === UI.LOGIN) {
-        // Login
-        // const response = await authApi.login({
-        //   username: formData.username,
-        //   password: formData.password,
-        // });
-
-        // Mock successful login
-        // login('fake-jwt-token', {
-        //   id: 1,
-        //   username: formData.username || 'john-doe',
-        //   email: formData.email || 'john@example.com',
-        //   name: 'John Doe',
-        //   avatar_url: `https://ui-avatars.com/api/?name=${formData.username || 'John+Doe'}`,
-        // });
-
         login(formData.username, formData.password);
 
         navigate('/');
@@ -184,9 +169,7 @@ const Auth: React.FC = () => {
         <div className="text-center">
           <Github size={48} className="mx-auto text-white" />
           <h2 className="mt-6 text-3xl font-bold text-white">
-            {ui === UI.LOGIN
-              ? 'Sign in to GitHub Clone'
-              : 'Create your account'}
+            {ui === UI.LOGIN ? 'Sign in to Loony Hub' : 'Create your account'}
           </h2>
           <p className="mt-2 text-sm text-gray-400">
             {ui === UI.LOGIN
@@ -194,7 +177,7 @@ const Auth: React.FC = () => {
               : 'Already have an account? '}
             <button
               onClick={toggleMode}
-              className="text-blue-400 hover:underline font-medium"
+              className="text-white hover:underline font-medium"
             >
               {ui === UI.LOGIN ? 'Sign up' : 'Sign in'}
             </button>
@@ -300,7 +283,7 @@ const Auth: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/forgot-password')}
-                className="text-sm text-blue-400 hover:underline"
+                className="text-sm text-white hover:underline"
               >
                 Forgot password?
               </button>
@@ -349,11 +332,11 @@ const Auth: React.FC = () => {
           {ui === UI.SIGNUP && (
             <p className="text-xs text-center text-gray-400">
               By creating an account, you agree to our{' '}
-              <a href="/terms" className="text-blue-400 hover:underline">
+              <a href="/terms" className="text-white hover:underline">
                 Terms of Service
               </a>{' '}
               and{' '}
-              <a href="/privacy" className="text-blue-400 hover:underline">
+              <a href="/privacy" className="text-white hover:underline">
                 Privacy Policy
               </a>
             </p>

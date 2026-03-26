@@ -402,7 +402,7 @@ const Settings: React.FC = () => {
                       //   setProfile({ ...profile, bio: e.target.value })
                       // }
                       rows={4}
-                      className="w-full bg-gray-900 border border-github-border rounded-md px-3 py-2 text-gray-200 focus:outline-none focus:border-blue-500"
+                      className="w-full border border-github-border rounded-md px-3 py-2 text-gray-200 focus:outline-none focus:border-blue-500"
                       placeholder="Tell us about yourself"
                     />
                   </div>
@@ -632,7 +632,7 @@ const Settings: React.FC = () => {
                             },
                           })
                         }
-                        className="rounded border-github-border bg-gray-900"
+                        className="rounded border-github-border"
                       />
                       <span className="text-sm capitalize">
                         {key.replace(/([A-Z])/g, ' $1').trim()}
@@ -662,7 +662,7 @@ const Settings: React.FC = () => {
                             },
                           })
                         }
-                        className="rounded border-github-border bg-gray-900"
+                        className="rounded border-github-border"
                       />
                       <span className="text-sm capitalize">
                         {key.replace(/([A-Z])/g, ' $1').trim()}
@@ -688,7 +688,7 @@ const Settings: React.FC = () => {
                           desktop: e.target.checked,
                         })
                       }
-                      className="rounded border-github-border bg-gray-900"
+                      className="rounded border-github-border"
                     />
                     <span className="text-sm">Desktop notifications</span>
                   </label>
@@ -703,7 +703,7 @@ const Settings: React.FC = () => {
                           mobile: e.target.checked,
                         })
                       }
-                      className="rounded border-github-border bg-gray-900"
+                      className="rounded border-github-border"
                     />
                     <span className="text-sm">Mobile push notifications</span>
                   </label>
@@ -1004,7 +1004,7 @@ const Settings: React.FC = () => {
                             wordWrap: e.target.checked,
                           })
                         }
-                        className="rounded border-github-border bg-gray-900"
+                        className="rounded border-github-border"
                       />
                       <span className="text-sm">Wrap lines</span>
                     </label>
@@ -1019,7 +1019,7 @@ const Settings: React.FC = () => {
                             lineNumbers: e.target.checked,
                           })
                         }
-                        className="rounded border-github-border bg-gray-900"
+                        className="rounded border-github-border"
                       />
                       <span className="text-sm">Show line numbers</span>
                     </label>

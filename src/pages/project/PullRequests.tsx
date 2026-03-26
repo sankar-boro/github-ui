@@ -150,7 +150,7 @@ const PullRequestsSection = () => {
     const colors = {
       red: 'bg-red-900/30 text-red-400 border-red-800',
       purple: 'bg-purple-900/30 text-purple-400 border-purple-800',
-      blue: 'bg-blue-900/30 text-blue-400 border-blue-800',
+      blue: 'bg-blue-900/30 text-white border-blue-800',
       pink: 'bg-pink-900/30 text-pink-400 border-pink-800',
       green: 'bg-green-900/30 text-green-400 border-green-800',
       yellow: 'bg-yellow-900/30 text-yellow-400 border-yellow-800',
@@ -311,7 +311,7 @@ const PullRequestsSection = () => {
                       }`}
                     />
                     <span className="text-gray-500 text-sm">#{pr.number}</span>
-                    <h3 className="text-base font-medium text-white hover:text-blue-400 cursor-pointer transition-colors">
+                    <h3 className="text-base font-medium text-white hover:text-white cursor-pointer transition-colors">
                       {pr.title}
                     </h3>
                     {pr.labels.map((label, idx) => (

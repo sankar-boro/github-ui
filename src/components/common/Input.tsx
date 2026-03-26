@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       onLeftIconClick,
       onRightIconClick,
       fullWidth = false,
-      className = "",
+      className = '',
       id,
       ...props
     },
@@ -32,16 +32,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const hasError = !!error;
 
     const baseClasses =
-      "bg-gray-900 border rounded-md px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-github-dark transition-colors";
+      'border rounded-md px-3 py-2 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-github-dark transition-colors';
     const stateClasses = hasError
-      ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-      : "border-github-border focus:border-blue-500 focus:ring-blue-500";
-    const widthClass = fullWidth ? "w-full" : "";
-    const withLeftIcon = leftIcon ? "pl-10" : "";
-    const withRightIcon = rightIcon ? "pr-10" : "";
+      ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+      : 'border-github-border focus:border-blue-500 focus:ring-blue-500';
+    const widthClass = fullWidth ? 'w-full' : '';
+    const withLeftIcon = leftIcon ? 'pl-10' : '';
+    const withRightIcon = rightIcon ? 'pr-10' : '';
 
     return (
-      <div className={`${fullWidth ? "w-full" : ""}`}>
+      <div className={`${fullWidth ? 'w-full' : ''}`}>
         {label && (
           <label
             htmlFor={inputId}
@@ -55,7 +55,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {leftIcon && (
             <div
               className={`absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 ${
-                onLeftIconClick ? "cursor-pointer hover:text-gray-300" : ""
+                onLeftIconClick ? 'cursor-pointer hover:text-gray-300' : ''
               }`}
               onClick={onLeftIconClick}
             >
@@ -81,7 +81,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {rightIcon && (
             <div
               className={`absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 ${
-                onRightIconClick ? "cursor-pointer hover:text-gray-300" : ""
+                onRightIconClick ? 'cursor-pointer hover:text-gray-300' : ''
               }`}
               onClick={onRightIconClick}
             >
@@ -106,6 +106,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
-Input.displayName = "Input";
+Input.displayName = 'Input';
 
 export default Input;
