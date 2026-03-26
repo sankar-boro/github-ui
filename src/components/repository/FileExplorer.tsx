@@ -8,7 +8,7 @@ interface FileNode {
   children?: FileNode[];
 }
 
-const FileExplorer = ({ username, repo }: any) => {
+const FileExplorer = ({ username, repo, setReadmeHashId }: any) => {
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
     new Set(['src']),
   );
@@ -64,6 +64,14 @@ const FileExplorer = ({ username, repo }: any) => {
         },
       );
       const jsonResponse = await response.json();
+      let readme_hash_id = null;
+      for (const r of jsonResponse.data.entries) {
+        if (r.name === 'README.md' || r.name === 'Readme.md') {
+          readme_hash_id = r.sha;
+        }
+      }
+      setReadmeHashId(readme_hash_id);
+
       setMockFileStructure(
         jsonResponse.data.entries.sort((a: any, b: any) => {
           // directories first
@@ -75,7 +83,6 @@ const FileExplorer = ({ username, repo }: any) => {
           return a.name.localeCompare(b.name);
         }),
       );
-      console.log(jsonResponse);
     })();
   }, []);
 

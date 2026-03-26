@@ -46,22 +46,7 @@ const Repository: React.FC = () => {
     branches: ['main', 'develop', 'feature/ui'],
     defaultBranch: 'main',
   });
-
-  // Mock repository data
-  // const repository = {
-  //   name: repo,
-  //   owner: username,
-  //   description:
-  //     'A modern web application with amazing features and capabilities',
-  //   stars: 1234,
-  //   forks: 456,
-  //   watchers: 89,
-  //   language: 'TypeScript',
-  //   license: 'MIT',
-  //   updatedAt: '2024-01-15T10:30:00Z',
-  //   branches: ['main', 'develop', 'feature/ui'],
-  //   defaultBranch: 'main',
-  // };
+  const [readmeHashId, setReadmeHashId] = useState(null);
 
   const tabs = [
     { id: 'code', label: 'Code', icon: Code2 },
@@ -214,12 +199,20 @@ const Repository: React.FC = () => {
               </div>
 
               {/* File explorer */}
-              <FileExplorer username={username} repo={repo} />
+              <FileExplorer
+                username={username}
+                repo={repo}
+                setReadmeHashId={setReadmeHashId}
+              />
             </div>
 
             {/* Readme */}
             <div className="mt-4">
-              <Readme username={username} repo={repo} />
+              <Readme
+                username={username}
+                repo={repo}
+                readmeHashId={readmeHashId}
+              />
             </div>
           </div>
 

@@ -3,23 +3,32 @@ import { BookOpen, Edit3, History } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { REPOS_URL } from '../../config';
 
-const Readme = ({ username, repo }: { username: string; repo: string }) => {
+const Readme = ({
+  username,
+  repo,
+  readmeHashId,
+}: {
+  username: string;
+  repo: string;
+  readmeHashId: string;
+}) => {
   const [markdown, setMarkdown] = useState('');
   useEffect(() => {
-    (async () => {
-      const response = await fetch(
-        REPOS_URL + '/' + username + '/' + repo + '/' + 'readme',
-        {
-          method: 'GET',
-          credentials: 'include',
-        },
-      );
-      const jsonResponse = await response.json();
-      console.log(jsonResponse);
-      const md = jsonResponse.data;
-      setMarkdown(md);
-    })();
-  }, []);
+    if (readmeHashId) {
+      (async () => {
+        const response = await fetch(
+          `${REPOS_URL}/${username}/${repo}/readme?sha=${readmeHashId}`,
+          {
+            method: 'GET',
+            credentials: 'include',
+          },
+        );
+        const jsonResponse = await response.json();
+        const md = jsonResponse.data;
+        setMarkdown(md);
+      })();
+    }
+  }, [readmeHashId]);
 
   return (
     <div className="bg-github-darker border border-github-border rounded-md">
