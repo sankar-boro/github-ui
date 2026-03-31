@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { DELETE_REPO } from '../../config';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SettingsPage = () => {
   const params = useParams<any>();
+  const navigate = useNavigate();
   const { username, repo } = params;
 
   const [repoName, setRepoName] = useState('project-alpha');
@@ -87,6 +88,7 @@ const SettingsPage = () => {
         });
         setDeleteStatus('deleted');
         setTimeout(() => setDeleteStatus('idle'), 1000);
+        navigate('/', { replace: true });
       } catch (error) {}
     } else {
       setDeleteStatus('confirming');

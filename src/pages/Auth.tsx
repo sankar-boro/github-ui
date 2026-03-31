@@ -38,16 +38,16 @@ enum UI {
 
 const Auth: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, error } = useAuth();
 
   // const [isLogin, setIsLogin] = useState(false);
   const [ui, setUi] = useState(UI.LOGIN);
 
   const [formData, setFormData] = useState<AuthFormData>({
-    username: 'sankar.boro@yahoo.com',
-    email: 'sankar.boro@yahoo.com',
-    password: 'sankar_boro',
-    confirmPassword: 'sankar_boro',
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
