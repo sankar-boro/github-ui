@@ -344,9 +344,9 @@ const Repository: React.FC = () => {
         </div>
       )}
 
-      {activeTab === 'issues' && <IssuesTab />}
+      {activeTab === 'issues' && <IssuesTab owner={username} repo={repo} />}
 
-      {activeTab === 'pulls' && <PullRequestsTab />}
+      {activeTab === 'pulls' && <PullRequestsTab owner={username} repo={repo} />}
 
       {activeTab === 'settings' && <SettingsPage />}
     </div>

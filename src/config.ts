@@ -1,4 +1,10 @@
-export const API_URL = process.env.API_URL || 'http://localhost:2000';
+const { AUTH_HTTPS_PORT, API_HTTPS_PORT } = process.env;
+
+export const AUTH_URL =
+  `https://localhost:${AUTH_HTTPS_PORT}` || 'http://localhost:2443';
+export const API_URL =
+  `https://localhost:${API_HTTPS_PORT}` || 'http://localhost:2000';
+
 //
 export const LOGIN_URL = API_URL + '/login';
 export const REGISTER_URL = API_URL + '/register';

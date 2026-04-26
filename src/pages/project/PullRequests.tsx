@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Search,
   Plus,
@@ -9,128 +9,61 @@ import {
   ChevronDown,
   CheckCircle,
   Circle,
-  AlertCircle,
   GitPullRequest,
   GitMerge,
-  Clock,
   XCircle,
   Star,
   Settings,
-  RefreshCw,
 } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
+import { REPOS_URL } from '../../config';
 
-const PullRequestsSection = () => {
-  const [activeTab, setActiveTab] = useState('open');
-  const [selectedPRs, setSelectedPRs] = useState([]);
+interface PRItem {
+  id: string;
+  number: number;
+  title: string;
+  author_username: string;
+  created_at: string;
+  closed_at: string | null;
+  merged_at: string | null;
+  merged: boolean;
+  head_branch: string;
+  base_branch: string;
+  labels: Array<{ name: string; color: string }> | null;
+  comments_count: number;
+  commits_count: number;
+  changed_files: number;
+}
+
+interface Props {
+  owner: string | undefined;
+  repo: string | undefined;
+}
+
+const PullRequestsSection = ({ owner, repo }: Props) => {
+  const [activeTab, setActiveTab] = useState<'open' | 'closed'>('open');
+  const [selectedPRs, setSelectedPRs] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [openPRs, setOpenPRs] = useState<PRItem[]>([]);
+  const [closedPRs, setClosedPRs] = useState<PRItem[]>([]);
 
-  const pullRequests = {
-    open: [
-      {
-        id: 234,
-        title: 'Add authentication middleware',
-        number: 234,
-        author: 'dev-team',
-        createdAt: '2 hours ago',
-        branch: 'feature/auth-middleware',
-        targetBranch: 'main',
-        labels: [
-          { name: 'enhancement', color: 'purple' },
-          { name: 'needs-review', color: 'yellow' },
-        ],
-        comments: 5,
-        commits: 3,
-        changedFiles: 8,
-        checks: {
-          status: 'pending',
-          passed: 2,
-          total: 3,
-        },
-        mergeable: true,
-      },
-      {
-        id: 228,
-        title: 'Optimize database queries for dashboard',
-        number: 228,
-        author: 'backend-team',
-        createdAt: '1 day ago',
-        branch: 'optimize/db-queries',
-        targetBranch: 'main',
-        labels: [
-          { name: 'performance', color: 'green' },
-          { name: 'priority', color: 'red' },
-        ],
-        comments: 12,
-        commits: 5,
-        changedFiles: 12,
-        checks: {
-          status: 'success',
-          passed: 3,
-          total: 3,
-        },
-        mergeable: true,
-      },
-      {
-        id: 225,
-        title: 'Update documentation for API endpoints',
-        number: 225,
-        author: 'docs-team',
-        createdAt: '3 days ago',
-        branch: 'docs/api-updates',
-        targetBranch: 'main',
-        labels: [{ name: 'documentation', color: 'blue' }],
-        comments: 2,
-        commits: 2,
-        changedFiles: 5,
-        checks: {
-          status: 'failure',
-          passed: 1,
-          total: 2,
-        },
-        mergeable: false,
-        conflicts: true,
-      },
-    ],
-    closed: [
-      {
-        id: 220,
-        title: 'Fix login redirect issue',
-        number: 220,
-        author: 'frontend-team',
-        createdAt: '1 week ago',
-        closedAt: '3 days ago',
-        branch: 'fix/login-redirect',
-        targetBranch: 'main',
-        labels: [{ name: 'bug', color: 'red' }],
-        comments: 8,
-        commits: 1,
-        changedFiles: 2,
-        merged: true,
-      },
-      {
-        id: 215,
-        title: 'Add dark mode support',
-        number: 215,
-        author: 'design-team',
-        createdAt: '2 weeks ago',
-        closedAt: '1 week ago',
-        branch: 'feature/dark-mode',
-        targetBranch: 'main',
-        labels: [
-          { name: 'enhancement', color: 'purple' },
-          { name: 'ui', color: 'pink' },
-        ],
-        comments: 15,
-        commits: 8,
-        changedFiles: 20,
-        merged: true,
-      },
-    ],
-  };
+  useEffect(() => {
+    if (!owner || !repo) return;
+    const fetchState = async (state: 'open' | 'closed') => {
+      const res = await fetch(
+        `${REPOS_URL}/${owner}/${repo}/pulls?state=${state}`,
+        { credentials: 'include' },
+      );
+      const json = await res.json();
+      return (json.data?.pull_requests ?? []) as PRItem[];
+    };
+    fetchState('open').then(setOpenPRs);
+    fetchState('closed').then(setClosedPRs);
+  }, [owner, repo]);
 
-  const currentPRs = pullRequests[activeTab];
+  const currentPRs = activeTab === 'open' ? openPRs : closedPRs;
 
-  const togglePRSelection = (prId) => {
+  const togglePRSelection = (prId: string) => {
     if (selectedPRs.includes(prId)) {
       setSelectedPRs(selectedPRs.filter((id) => id !== prId));
     } else {
@@ -146,49 +79,11 @@ const PullRequestsSection = () => {
     }
   };
 
-  const getLabelColor = (color) => {
-    const colors = {
-      red: 'bg-red-900/30 text-red-400 border-red-800',
-      purple: 'bg-purple-900/30 text-purple-400 border-purple-800',
-      blue: 'bg-blue-900/30 text-white border-blue-800',
-      pink: 'bg-pink-900/30 text-pink-400 border-pink-800',
-      green: 'bg-green-900/30 text-green-400 border-green-800',
-      yellow: 'bg-yellow-900/30 text-yellow-400 border-yellow-800',
-    };
-    return colors[color] || 'bg-gray-800 text-gray-400 border-gray-700';
-  };
-
-  const getCheckStatusIcon = (status) => {
-    switch (status) {
-      case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'failure':
-        return <XCircle className="h-4 w-4 text-red-500" />;
-      case 'pending':
-        return <RefreshCw className="h-4 w-4 text-yellow-500 animate-spin" />;
-      default:
-        return <Clock className="h-4 w-4 text-gray-500" />;
-    }
-  };
-
-  const getCheckStatusText = (status) => {
-    switch (status) {
-      case 'success':
-        return 'All checks have passed';
-      case 'failure':
-        return 'Some checks failed';
-      case 'pending':
-        return 'Checks are pending';
-      default:
-        return 'Checks not run';
-    }
-  };
-
   const filteredPRs = currentPRs.filter(
     (pr) =>
       pr.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       `#${pr.number}`.includes(searchQuery) ||
-      pr.author.toLowerCase().includes(searchQuery.toLowerCase()),
+      pr.author_username.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -206,7 +101,7 @@ const PullRequestsSection = () => {
               }`}
             >
               <GitPullRequest className="h-4 w-4" />
-              <span>{pullRequests.open.length} Open</span>
+              <span>{openPRs.length} Open</span>
             </button>
             <button
               onClick={() => setActiveTab('closed')}
@@ -217,7 +112,7 @@ const PullRequestsSection = () => {
               }`}
             >
               <CheckCircle className="h-4 w-4" />
-              <span>{pullRequests.closed.length} Closed</span>
+              <span>{closedPRs.length} Closed</span>
             </button>
           </div>
           <button className="bg-github-primary hover:bg-github-primaryHover text-white px-4 py-2 rounded-md text-sm font-medium flex items-center space-x-2 transition-colors shadow-sm">
@@ -314,10 +209,15 @@ const PullRequestsSection = () => {
                     <h3 className="text-base font-medium text-white hover:text-white cursor-pointer transition-colors">
                       {pr.title}
                     </h3>
-                    {pr.labels.map((label, idx) => (
+                    {(pr.labels ?? []).map((label, idx) => (
                       <span
                         key={idx}
-                        className={`px-2 py-0.5 text-xs font-medium rounded-full border ${getLabelColor(label.color)}`}
+                        className="px-2 py-0.5 text-xs font-medium rounded-full border"
+                        style={{
+                          backgroundColor: `#${label.color}33`,
+                          color: `#${label.color}`,
+                          borderColor: `#${label.color}66`,
+                        }}
                       >
                         {label.name}
                       </span>
@@ -327,10 +227,12 @@ const PullRequestsSection = () => {
                   <div className="flex items-center flex-wrap gap-4 text-xs text-gray-500 mb-2">
                     <span className="flex items-center space-x-1">
                       <User className="h-3 w-3" />
-                      <span>{pr.author}</span>
+                      <span>{pr.author_username}</span>
                     </span>
-                    <span>opened {pr.createdAt}</span>
-                    {activeTab === 'closed' && pr.closedAt && (
+                    <span>
+                      opened {formatDistanceToNow(new Date(pr.created_at))} ago
+                    </span>
+                    {activeTab === 'closed' && pr.closed_at && (
                       <span className="flex items-center space-x-1">
                         {pr.merged ? (
                           <GitMerge className="h-3 w-3 text-purple-500" />
@@ -338,89 +240,64 @@ const PullRequestsSection = () => {
                           <XCircle className="h-3 w-3 text-red-500" />
                         )}
                         <span>
-                          {pr.merged ? 'merged' : 'closed'} {pr.closedAt}
+                          {pr.merged ? 'merged' : 'closed'}{' '}
+                          {formatDistanceToNow(new Date(pr.closed_at))} ago
                         </span>
                       </span>
                     )}
                     <span className="flex items-center space-x-1">
                       <GitPullRequest className="h-3 w-3" />
-                      <span>{pr.branch}</span>
+                      <span>{pr.head_branch}</span>
                       <span>→</span>
-                      <span>{pr.targetBranch}</span>
+                      <span>{pr.base_branch}</span>
                     </span>
                   </div>
 
                   <div className="flex items-center flex-wrap gap-4 text-xs">
-                    {/* Commits and Files */}
                     <div className="flex items-center space-x-3 text-gray-500">
-                      <span className="flex items-center space-x-1">
-                        <GitMerge className="h-3 w-3" />
-                        <span>{pr.commits} commits</span>
-                      </span>
-                      <span className="flex items-center space-x-1">
-                        <svg
-                          className="h-3 w-3"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                          />
-                        </svg>
-                        <span>{pr.changedFiles} files changed</span>
-                      </span>
-                      <span className="flex items-center space-x-1">
-                        <svg
-                          className="h-3 w-3"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                          />
-                        </svg>
-                        <span>{pr.comments} comments</span>
-                      </span>
-                    </div>
-
-                    {/* Checks Status */}
-                    {activeTab === 'open' && pr.checks && (
-                      <div className="flex items-center space-x-2">
-                        {getCheckStatusIcon(pr.checks.status)}
-                        <span className="text-gray-400">
-                          {getCheckStatusText(pr.checks.status)}
-                          {pr.checks.status !== 'pending' && (
-                            <span className="ml-1">
-                              ({pr.checks.passed}/{pr.checks.total})
-                            </span>
-                          )}
+                      {pr.commits_count > 0 && (
+                        <span className="flex items-center space-x-1">
+                          <GitMerge className="h-3 w-3" />
+                          <span>{pr.commits_count} commits</span>
                         </span>
-                      </div>
-                    )}
-
-                    {/* Merge Conflict Warning */}
-                    {activeTab === 'open' && pr.conflicts && (
-                      <span className="flex items-center space-x-1 text-red-400 bg-red-900/20 px-2 py-0.5 rounded">
-                        <AlertCircle className="h-3 w-3" />
-                        <span>Merge conflicts</span>
-                      </span>
-                    )}
-
-                    {/* Mergeable Status */}
-                    {activeTab === 'open' && pr.mergeable && !pr.conflicts && (
-                      <span className="flex items-center space-x-1 text-green-400 bg-green-900/20 px-2 py-0.5 rounded">
-                        <CheckCircle className="h-3 w-3" />
-                        <span>Ready to merge</span>
-                      </span>
-                    )}
+                      )}
+                      {pr.changed_files > 0 && (
+                        <span className="flex items-center space-x-1">
+                          <svg
+                            className="h-3 w-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                          <span>{pr.changed_files} files changed</span>
+                        </span>
+                      )}
+                      {pr.comments_count > 0 && (
+                        <span className="flex items-center space-x-1">
+                          <svg
+                            className="h-3 w-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                            />
+                          </svg>
+                          <span>{pr.comments_count} comments</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 

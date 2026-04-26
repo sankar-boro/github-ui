@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rsbuild build",
     "check": "biome check --write",
-    "dev": "rsbuild dev --open",
+    "dev": "HTTPS=true rsbuild dev --open",
     "format": "prettier --write .",
     "lint": "eslint .",
     "preview": "rsbuild preview"
@@ -16,6 +16,7 @@
     "axios": "^1.13.6",
     "cookie-parser": "^1.4.7",
     "date-fns": "^4.1.0",
+    "loony-dotenv": "^0.1.2",
     "lucide-react": "^0.577.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

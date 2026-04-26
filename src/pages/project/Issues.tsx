@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Search,
   Plus,
@@ -12,73 +12,51 @@ import {
   AlertCircle,
   Star,
   Settings,
-  X,
 } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
+import { REPOS_URL } from '../../config';
 
-const IssuesSection = () => {
-  const [activeTab, setActiveTab] = useState('open');
-  const [selectedIssues, setSelectedIssues] = useState([]);
+interface IssueItem {
+  id: string;
+  number: number;
+  title: string;
+  author_username: string;
+  created_at: string;
+  closed_at: string | null;
+  labels: Array<{ name: string; color: string }> | null;
+  comments_count: number;
+  assignee_username: string | null;
+}
+
+interface Props {
+  owner: string | undefined;
+  repo: string | undefined;
+}
+
+const IssuesSection = ({ owner, repo }: Props) => {
+  const [activeTab, setActiveTab] = useState<'open' | 'closed'>('open');
+  const [selectedIssues, setSelectedIssues] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [openIssues, setOpenIssues] = useState<IssueItem[]>([]);
+  const [closedIssues, setClosedIssues] = useState<IssueItem[]>([]);
 
-  const issues = {
-    open: [
-      {
-        id: 123,
-        title: 'Update documentation for v2 release',
-        number: 123,
-        author: 'sankar-boro',
-        createdAt: '2 days ago',
-        labels: [
-          { name: 'bug', color: 'red' },
-          { name: 'enhancement', color: 'purple' },
-        ],
-        comments: 3,
-        assignee: null,
-      },
-      {
-        id: 118,
-        title: 'Fix responsive layout on mobile devices',
-        number: 118,
-        author: 'contributor1',
-        createdAt: '5 days ago',
-        labels: [
-          { name: 'bug', color: 'red' },
-          { name: 'mobile', color: 'blue' },
-        ],
-        comments: 2,
-        assignee: 'contributor1',
-      },
-      {
-        id: 105,
-        title: 'Add dark mode support',
-        number: 105,
-        author: 'designer',
-        createdAt: '1 week ago',
-        labels: [
-          { name: 'enhancement', color: 'purple' },
-          { name: 'ui', color: 'pink' },
-        ],
-        comments: 8,
-        assignee: null,
-      },
-    ],
-    closed: [
-      {
-        id: 102,
-        title: 'Fix login authentication bug',
-        number: 102,
-        author: 'dev-team',
-        createdAt: '2 weeks ago',
-        labels: [{ name: 'bug', color: 'red' }],
-        comments: 5,
-        closedAt: '1 week ago',
-      },
-    ],
-  };
+  useEffect(() => {
+    if (!owner || !repo) return;
+    const fetchState = async (state: 'open' | 'closed') => {
+      const res = await fetch(
+        `${REPOS_URL}/${owner}/${repo}/issues?state=${state}`,
+        { credentials: 'include' },
+      );
+      const json = await res.json();
+      return (json.data?.issues ?? []) as IssueItem[];
+    };
+    fetchState('open').then(setOpenIssues);
+    fetchState('closed').then(setClosedIssues);
+  }, [owner, repo]);
 
-  const currentIssues = issues[activeTab];
+  const currentIssues = activeTab === 'open' ? openIssues : closedIssues;
 
-  const toggleIssueSelection = (issueId) => {
+  const toggleIssueSelection = (issueId: string) => {
     if (selectedIssues.includes(issueId)) {
       setSelectedIssues(selectedIssues.filter((id) => id !== issueId));
     } else {
@@ -92,17 +70,6 @@ const IssuesSection = () => {
     } else {
       setSelectedIssues(currentIssues.map((issue) => issue.id));
     }
-  };
-
-  const getLabelColor = (color) => {
-    const colors = {
-      red: 'bg-red-900/30 text-red-400 border-red-800',
-      purple: 'bg-purple-900/30 text-purple-400 border-purple-800',
-      blue: 'bg-blue-900/30 text-white border-blue-800',
-      pink: 'bg-pink-900/30 text-pink-400 border-pink-800',
-      green: 'bg-green-900/30 text-green-400 border-green-800',
-    };
-    return colors[color] || 'bg-gray-800 text-gray-400 border-gray-700';
   };
 
   const filteredIssues = currentIssues.filter(
@@ -126,7 +93,7 @@ const IssuesSection = () => {
               }`}
             >
               <AlertCircle className="h-4 w-4" />
-              <span>{issues.open.length} Open</span>
+              <span>{openIssues.length} Open</span>
             </button>
             <button
               onClick={() => setActiveTab('closed')}
@@ -137,7 +104,7 @@ const IssuesSection = () => {
               }`}
             >
               <CheckCircle className="h-4 w-4" />
-              <span>{issues.closed.length} Closed</span>
+              <span>{closedIssues.length} Closed</span>
             </button>
           </div>
           <button className="bg-github-primary hover:bg-github-primaryHover text-white px-4 py-2 rounded-md text-sm font-medium flex items-center space-x-2 transition-colors shadow-sm">
@@ -229,10 +196,15 @@ const IssuesSection = () => {
                     <h3 className="text-base font-medium text-white hover:text-white cursor-pointer transition-colors">
                       {issue.title}
                     </h3>
-                    {issue.labels.map((label, idx) => (
+                    {(issue.labels ?? []).map((label, idx) => (
                       <span
                         key={idx}
-                        className={`px-2 py-0.5 text-xs font-medium rounded-full border ${getLabelColor(label.color)}`}
+                        className="px-2 py-0.5 text-xs font-medium rounded-full border"
+                        style={{
+                          backgroundColor: `#${label.color}33`,
+                          color: `#${label.color}`,
+                          borderColor: `#${label.color}66`,
+                        }}
                       >
                         {label.name}
                       </span>
@@ -246,11 +218,11 @@ const IssuesSection = () => {
                         <CheckCircle className="h-3 w-3 text-purple-500" />
                       )}
                       <span>
-                        Opened #{issue.number} by {issue.author}{' '}
-                        {issue.createdAt}
+                        Opened #{issue.number} by {issue.author_username}{' '}
+                        {formatDistanceToNow(new Date(issue.created_at))} ago
                       </span>
                     </span>
-                    {issue.comments !== undefined && (
+                    {issue.comments_count > 0 && (
                       <span className="flex items-center space-x-1">
                         <svg
                           className="h-3 w-3"
@@ -265,17 +237,20 @@ const IssuesSection = () => {
                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                           />
                         </svg>
-                        <span>{issue.comments} comments</span>
+                        <span>{issue.comments_count} comments</span>
                       </span>
                     )}
-                    {issue.assignee && (
+                    {issue.assignee_username && (
                       <span className="flex items-center space-x-1">
                         <User className="h-3 w-3" />
-                        <span>{issue.assignee}</span>
+                        <span>{issue.assignee_username}</span>
                       </span>
                     )}
-                    {activeTab === 'closed' && issue.closedAt && (
-                      <span>Closed {issue.closedAt}</span>
+                    {activeTab === 'closed' && issue.closed_at && (
+                      <span>
+                        Closed{' '}
+                        {formatDistanceToNow(new Date(issue.closed_at))} ago
+                      </span>
                     )}
                   </div>
                 </div>
