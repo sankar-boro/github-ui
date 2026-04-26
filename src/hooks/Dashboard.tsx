@@ -1,5 +1,5 @@
 import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
-import { REPOS_URL } from '../config';
+import { API_URL } from '../config';
 import type { User, Repository } from '../types';
 import type { AuthUser } from '../types/auth';
 
@@ -11,7 +11,7 @@ export const useRecentRepositories = (
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        REPOS_URL + '/' + user?.username + '/' + 'recentRepos',
+        API_URL + '/' + user?.username + '/' + 'recentRepos',
         {
           method: 'GET',
           credentials: 'include',

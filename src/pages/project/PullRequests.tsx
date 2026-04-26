@@ -16,7 +16,7 @@ import {
   Settings,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { REPOS_URL } from '../../config';
+import { API_URL } from '../../config';
 
 interface PRItem {
   id: string;
@@ -51,7 +51,7 @@ const PullRequestsSection = ({ owner, repo }: Props) => {
     if (!owner || !repo) return;
     const fetchState = async (state: 'open' | 'closed') => {
       const res = await fetch(
-        `${REPOS_URL}/${owner}/${repo}/pulls?state=${state}`,
+        `${API_URL}/${owner}/${repo}/pulls?state=${state}`,
         { credentials: 'include' },
       );
       const json = await res.json();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BookOpen, Edit3, History } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
-import { REPOS_URL } from '../../config';
+import { API_URL } from '../../config';
 
 const Readme = ({
   username,
@@ -17,7 +17,7 @@ const Readme = ({
     if (readmeHashId) {
       (async () => {
         const response = await fetch(
-          `${REPOS_URL}/${username}/${repo}/readme?sha=${readmeHashId}`,
+          `${API_URL}/${username}/${repo}/readme?sha=${readmeHashId}`,
           {
             method: 'GET',
             credentials: 'include',

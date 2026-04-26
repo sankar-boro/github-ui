@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DELETE_REPO } from '../../config';
+import { API_URL } from '../../config';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const SettingsPage = () => {
@@ -74,7 +74,7 @@ const SettingsPage = () => {
       try {
         const token = localStorage.getItem('token');
 
-        await fetch(DELETE_REPO + `/${username}/${repoName}`, {
+        await fetch(API_URL + `/${username}/${repoName}/deleteRepo`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

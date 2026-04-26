@@ -14,7 +14,7 @@ import {
   Settings,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { REPOS_URL } from '../../config';
+import { API_URL } from '../../config';
 
 interface IssueItem {
   id: string;
@@ -44,7 +44,7 @@ const IssuesSection = ({ owner, repo }: Props) => {
     if (!owner || !repo) return;
     const fetchState = async (state: 'open' | 'closed') => {
       const res = await fetch(
-        `${REPOS_URL}/${owner}/${repo}/issues?state=${state}`,
+        `${API_URL}/${owner}/${repo}/issues?state=${state}`,
         { credentials: 'include' },
       );
       const json = await res.json();
@@ -248,8 +248,8 @@ const IssuesSection = ({ owner, repo }: Props) => {
                     )}
                     {activeTab === 'closed' && issue.closed_at && (
                       <span>
-                        Closed{' '}
-                        {formatDistanceToNow(new Date(issue.closed_at))} ago
+                        Closed {formatDistanceToNow(new Date(issue.closed_at))}{' '}
+                        ago
                       </span>
                     )}
                   </div>

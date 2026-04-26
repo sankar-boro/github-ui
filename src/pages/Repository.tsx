@@ -24,7 +24,7 @@ import { formatDistanceToNow } from 'date-fns';
 import IssuesTab from './project/Issues';
 import PullRequestsTab from './project/PullRequests';
 import SettingsPage from './project/SettingsPage';
-import { GET_REPO, REPOS_URL } from '../config';
+import { API_URL } from '../config';
 
 interface FileNode {
   name: string;
@@ -69,10 +69,13 @@ const Repository: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(GET_REPO + '/' + username + '/' + repo, {
-        method: 'GET',
-        credentials: 'include',
-      });
+      const response = await fetch(
+        API_URL + '/' + username + '/' + repo + '/' + 'getRepo',
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
       const jsonResponse = await response.json();
       const repository = jsonResponse.data.repository;
       setRepository(repository);
@@ -80,7 +83,7 @@ const Repository: React.FC = () => {
 
     (async () => {
       const response = await fetch(
-        REPOS_URL + '/' + username + '/' + repo + '/' + 'repoTree',
+        API_URL + '/' + username + '/' + repo + '/' + 'repoTree',
         {
           method: 'GET',
           credentials: 'include',
@@ -346,7 +349,9 @@ const Repository: React.FC = () => {
 
       {activeTab === 'issues' && <IssuesTab owner={username} repo={repo} />}
 
-      {activeTab === 'pulls' && <PullRequestsTab owner={username} repo={repo} />}
+      {activeTab === 'pulls' && (
+        <PullRequestsTab owner={username} repo={repo} />
+      )}
 
       {activeTab === 'settings' && <SettingsPage />}
     </div>

@@ -12,7 +12,8 @@ import {
   FileCode,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { CREATE_REPO } from '../config';
+import { API_URL } from '../config';
+import { useNavigate } from 'react-router-dom';
 
 interface NewRepositoryModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ interface NewRepositoryModalProps {
 }
 
 const NewRepositoryModal: React.FC<NewRepositoryModalProps> = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [repoName, setRepoName] = useState('');
   const [description, setDescription] = useState('');
@@ -66,7 +68,7 @@ const NewRepositoryModal: React.FC<NewRepositoryModalProps> = () => {
       const token = localStorage.getItem('token');
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      const response = await fetch(CREATE_REPO, {
+      await fetch(`${API_URL}/createRepo`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +82,8 @@ const NewRepositoryModal: React.FC<NewRepositoryModalProps> = () => {
           auto_init: false,
         }),
       });
-      const jsonResponse = await response.json();
+      // const jsonResponse = await response.json();
+      navigate(`/${user.username}/${repoName}`, { replace: true });
     } catch (error) {}
   };
 

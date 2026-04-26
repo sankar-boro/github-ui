@@ -1,5 +1,5 @@
 import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
-import { REPOS_URL } from '../config';
+import { API_URL } from '../config';
 import type { User, Repository } from '../types';
 
 export const useUserRepositories = (
@@ -10,7 +10,7 @@ export const useUserRepositories = (
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        REPOS_URL + '/' + user?.username + '/' + 'repos',
+        API_URL + '/' + user?.username + '/' + 'repos',
         {
           method: 'GET',
           credentials: 'include',
