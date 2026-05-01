@@ -1,9 +1,11 @@
-const { AUTH_HTTPS_PORT, API_HTTPS_PORT } = process.env;
+const { NODE_HTTP_PORT, NODE_HTTPS_PORT, NODE_ENV } = process.env;
 
 export const AUTH_URL =
-  `https://localhost:${AUTH_HTTPS_PORT}` || 'http://localhost:2443';
+  `https://localhost:${NODE_ENV === 'production' ? NODE_HTTPS_PORT : NODE_HTTP_PORT}` ||
+  '';
 export const API_URL =
-  `https://localhost:${API_HTTPS_PORT}` || 'http://localhost:2000';
+  `https://localhost:${NODE_ENV === 'production' ? NODE_HTTPS_PORT : NODE_HTTP_PORT}` ||
+  'http://localhost:2000';
 
 //
 export const LOGIN_URL = API_URL + '/login';

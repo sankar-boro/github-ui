@@ -4,10 +4,11 @@ import { File, Folder, ChevronRight, ChevronDown } from 'lucide-react';
 interface FileNode {
   name: string;
   type: 'file' | 'folder' | 'directory';
+  mode: '40000' | '100644';
   children?: FileNode[];
 }
 
-const FileExplorer = ({ mockFileStructure }: any) => {
+const FileExplorer = ({ fileStructure }: any) => {
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
     new Set(['src']),
   );
@@ -32,9 +33,9 @@ const FileExplorer = ({ mockFileStructure }: any) => {
       <div key={currentPath} className="select-none">
         <div
           className="flex items-center space-x-1 py-1 px-2 hover:bg-gray-800 rounded cursor-pointer"
-          onClick={() => node.type === 'directory' && toggleFolder(currentPath)}
+          onClick={() => node.mode === '40000' && toggleFolder(currentPath)}
         >
-          {node.type === 'directory' && (
+          {node.mode === '40000' && (
             <span className="text-gray-400">
               {isExpanded ? (
                 <ChevronDown size={16} />
@@ -43,7 +44,7 @@ const FileExplorer = ({ mockFileStructure }: any) => {
               )}
             </span>
           )}
-          {node.type === 'directory' ? (
+          {node.mode === '40000' ? (
             <Folder size={16} className="text-white" />
           ) : (
             <File size={16} className="text-gray-400" />
@@ -51,7 +52,7 @@ const FileExplorer = ({ mockFileStructure }: any) => {
           <span className="text-sm">{node.name}</span>
         </div>
 
-        {node.type === 'directory' && isExpanded && node.children && (
+        {node.mode === '40000' && isExpanded && node.children && (
           <div className="ml-4">
             {node.children.map((child) => renderNode(child, currentPath))}
           </div>
@@ -62,7 +63,7 @@ const FileExplorer = ({ mockFileStructure }: any) => {
 
   return (
     <div className="p-2">
-      {mockFileStructure.map((node: any) => renderNode(node))}
+      {fileStructure.map((node: any) => renderNode(node))}
     </div>
   );
 };

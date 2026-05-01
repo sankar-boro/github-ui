@@ -25,6 +25,7 @@ import IssuesTab from './project/Issues';
 import PullRequestsTab from './project/PullRequests';
 import SettingsPage from './project/SettingsPage';
 import { API_URL } from '../config';
+import ReadmeTemplate from '../components/repository/EmptyReadme';
 
 interface FileNode {
   name: string;
@@ -52,7 +53,7 @@ const Repository: React.FC = () => {
     branches: ['main', 'develop', 'feature/ui'],
     defaultBranch: 'main',
   });
-  const [mockFileStructure, setMockFileStructure] = useState<FileNode[]>([]);
+  const [fileStructure, setFileStructure] = useState<FileNode[]>([]);
   const [readmeHashId, setReadmeHashId] = useState(null);
 
   const tabs = [
@@ -98,11 +99,11 @@ const Repository: React.FC = () => {
       }
       setReadmeHashId(readme_hash_id);
 
-      setMockFileStructure(
+      setFileStructure(
         jsonResponse.data.sort((a: any, b: any) => {
           // directories first
-          if (a.type !== b.type) {
-            return a.type === 'directory' ? -1 : 1;
+          if (a.mode !== b.mode) {
+            return a.mode === '40000' ? -1 : 1;
           }
 
           // then alphabetical by name
@@ -248,17 +249,21 @@ const Repository: React.FC = () => {
               </div>
 
               {/* File explorer */}
-              <FileExplorer mockFileStructure={mockFileStructure} />
+              <FileExplorer fileStructure={fileStructure} />
             </div>
 
             {/* Readme */}
-            <div className="mt-4">
-              <Readme
-                username={username}
-                repo={repo}
-                readmeHashId={readmeHashId}
-              />
-            </div>
+            {readmeHashId && username && repo ? (
+              <div className="mt-4">
+                <Readme
+                  username={username}
+                  repo={repo}
+                  readmeHashId={readmeHashId}
+                />
+              </div>
+            ) : (
+              <ReadmeTemplate />
+            )}
           </div>
 
           {/* Right sidebar */}
