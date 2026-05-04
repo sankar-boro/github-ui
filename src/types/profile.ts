@@ -14,9 +14,9 @@ export interface UserProfile {
   publicGists: number;
   followers: number;
   following: number;
-  createdAt: string;
-  isVerified: boolean;
-  isSponsor: boolean;
+  created_at: string;
+  is_verified: boolean;
+  is_sponsor: boolean;
   status?: {
     emoji?: string;
     message: string;

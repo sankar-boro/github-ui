@@ -5,7 +5,7 @@ export const mockRepositories: Repository[] = [
   {
     id: 1,
     name: 'project-alpha',
-    fullName: 'john-doe/project-alpha',
+    full_name: 'john-doe/project-alpha',
     description:
       'A modern web application built with React and Node.js. Features include real-time updates, authentication, and a beautiful UI.',
     private: false,
@@ -15,9 +15,9 @@ export const mockRepositories: Repository[] = [
     forks: 34,
     watchers: 12,
     openIssues: 5,
-    updatedAt: '2024-01-15T10:30:00Z',
-    createdAt: '2023-06-10T08:00:00Z',
-    pushedAt: '2024-01-15T10:30:00Z',
+    updated_at: '2024-01-15T10:30:00Z',
+    created_at: '2023-06-10T08:00:00Z',
+    pushed_at: '2024-01-15T10:30:00Z',
     owner: {
       login: 'john-doe',
       avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
@@ -31,7 +31,7 @@ export const mockRepositories: Repository[] = [
   {
     id: 2,
     name: 'dotfiles',
-    fullName: 'john-doe/dotfiles',
+    full_name: 'john-doe/dotfiles',
     description:
       'My personal dotfiles configuration for zsh, vim, tmux, and more.',
     private: true,
@@ -41,9 +41,9 @@ export const mockRepositories: Repository[] = [
     forks: 12,
     watchers: 5,
     openIssues: 2,
-    updatedAt: '2024-01-14T08:20:00Z',
-    createdAt: '2023-08-22T14:30:00Z',
-    pushedAt: '2024-01-14T08:20:00Z',
+    updated_at: '2024-01-14T08:20:00Z',
+    created_at: '2023-08-22T14:30:00Z',
+    pushed_at: '2024-01-14T08:20:00Z',
     owner: {
       login: 'john-doe',
       avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
@@ -57,7 +57,7 @@ export const mockRepositories: Repository[] = [
   {
     id: 3,
     name: 'awesome-project',
-    fullName: 'john-doe/awesome-project',
+    full_name: 'john-doe/awesome-project',
     description:
       'An awesome open-source project that does amazing things with machine learning.',
     private: false,
@@ -67,9 +67,9 @@ export const mockRepositories: Repository[] = [
     forks: 78,
     watchers: 34,
     openIssues: 12,
-    updatedAt: '2024-01-13T15:45:00Z',
-    createdAt: '2023-04-05T11:20:00Z',
-    pushedAt: '2024-01-13T15:45:00Z',
+    updated_at: '2024-01-13T15:45:00Z',
+    created_at: '2023-04-05T11:20:00Z',
+    pushed_at: '2024-01-13T15:45:00Z',
     owner: {
       login: 'john-doe',
       avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
@@ -83,7 +83,7 @@ export const mockRepositories: Repository[] = [
   {
     id: 4,
     name: 'react-component-library',
-    fullName: 'john-doe/react-component-library',
+    full_name: 'john-doe/react-component-library',
     description:
       'A collection of reusable React components with TypeScript and Tailwind CSS.',
     private: false,
@@ -93,9 +93,9 @@ export const mockRepositories: Repository[] = [
     forks: 23,
     watchers: 8,
     openIssues: 3,
-    updatedAt: '2024-01-12T09:15:00Z',
-    createdAt: '2023-09-18T16:45:00Z',
-    pushedAt: '2024-01-12T09:15:00Z',
+    updated_at: '2024-01-12T09:15:00Z',
+    created_at: '2023-09-18T16:45:00Z',
+    pushed_at: '2024-01-12T09:15:00Z',
     owner: {
       login: 'john-doe',
       avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
@@ -109,7 +109,7 @@ export const mockRepositories: Repository[] = [
   {
     id: 5,
     name: 'legacy-codebase',
-    fullName: 'john-doe/legacy-codebase',
+    full_name: 'john-doe/legacy-codebase',
     description:
       'Old PHP project that needs migration. Archived for reference only.',
     private: true,
@@ -119,9 +119,9 @@ export const mockRepositories: Repository[] = [
     forks: 3,
     watchers: 2,
     openIssues: 8,
-    updatedAt: '2023-12-01T11:00:00Z',
-    createdAt: '2022-11-30T13:20:00Z',
-    pushedAt: '2023-12-01T11:00:00Z',
+    updated_at: '2023-12-01T11:00:00Z',
+    created_at: '2022-11-30T13:20:00Z',
+    pushed_at: '2023-12-01T11:00:00Z',
     owner: {
       login: 'john-doe',
       avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
@@ -136,7 +136,7 @@ export const mockRepositories: Repository[] = [
   {
     id: 6,
     name: 'api-gateway',
-    fullName: 'org-name/api-gateway',
+    full_name: 'org-name/api-gateway',
     description: 'High-performance API gateway built with Go.',
     private: true,
     fork: false,
@@ -145,9 +145,9 @@ export const mockRepositories: Repository[] = [
     forks: 15,
     watchers: 9,
     openIssues: 4,
-    updatedAt: '2024-01-10T14:20:00Z',
-    createdAt: '2023-07-12T09:30:00Z',
-    pushedAt: '2024-01-10T14:20:00Z',
+    updated_at: '2024-01-10T14:20:00Z',
+    created_at: '2023-07-12T09:30:00Z',
+    pushed_at: '2024-01-10T14:20:00Z',
     owner: {
       login: 'org-name',
       avatar_url: 'https://ui-avatars.com/api/?name=Organization',
@@ -161,7 +161,7 @@ export const mockRepositories: Repository[] = [
   {
     id: 7,
     name: 'docs-site',
-    fullName: 'john-doe/docs-site',
+    full_name: 'john-doe/docs-site',
     description: 'Documentation website built with Docusaurus.',
     private: false,
     fork: false,
@@ -170,9 +170,9 @@ export const mockRepositories: Repository[] = [
     forks: 8,
     watchers: 4,
     openIssues: 1,
-    updatedAt: '2024-01-08T16:30:00Z',
-    createdAt: '2023-10-05T10:15:00Z',
-    pushedAt: '2024-01-08T16:30:00Z',
+    updated_at: '2024-01-08T16:30:00Z',
+    created_at: '2023-10-05T10:15:00Z',
+    pushed_at: '2024-01-08T16:30:00Z',
     owner: {
       login: 'john-doe',
       avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',
@@ -186,7 +186,7 @@ export const mockRepositories: Repository[] = [
   {
     id: 8,
     name: 'devops-scripts',
-    fullName: 'john-doe/devops-scripts',
+    full_name: 'john-doe/devops-scripts',
     description: 'Collection of useful DevOps scripts and configurations.',
     private: false,
     fork: false,
@@ -195,9 +195,9 @@ export const mockRepositories: Repository[] = [
     forks: 19,
     watchers: 7,
     openIssues: 0,
-    updatedAt: '2024-01-05T12:45:00Z',
-    createdAt: '2023-05-20T08:30:00Z',
-    pushedAt: '2024-01-05T12:45:00Z',
+    updated_at: '2024-01-05T12:45:00Z',
+    created_at: '2023-05-20T08:30:00Z',
+    pushed_at: '2024-01-05T12:45:00Z',
     owner: {
       login: 'john-doe',
       avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',

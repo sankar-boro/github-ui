@@ -219,7 +219,7 @@ const Profile: React.FC = () => {
               <h1 className="text-2xl font-semibold">{profile.full_name}</h1>
               <p className="text-gray-400 text-lg">@{profile.username}</p>
 
-              {profile.isVerified && (
+              {profile.is_verified && (
                 <span className="inline-flex items-center gap-1 text-xs bg-blue-500/20 text-white px-2 py-1 rounded-full mt-1">
                   <Github size={12} />
                   Verified
@@ -326,7 +326,7 @@ const Profile: React.FC = () => {
 
               <div className="flex items-center gap-2 text-gray-400">
                 <Calendar size={16} />
-                <span>Joined {formatDate(profile.createdAt)}</span>
+                <span>Joined {formatDate(profile.created_at)}</span>
               </div>
             </div>
 

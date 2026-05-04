@@ -5,7 +5,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
   {
     id: 1,
     name: 'browser-use',
-    fullName: 'browser-use/browser-use',
+    full_name: 'browser-use/browser-use',
     description: 'Make websites accessible for AI agents',
     language: 'Python',
     stars: 24500,
@@ -19,7 +19,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
   {
     id: 2,
     name: 'cline',
-    fullName: 'cline/cline',
+    full_name: 'cline/cline',
     description: 'Autonomous coding agent right in your IDE',
     language: 'TypeScript',
     stars: 18200,
@@ -33,7 +33,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
   {
     id: 3,
     name: 'dify',
-    fullName: 'langgenius/dify',
+    full_name: 'langgenius/dify',
     description: 'Open-source LLM app development platform',
     language: 'Python',
     stars: 51200,
@@ -47,7 +47,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
   {
     id: 4,
     name: 'supabase',
-    fullName: 'supabase/supabase',
+    full_name: 'supabase/supabase',
     description: 'The open source Firebase alternative',
     language: 'TypeScript',
     stars: 72300,
@@ -61,7 +61,7 @@ export const mockTrendingRepos: TrendingRepository[] = [
   {
     id: 5,
     name: 'cal.com',
-    fullName: 'calcom/cal.com',
+    full_name: 'calcom/cal.com',
     description: 'Scheduling infrastructure for everyone',
     language: 'TypeScript',
     stars: 31500,

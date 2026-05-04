@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { API_URL } from '../../config';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const SettingsPage = () => {
+const SettingsPage = ({ repository }: any) => {
   const params = useParams<any>();
   const navigate = useNavigate();
   const { username, repo } = params;
@@ -29,6 +29,9 @@ const SettingsPage = () => {
     if (repo) {
       setRepoName(repo);
     }
+    if (repository) {
+      setDescription(repository.description);
+    }
   }, [username, repo]);
 
   const addTopic = () => {
@@ -42,14 +45,29 @@ const SettingsPage = () => {
     setTopics(topics.filter((topic) => topic !== topicToRemove));
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     setSaveStatus('saving');
     // Simulate API call
-    setTimeout(() => {
-      setSaveStatus('success');
-      // Reset success message after 3 seconds
-      setTimeout(() => setSaveStatus('idle'), 3000);
-    }, 800);
+    // setTimeout(() => {
+    //   setSaveStatus('success');
+    //   // Reset success message after 3 seconds
+    //   setTimeout(() => setSaveStatus('idle'), 3000);
+    // }, 800);
+    try {
+      const token = localStorage.getItem('token');
+      await fetch(API_URL + `/${username}/${repoName}/updateRepo`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: repoName,
+          description,
+        }),
+      });
+    } catch (error) {}
   };
 
   const handleArchive = () => {
@@ -220,7 +238,7 @@ const SettingsPage = () => {
           </div>
 
           {/* Social preview - GitHub style */}
-          <div className="border-b border-gray-200 dark:border-gray-800 pb-6">
+          {/* <div className="border-b border-gray-200 dark:border-gray-800 pb-6">
             <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-1">
               Social preview
             </h3>
@@ -255,7 +273,7 @@ const SettingsPage = () => {
             <button className="mt-3 text-sm text-blue-600 dark:text-white hover:underline">
               Edit social preview
             </button>
-          </div>
+          </div> */}
 
           {/* Danger zone - GitHub style with confirmation buttons */}
           <div>

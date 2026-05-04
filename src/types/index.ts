@@ -11,14 +11,14 @@ export interface User {
   blog?: string;
   website?: string;
   twitter?: string;
-  publicRepos: number;
-  publicGists: number;
+  public_repos: number;
+  public_gists: number;
   followers: number;
   following: number;
-  createdAt: string;
-  updatedAt: string;
-  isVerified?: boolean;
-  isSponsor?: boolean;
+  created_at: string;
+  updated_at: string;
+  is_verified?: boolean;
+  is_sponsor?: boolean;
   status?: UserStatus;
 }
 
@@ -39,7 +39,7 @@ export interface UserProfile extends User {
 export interface Repository {
   id: number;
   name: string;
-  fullName: string;
+  full_name: string;
   description?: string;
   owner: User;
   private: boolean;
@@ -47,14 +47,14 @@ export interface Repository {
   language?: string;
   license?: License;
   topics?: string[];
-  defaultBranch: string;
+  default_branch: string;
   branches?: Branch[];
   tags?: Tag[];
   releases?: Release[];
   contributors?: Contributor[];
-  stars: number;
-  forks: number;
-  watchers: number;
+  stars_count: number;
+  forks_count: number;
+  watchers_count: number;
   openIssues: number;
   openPulls: number;
   size: number;
@@ -62,9 +62,9 @@ export interface Repository {
   template?: boolean;
   archived: boolean;
   disabled: boolean;
-  createdAt: string;
-  updatedAt: string;
-  pushedAt: string;
+  created_at: string;
+  updated_at: string;
+  pushed_at: string;
   permissions?: RepositoryPermissions;
 }
 
@@ -121,7 +121,7 @@ export interface Release {
   body?: string;
   draft: boolean;
   prerelease: boolean;
-  createdAt: string;
+  created_at: string;
   publishedAt: string;
   author: User;
   assets: ReleaseAsset[];
@@ -134,8 +134,8 @@ export interface ReleaseAsset {
   contentType: string;
   size: number;
   downloadCount: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   browserDownloadUrl: string;
 }
 
@@ -241,8 +241,8 @@ export interface Issue {
   comments: number;
   pullRequest?: PullRequestReference;
   closedAt?: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   repository: Repository;
   reactions?: Reactions;
 }
@@ -251,8 +251,8 @@ export interface IssueComment {
   id: number;
   body: string;
   user: User;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   reactions?: Reactions;
 }
 
@@ -275,8 +275,8 @@ export interface Milestone {
   openIssues: number;
   closedIssues: number;
   state: 'open' | 'closed';
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   dueOn?: string;
   closedAt?: string;
 }
@@ -323,8 +323,8 @@ export interface PullRequest {
   authorAssociation: string;
   draft: boolean;
   mergedAt?: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   closedAt?: string;
   mergedBy?: User;
   repository: Repository;
@@ -371,8 +371,8 @@ export interface ReviewComment {
   line?: number;
   commitId: string;
   user: User;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   htmlUrl: string;
   pullRequestUrl: string;
   inReplyToId?: number;
@@ -394,10 +394,10 @@ export interface Organization {
   publicGists: number;
   followers: number;
   following: number;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   type: 'Organization';
-  isVerified?: boolean;
+  is_verified?: boolean;
   members?: User[];
   teams?: Team[];
 }
@@ -413,8 +413,8 @@ export interface Team {
   membersCount: number;
   reposCount: number;
   organization: Organization;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface App {
@@ -425,8 +425,8 @@ export interface App {
   externalUrl: string;
   htmlUrl: string;
   owner: User | Organization;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   permissions: Record<string, string>;
 }
 
@@ -438,7 +438,7 @@ export interface Event {
   repo: Repository;
   payload: any;
   public: boolean;
-  createdAt: string;
+  created_at: string;
   org?: Organization;
 }
 
@@ -507,7 +507,7 @@ export interface Notification {
   subject: NotificationSubject;
   reason: string;
   unread: boolean;
-  updatedAt: string;
+  updated_at: string;
   lastReadAt?: string;
   url: string;
 }
@@ -610,8 +610,8 @@ export interface Gist {
   htmlUrl: string;
   files: Record<string, GistFile>;
   public: boolean;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   description?: string;
   comments: number;
   user?: User;
@@ -705,8 +705,8 @@ export interface Webhook {
   active: boolean;
   events: string[];
   config: WebhookConfig;
-  updatedAt: string;
-  createdAt: string;
+  updated_at: string;
+  created_at: string;
   url: string;
   pingUrl: string;
   testUrl: string;
@@ -789,8 +789,8 @@ export interface Project {
   number: number;
   state: 'open' | 'closed';
   creator: User;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   columnsUrl: string;
 }
 
@@ -799,8 +799,8 @@ export interface ProjectColumn {
   name: string;
   cardsUrl: string;
   projectUrl: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ProjectCard {
@@ -809,8 +809,8 @@ export interface ProjectCard {
   contentUrl?: string;
   columnUrl: string;
   creator: User;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 // Workflow types (GitHub Actions)
@@ -825,8 +825,8 @@ export interface Workflow {
     | 'disabled_fork'
     | 'disabled_inactivity'
     | 'disabled_manually';
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   url: string;
   htmlUrl: string;
   badgeUrl: string;
@@ -855,8 +855,8 @@ export interface WorkflowRun {
   url: string;
   htmlUrl: string;
   pullRequests: PullRequestReference[];
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   runAttempt: number;
   runStartedAt: string;
   jobsUrl: string;
@@ -910,8 +910,8 @@ export interface Package {
   versionCount: number;
   visibility: 'private' | 'public';
   url: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   repository?: Repository;
 }
 
@@ -920,8 +920,8 @@ export interface PackageVersion {
   name: string;
   url: string;
   packageHtmlUrl: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   htmlUrl: string;
   metadata?: PackageMetadata;
 }
@@ -947,8 +947,8 @@ export interface CodeScanningAlert {
   ruleSeverity: 'none' | 'note' | 'warning' | 'error';
   ruleDescription: string;
   tool: CodeScanningTool;
-  createdAt: string;
-  updatedAt?: string;
+  created_at: string;
+  updated_at?: string;
   fixedAt?: string;
   state: 'open' | 'fixed' | 'dismissed';
   dismissedBy?: User;
@@ -991,8 +991,8 @@ export interface CodeScanningLocation {
 
 export interface SecretScanningAlert {
   number: number;
-  createdAt: string;
-  updatedAt?: string;
+  created_at: string;
+  updated_at?: string;
   url: string;
   htmlUrl: string;
   locationsUrl: string;

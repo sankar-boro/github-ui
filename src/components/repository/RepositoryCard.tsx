@@ -13,7 +13,7 @@ interface Repository {
   forks: number;
   // visibility: "public" | "private";
   private: boolean;
-  updatedAt: string;
+  updated_at: string;
 }
 
 interface RepositoryCardProps {
@@ -71,7 +71,7 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repository }) => {
             <span className="flex items-center space-x-1">
               <Clock size={14} />
               <span>
-                Updated {formatDistanceToNow(new Date(repository.updatedAt))}{' '}
+                Updated {formatDistanceToNow(new Date(repository.updated_at))}{' '}
                 ago
               </span>
             </span>

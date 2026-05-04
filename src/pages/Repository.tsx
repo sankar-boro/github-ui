@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Star,
@@ -20,12 +20,20 @@ import FileExplorer from '../components/repository/FileExplorer';
 import Readme from '../components/repository/Readme';
 import NewRepo from '../components/repository/NewRepo';
 
-import { formatDistanceToNow } from 'date-fns';
+import {
+  formatDistanceToNow,
+  formatDistanceToNowStrict,
+  parseISO,
+} from 'date-fns';
 import IssuesTab from './project/Issues';
 import PullRequestsTab from './project/PullRequests';
-import SettingsPage from './project/SettingsPage';
+const SettingsPage = React.lazy(() => import('./project/SettingsPage'));
+
 import { API_URL } from '../config';
 import ReadmeTemplate from '../components/repository/EmptyReadme';
+import type { Repository } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import { generateTabs } from './utils';
 
 interface FileNode {
   name: string;
@@ -35,38 +43,16 @@ interface FileNode {
 
 const Repository: React.FC = () => {
   const { username, repo } = useParams<{ username: string; repo: string }>();
+  const { user } = useAuth();
 
   const [activeTab, setActiveTab] = useState<
     'code' | 'issues' | 'pulls' | 'actions' | 'settings' | 'newRepo' | 'loading'
   >('code');
-  const [repository, setRepository] = useState({
-    name: repo,
-    owner: username,
-    description:
-      'A modern web application with amazing features and capabilities',
-    stars: 1234,
-    forks: 456,
-    watchers: 89,
-    language: 'TypeScript',
-    license: 'MIT',
-    updatedAt: '2024-01-15T10:30:00Z',
-    branches: ['main', 'develop', 'feature/ui'],
-    defaultBranch: 'main',
-  });
+  const [isAuthRepo, setIsAuthRepo] = useState(false);
+  const [repository, setRepository] = useState<Repository | null>(null);
   const [fileStructure, setFileStructure] = useState<FileNode[]>([]);
   const [readmeHashId, setReadmeHashId] = useState(null);
-
-  const tabs = [
-    { id: 'code', label: 'Code', icon: Code2 },
-    { id: 'issues', label: 'Issues', icon: Code2, count: 23 },
-    { id: 'pulls', label: 'Pull requests', icon: Code2, count: 7 },
-    { id: 'actions', label: 'Actions', icon: Clock },
-    { id: 'projects', label: 'Projects' },
-    { id: 'wiki', label: 'Wiki' },
-    { id: 'security', label: 'Security' },
-    { id: 'insights', label: 'Insights' },
-    { id: 'settings', label: 'Settings' },
-  ];
+  const [tabs, setTabs] = useState(generateTabs(false));
 
   useEffect(() => {
     (async () => {
@@ -121,6 +107,15 @@ const Repository: React.FC = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (user?.username === repository?.full_name) {
+      setIsAuthRepo(true);
+      setTabs(generateTabs(true));
+    }
+  }, [repository]);
+
+  if (!repository) return null;
+
   return (
     <div className="max-w-7xl mx-auto">
       {/* Repository header */}
@@ -146,18 +141,20 @@ const Repository: React.FC = () => {
               <Eye size={16} />
               <span>Watch</span>
               <span className="text-xs text-gray-400">
-                {repository.watchers}
+                {repository.watchers_count}
               </span>
             </button>
             <button className="flex items-center space-x-1 px-3 py-1.5 border border-github-border rounded-md hover:bg-gray-800">
               <GitFork size={16} />
               <span>Fork</span>
-              <span className="text-xs text-gray-400">{repository.forks}</span>
+              <span className="text-xs text-gray-400">
+                {repository.forks_count}
+              </span>
             </button>
             <button className="flex items-center space-x-1 px-3 py-1.5 bg-github-primary hover:bg-github-primaryHover rounded-md">
               <Star size={16} />
               <span>Star</span>
-              <span className="text-xs">{repository.stars}</span>
+              <span className="text-xs">{repository.stars_count}</span>
             </button>
           </div>
         </div>
@@ -171,20 +168,26 @@ const Repository: React.FC = () => {
           </span>
           <span className="flex items-center space-x-1">
             <GitFork size={14} />
-            <span>{repository.forks} forks</span>
+            <span>{repository.forks_count} forks</span>
           </span>
           <span className="flex items-center space-x-1">
             <Star size={14} />
-            <span>{repository.stars} stars</span>
+            <span>{repository.stars_count} stars</span>
           </span>
           <span className="flex items-center space-x-1">
             <Users size={14} />
-            <span>{repository.watchers} watching</span>
+            <span>{repository.watchers_count} watching</span>
           </span>
           <span className="flex items-center space-x-1">
             <Clock size={14} />
             <span>
-              {/* Updated {formatDistanceToNow(new Date(repository.updatedAt))} ago */}
+              Updated{' '}
+              {repository.updated_at
+                ? formatDistanceToNowStrict(parseISO(repository.updated_at), {
+                    addSuffix: true,
+                  })
+                : null}
+              {/* {repository.updated_at} */}
             </span>
           </span>
         </div>
@@ -205,11 +208,11 @@ const Repository: React.FC = () => {
             >
               {tab.icon && <tab.icon size={16} />}
               <span>{tab.label}</span>
-              {tab.count && (
+              {tab.count && tab.count > 0 ? (
                 <span className="px-2 py-0.5 bg-gray-800 rounded-full text-xs">
                   {tab.count}
                 </span>
-              )}
+              ) : null}
             </button>
           ))}
         </div>
@@ -227,12 +230,12 @@ const Repository: React.FC = () => {
                 <div className="flex items-center space-x-2">
                   <button className="flex items-center space-x-1 px-3 py-1 border border-github-border rounded-md text-sm hover:bg-gray-800">
                     <GitBranch size={14} />
-                    <span>{repository.defaultBranch}</span>
+                    <span>{repository.default_branch}</span>
                     <ChevronDown size={14} />
                   </button>
                   <span className="text-sm text-gray-400">
                     <GitBranch size={14} className="inline mr-1" />
-                    {repository.branches.length} branches
+                    {repository.branches?.length} branches
                   </span>
                 </div>
                 <div className="flex space-x-2">
@@ -291,7 +294,7 @@ const Repository: React.FC = () => {
                   </div>
                   <div className="flex items-center space-x-2 text-gray-400">
                     <Scale size={16} />
-                    <span>{repository.license} license</span>
+                    <span>{repository.license?.name} license</span>
                   </div>
                 </div>
               </div>
@@ -358,7 +361,11 @@ const Repository: React.FC = () => {
         <PullRequestsTab owner={username} repo={repo} />
       )}
 
-      {activeTab === 'settings' && <SettingsPage />}
+      {activeTab === 'settings' && isAuthRepo && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <SettingsPage repository={repository} />
+        </Suspense>
+      )}
     </div>
   );
 };

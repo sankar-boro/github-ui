@@ -167,7 +167,7 @@ const RepositoriesPage: React.FC = () => {
         (r) =>
           r.name.toLowerCase().includes(query) ||
           (r.description?.toLowerCase().includes(query) ?? false) ||
-          r.fullName.toLowerCase().includes(query),
+          r.full_name.toLowerCase().includes(query),
       );
     }
 
@@ -178,18 +178,18 @@ const RepositoriesPage: React.FC = () => {
       switch (filters.sort) {
         case 'created':
           comparison =
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
           break;
         case 'updated':
           comparison =
-            new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime();
+            new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
           break;
         case 'pushed':
           comparison =
-            new Date(a.pushedAt).getTime() - new Date(b.pushedAt).getTime();
+            new Date(a.pushed_at).getTime() - new Date(b.pushed_at).getTime();
           break;
         case 'full_name':
-          comparison = a.fullName.localeCompare(b.fullName);
+          comparison = a.full_name.localeCompare(b.full_name);
           break;
       }
 
@@ -221,7 +221,7 @@ const RepositoriesPage: React.FC = () => {
   };
 
   const handleRepositoryClick = (repo: Repository) => {
-    navigate(`/${repo.fullName}`);
+    navigate(`/${repo.full_name}`);
   };
 
   const clearFilters = () => {

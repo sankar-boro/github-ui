@@ -62,7 +62,7 @@ export interface SavedSearch {
   id: string;
   name: string;
   query: string;
-  createdAt: string;
+  created_at: string;
 }
 
 // Settings Context

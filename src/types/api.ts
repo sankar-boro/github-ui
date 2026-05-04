@@ -40,7 +40,7 @@ export interface UpdateRepositoryRequest {
   description?: string;
   private?: boolean;
   homepage?: string;
-  defaultBranch?: string;
+  default_branch?: string;
   hasIssues?: boolean;
   hasProjects?: boolean;
   hasWiki?: boolean;
@@ -50,7 +50,7 @@ export interface UpdateRepositoryRequest {
 export interface ForkRepositoryRequest {
   organization?: string;
   name?: string;
-  defaultBranchOnly?: boolean;
+  default_branchOnly?: boolean;
 }
 
 // Issue API types

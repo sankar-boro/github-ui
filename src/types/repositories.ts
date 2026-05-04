@@ -2,7 +2,7 @@
 export interface Repository {
   id: number;
   name: string;
-  fullName: string;
+  full_name: string;
   description: string | null;
   private: boolean;
   fork: boolean;
@@ -11,9 +11,9 @@ export interface Repository {
   forks: number;
   watchers: number;
   openIssues: number;
-  updatedAt: string;
-  createdAt: string;
-  pushedAt: string;
+  updated_at: string;
+  created_at: string;
+  pushed_at: string;
   owner: {
     login: string;
     avatar_url: string;

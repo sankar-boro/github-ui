@@ -43,14 +43,14 @@ export const mockRepositories = [
   {
     id: 1,
     name: 'project-alpha',
-    fullName: 'john-doe/project-alpha',
+    full_name: 'john-doe/project-alpha',
     description: 'A modern web application built with React and Node.js',
     language: 'TypeScript',
     stars: 128,
     forks: 34,
     watchers: 12,
     openIssues: 5,
-    updatedAt: '2024-01-15T10:30:00Z',
+    updated_at: '2024-01-15T10:30:00Z',
     owner: {
       login: 'john-doe',
       avatar_url: 'https://ui-avatars.com/api/?name=John+Doe',

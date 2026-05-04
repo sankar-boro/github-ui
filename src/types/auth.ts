@@ -54,10 +54,10 @@ export interface UserProfile extends AuthUser {
   publicGists: number;
   followers: number;
   following: number;
-  createdAt: string;
-  updatedAt: string;
-  isVerified?: boolean;
-  isSponsor?: boolean;
+  created_at: string;
+  updated_at: string;
+  is_verified?: boolean;
+  is_sponsor?: boolean;
   status?: UserStatus;
   organizations?: Organization[];
   pinnedRepositories?: any[];
@@ -187,7 +187,7 @@ export interface Session {
   ipAddress?: string;
   location?: string;
   expiresAt: string;
-  createdAt: string;
+  created_at: string;
   lastActiveAt: string;
   isCurrent?: boolean;
 }

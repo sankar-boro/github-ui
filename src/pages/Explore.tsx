@@ -63,7 +63,7 @@ const Explore: React.FC = () => {
   };
 
   const handleRepoClick = (repo: TrendingRepository) => {
-    navigate(`/${repo.fullName}`);
+    navigate(`/${repo.full_name}`);
   };
 
   const handleDeveloperClick = (username: string) => {

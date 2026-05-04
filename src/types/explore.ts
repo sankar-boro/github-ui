@@ -2,7 +2,7 @@
 export interface TrendingRepository {
   id: number;
   name: string;
-  fullName: string;
+  full_name: string;
   description: string | null;
   language: string | null;
   stars: number;
