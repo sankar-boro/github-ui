@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Search,
   Plus,
@@ -80,7 +80,7 @@ const IssuesSection = ({ owner, repo }: Props) => {
 
   return (
     <div className="min-h-screen bg-github-dark">
-      <main className="max-w-screen-xl mx-auto sm:px-6 lg:px-8 py-8">
+      <main className="max-w-screen-xl mx-auto">
         {/* Issues Header */}
         <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
           <div className="flex items-center space-x-2">

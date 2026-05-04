@@ -117,7 +117,7 @@ const SettingsPage = ({ repository }: any) => {
   const cancelDelete = () => setDeleteStatus('idle');
 
   return (
-    <div className="flex flex-col md:flex-row gap-8">
+    <div className="min-h-screen flex flex-col md:flex-row gap-8">
       {/* Sidebar with settings sections */}
       <aside className="w-full md:w-64 flex-shrink-0">
         <nav className="space-y-1">

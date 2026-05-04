@@ -925,16 +925,16 @@ const Settings: React.FC = () => {
                                   : color === 'orange'
                                     ? '#f97316'
                                     : '#ef4444',
-                          ringColor:
-                            color === 'blue'
-                              ? '#3b82f6'
-                              : color === 'purple'
-                                ? '#a855f7'
-                                : color === 'green'
-                                  ? '#22c55e'
-                                  : color === 'orange'
-                                    ? '#f97316'
-                                    : '#ef4444',
+                          // ringColor:
+                          //   color === 'blue'
+                          //     ? '#3b82f6'
+                          //     : color === 'purple'
+                          //       ? '#a855f7'
+                          //       : color === 'green'
+                          //         ? '#22c55e'
+                          //         : color === 'orange'
+                          //           ? '#f97316'
+                          //           : '#ef4444',
                         }}
                       />
                     ),
