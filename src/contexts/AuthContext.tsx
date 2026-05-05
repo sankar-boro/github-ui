@@ -8,22 +8,22 @@ import {
   useRegister,
   useUpdateUser,
 } from '../hooks/Auth';
-import type { RegisterData } from '../types/auth';
+import type { RegisterData, AuthContextType } from '../types/auth';
 
-interface AuthContextType {
-  user: User | null;
-  isLoading: boolean;
-  error: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  register: (userData: RegisterData) => Promise<void>;
-  updateUser: (userData: Partial<User>) => Promise<void>;
-  refreshUserToken: () => Promise<{
-    user: User | null;
-    isAuthenticated: boolean;
-  }>;
-  isAuthenticated: boolean;
-}
+// interface AuthContextType {
+//   user: User | null;
+//   isLoading: boolean;
+//   error: string | null;
+//   login: (email: string, password: string) => Promise<void>;
+//   logout: () => Promise<void>;
+//   register: (userData: RegisterData) => Promise<void>;
+//   updateUser: (userData: Partial<User>) => Promise<void>;
+//   refreshUserToken: () => Promise<{
+//     user: User | null;
+//     isAuthenticated: boolean;
+//   }>;
+//   isAuthenticated: boolean;
+// }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  TrendingUp,
   Star,
   GitFork,
   Users,
-  Calendar,
   ChevronRight,
   Flame,
-  Sparkles,
   Award,
-  Code2,
   BookOpen,
   Globe,
 } from 'lucide-react';
-import RepositoryCard from '../components/repository/RepositoryCard';
 import Button from '../components/common/Button';
 import Tabs from '../components/common/Tabs';
 import Skeleton from '../components/common/Skeleton';

@@ -20,7 +20,7 @@ interface FileNode {
   children?: FileNode[];
 }
 
-const Repository: React.FC = () => {
+export default function Repository() {
   const { username, repo } = useParams<{ username: string; repo: string }>();
   const { user } = useAuth();
 
@@ -94,7 +94,7 @@ const Repository: React.FC = () => {
   }, [repository]);
 
   const onClickActiveTab = (id: any) => {
-    if (fileStructure.length === 0) {
+    if (fileStructure.length === 0 && id === 'code') {
       return null;
     }
     setActiveTab(id);
@@ -230,6 +230,4 @@ const Repository: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default Repository;
+}

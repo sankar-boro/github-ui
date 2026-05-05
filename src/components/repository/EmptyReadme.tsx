@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function ReadmeEmptyState() {
   return (
     <div className="w-full max-w-4xl border border-[#30363d] rounded-2xl bg-[#0d1117] shadow-lg mt-4">

@@ -1,3 +1,4 @@
+import type { AuthUser } from './auth';
 import type { User, SearchQuery } from './index';
 
 // Auth API types
@@ -8,7 +9,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  user: User;
+  user: AuthUser;
   refreshToken?: string;
 }
 

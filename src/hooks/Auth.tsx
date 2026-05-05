@@ -9,7 +9,7 @@ import {
   VALIDATE_TOKEN_URL,
 } from '../config';
 import type { LoginResponse } from '../types/api';
-import type { RegisterData } from '../types/auth';
+import type { AuthUser, RegisterData } from '../types/auth';
 
 interface TokenPayload {
   exp: number;
@@ -49,19 +49,19 @@ export const isTokenExpired = (token: string | null): boolean => {
 };
 
 export const useInitAuthUser = (): [
-  User | null,
+  AuthUser | null,
   boolean,
   string | null,
-  React.Dispatch<React.SetStateAction<User | null>>,
+  React.Dispatch<React.SetStateAction<AuthUser | null>>,
   React.Dispatch<React.SetStateAction<boolean>>,
   React.Dispatch<React.SetStateAction<string | null>>,
   () => Promise<{
-    user: User | null;
+    user: AuthUser | null;
     isAuthenticated: boolean;
   }>,
 ] => {
   const started = useRef(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const refreshUserToken = useRefreshToken();
@@ -147,7 +147,7 @@ export const useInitAuthUser = (): [
 };
 export const useRefreshToken = () => {
   return useCallback(async (): Promise<{
-    user: User | null;
+    user: AuthUser | null;
     isAuthenticated: boolean;
   }> => {
     try {
@@ -191,7 +191,7 @@ export const useRefreshToken = () => {
 };
 
 export const useLogin = (
-  setUser: React.Dispatch<React.SetStateAction<User | null>>,
+  setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
@@ -239,7 +239,7 @@ export const useLogin = (
 };
 
 export const useRegister = (
-  setUser: React.Dispatch<React.SetStateAction<User | null>>,
+  setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
@@ -285,7 +285,7 @@ export const useRegister = (
 };
 
 export const useLogout = (
-  setUser: React.Dispatch<React.SetStateAction<User | null>>,
+  setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
@@ -319,8 +319,8 @@ export const useLogout = (
 };
 
 export const useUpdateUser = (
-  user: User | null,
-  setUser: React.Dispatch<React.SetStateAction<User | null>>,
+  user: AuthUser | null,
+  setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
@@ -351,7 +351,7 @@ export const useUpdateUser = (
       }
 
       // Update stored user
-      const updatedUser = { ...user, ...data.user } as User;
+      const updatedUser = { ...user, ...data.user } as AuthUser;
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
     } catch (error) {

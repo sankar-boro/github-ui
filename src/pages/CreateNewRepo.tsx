@@ -15,13 +15,13 @@ import { useAuth } from '../contexts/AuthContext';
 import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 
-interface NewRepositoryModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  ownerName?: string;
-}
+// interface NewRepositoryModalProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   ownerName?: string;
+// }
 
-const NewRepositoryModal: React.FC<NewRepositoryModalProps> = () => {
+const NewRepositoryModal = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [repoName, setRepoName] = useState('');

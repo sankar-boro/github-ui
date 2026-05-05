@@ -1,17 +1,17 @@
-// interface AuthContextType {
-//   user: User | null;
-//   isLoading: boolean;
-//   error: string | null;
-//   login: (email: string, password: string) => Promise<void>;
-//   logout: () => Promise<void>;
-//   register: (userData: RegisterData) => Promise<void>;
-//   updateUser: (userData: Partial<User>) => Promise<void>;
-//   refreshUserToken: () => Promise<{
-//     user: User | null;
-//     isAuthenticated: boolean;
-//   }>;
-//   isAuthenticated: boolean;
-// }
+export interface AuthContextType {
+  user: AuthUser | null;
+  isLoading: boolean;
+  error: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  register: (userData: RegisterData) => Promise<void>;
+  updateUser: (userData: Partial<AuthUser>) => Promise<void>;
+  refreshUserToken: () => Promise<{
+    user: AuthUser | null;
+    isAuthenticated: boolean;
+  }>;
+  isAuthenticated: boolean;
+}
 
 export interface RegisterData {
   name: string;
@@ -210,51 +210,51 @@ export interface AuthState {
 }
 
 // Auth context type
-export interface AuthContextType {
-  // State
-  user: AuthUser | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  error: string | null;
-  requiresTwoFactor: boolean;
+// export interface AuthContextType {
+//   // State
+//   user: AuthUser | null;
+//   isAuthenticated: boolean;
+//   isLoading: boolean;
+//   error: string | null;
+//   requiresTwoFactor: boolean;
 
-  // Actions
-  login: (credentials: LoginCredentials) => Promise<void>;
-  loginWithTwoFactor: (code: string, rememberDevice?: boolean) => Promise<void>;
-  logout: () => Promise<void>;
-  register: (credentials: RegisterCredentials) => Promise<RegisterResponse>;
+//   // Actions
+//   login: (credentials: LoginCredentials) => Promise<void>;
+//   loginWithTwoFactor: (code: string, rememberDevice?: boolean) => Promise<void>;
+//   logout: () => Promise<void>;
+//   register: (credentials: RegisterCredentials) => Promise<RegisterResponse>;
 
-  // Token management
-  refreshToken: () => Promise<void>;
-  getToken: () => string | null;
+//   // Token management
+//   refreshToken: () => Promise<void>;
+//   getToken: () => string | null;
 
-  // Session management
-  fetchSessions: () => Promise<Session[]>;
-  revokeSession: (sessionId: string) => Promise<void>;
-  revokeAllOtherSessions: () => Promise<void>;
+//   // Session management
+//   fetchSessions: () => Promise<Session[]>;
+//   revokeSession: (sessionId: string) => Promise<void>;
+//   revokeAllOtherSessions: () => Promise<void>;
 
-  // Email verification
-  verifyEmail: (token: string) => Promise<void>;
-  resendVerificationEmail: () => Promise<void>;
+//   // Email verification
+//   verifyEmail: (token: string) => Promise<void>;
+//   resendVerificationEmail: () => Promise<void>;
 
-  // Password management
-  forgotPassword: (email: string) => Promise<void>;
-  resetPassword: (token: string, password: string) => Promise<void>;
-  changePassword: (
-    currentPassword: string,
-    newPassword: string,
-  ) => Promise<void>;
+//   // Password management
+//   forgotPassword: (email: string) => Promise<void>;
+//   resetPassword: (token: string, password: string) => Promise<void>;
+//   changePassword: (
+//     currentPassword: string,
+//     newPassword: string,
+//   ) => Promise<void>;
 
-  // 2FA
-  setupTwoFactor: () => Promise<TwoFactorSetupResponse>;
-  verifyTwoFactor: (code: string) => Promise<void>;
-  disableTwoFactor: (password: string, code?: string) => Promise<void>;
+//   // 2FA
+//   setupTwoFactor: () => Promise<TwoFactorSetupResponse>;
+//   verifyTwoFactor: (code: string) => Promise<void>;
+//   disableTwoFactor: (password: string, code?: string) => Promise<void>;
 
-  // Profile
-  updateProfile: (data: Partial<AuthUser>) => Promise<void>;
-  uploadAvatar: (file: File) => Promise<string>;
-  refreshUser: () => Promise<void>;
-}
+//   // Profile
+//   updateProfile: (data: Partial<AuthUser>) => Promise<void>;
+//   uploadAvatar: (file: File) => Promise<string>;
+//   refreshUser: () => Promise<void>;
+// }
 
 // API response types
 export interface AuthApiResponse<T> {

@@ -12,7 +12,6 @@
     "preview": "rsbuild preview"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.90.21",
     "axios": "^1.13.6",
     "cookie-parser": "^1.4.7",
     "date-fns": "^4.1.0",

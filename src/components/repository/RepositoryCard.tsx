@@ -2,19 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { GitFork, Star, Clock } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import type { Repository } from '../../types';
 
-interface Repository {
-  id: number;
-  name: string;
-  full_name: string;
-  description?: string;
-  language?: string;
-  stars: number;
-  forks: number;
-  // visibility: "public" | "private";
-  private: boolean;
-  updated_at: string;
-}
+// interface Repository {
+//   id: number;
+//   name: string;
+//   full_name: string;
+//   description?: string;
+//   language?: string;
+//   stars: number;
+//   forks: number;
+//   // visibility: "public" | "private";
+//   private: boolean;
+//   updated_at: string;
+// }
 
 interface RepositoryCardProps {
   repository: Repository;
@@ -60,12 +61,12 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repository }) => {
 
             <span className="flex items-center space-x-1">
               <Star size={14} />
-              <span>{repository.stars}</span>
+              <span>{repository.stars_count}</span>
             </span>
 
             <span className="flex items-center space-x-1">
               <GitFork size={14} />
-              <span>{repository.forks}</span>
+              <span>{repository.forks_count}</span>
             </span>
 
             <span className="flex items-center space-x-1">

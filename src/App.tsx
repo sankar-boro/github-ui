@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import Layout from './components/layout/Layout';
 import Dashboard from './pages/Dashboard';
 import Repository from './pages/Repository';
@@ -10,8 +9,6 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Auth from './pages/Auth';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-
-const queryClient = new QueryClient();
 
 function RouteComponent() {
   const auth = useAuth();
@@ -54,11 +51,9 @@ function RouteComponent() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouteComponent />
-      </AuthProvider>
-    </QueryClientProvider>
+    <AuthProvider>
+      <RouteComponent />
+    </AuthProvider>
   );
 }
 
